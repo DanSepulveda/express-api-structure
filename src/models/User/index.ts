@@ -1,34 +1,24 @@
 import { Schema, model } from 'mongoose';
-import setMethods from './methods';
+import setMethods from './instanceMethods';
+import setStatics from './modelMethods';
+import { type User, type UserDoc, type UserModel } from './types';
 
-interface IUser {
-  sign: {
-    username: string;
-    salt: string;
-    hashedPassword: string;
-  };
-  basicData: {
-    names: string;
-    surename: string;
-    lastname: string;
-  };
-}
-
-export const userSchema = new Schema<IUser>({
+const schemaFields: Record<keyof User, unknown> = {
   sign: {
     username: { type: String, required: true, index: true },
     salt: { type: String, required: true },
     hashedPassword: { type: String, required: true }
   },
   basicData: {
-    names: { type: String, required: true },
-    surename: { type: String, required: true },
-    lastname: { type: String, required: true }
+    names: String,
+    surename: String,
+    lastname: String
   }
-});
+};
+
+export const userSchema = new Schema(schemaFields);
 
 setMethods(userSchema);
+setStatics(userSchema);
 
-const User = model('user', userSchema);
-
-export default User;
+export default model<UserDoc, UserModel>('user', userSchema);
