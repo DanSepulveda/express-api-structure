@@ -19,7 +19,7 @@ export const validator = (
       errors: validation.error.details.map((error) => {
         return {
           field: error?.context?.key,
-          message: error.message
+          message: error.message.replace('"', '{').replace('"', '}')
         };
       })
     });
