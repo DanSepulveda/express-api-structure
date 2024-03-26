@@ -4,6 +4,7 @@ import 'dotenv/config';
 import router from '../routes';
 import connectDB from './dbConfig';
 import helmet from 'helmet';
+import { ENDPOINT_BASE } from './constants';
 
 const app = express();
 app.use(express.json());
@@ -12,6 +13,6 @@ app.use(cors());
 app.use(helmet());
 connectDB();
 
-app.use('/api/v1', router);
+app.use(ENDPOINT_BASE, router);
 
 export default app;
