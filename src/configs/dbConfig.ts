@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { MONGO_URI } from './constants';
+import { getErrorMessage } from '../utils';
 
 const connectDB = (): void => {
   mongoose
@@ -8,12 +9,7 @@ const connectDB = (): void => {
       console.log('Database connected');
     })
     .catch((error) => {
-      let message = 'Unkown error';
-      if (error instanceof Error) {
-        message = error.message;
-      } else if (typeof error === 'string') {
-        message = error;
-      }
+      const message = getErrorMessage(error);
       console.log('DB connection error: ' + message);
     });
 };
