@@ -1,10 +1,10 @@
 import express from 'express';
+import helmet from 'helmet';
 import cors from 'cors';
 import 'dotenv/config';
-import router from '../routes';
-import connectDB from './dbConfig';
-import helmet from 'helmet';
-import { ENDPOINT_BASE } from './constants';
+import router from './routes';
+import connectDB from '@config/database';
+import { ENDPOINT_BASE } from '@config/constants';
 
 const app = express();
 app.use(express.json());
