@@ -1,5 +1,5 @@
 import joi from 'joi';
-import validator from '@middlewares/validator';
+import validator from '../../middlewares/validator';
 import type { Request, Response, NextFunction } from 'express';
 
 export const signupValidator = (

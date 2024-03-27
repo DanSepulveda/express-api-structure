@@ -1,6 +1,6 @@
 import User from './model';
 import createHttpError from 'http-errors';
-import { generateSalt, hash } from '@utils/registerUSer';
+import { generateSalt, hash } from '../../../utils/registerUser';
 
 interface UserData {
   username: string;

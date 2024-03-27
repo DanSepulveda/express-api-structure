@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import type { userSchema } from './model';
-import { SECRET_OR_KEY } from '@config/constants';
+import { SECRET_OR_KEY } from '../../../config/constants';
 
 const setMethods = (schema: typeof userSchema): void => {
   schema.methods.generateJWT = function (): string {
