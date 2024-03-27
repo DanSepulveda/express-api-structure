@@ -3,7 +3,7 @@ import type { Request, Response, NextFunction } from 'express';
 
 const joiSchema = joi.object();
 
-export const validator = (
+const validator = (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -25,3 +25,5 @@ export const validator = (
     });
   }
 };
+
+export default validator;
