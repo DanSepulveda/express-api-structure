@@ -2,9 +2,9 @@ import type { userSchema } from './model';
 
 const setStatics = (schema: typeof userSchema): void => {
   schema.statics.isRegistered = async function (
-    username: string
+    email: string
   ): Promise<boolean> {
-    const user = await this.findOne({ 'sign.username': username }, '_id');
+    const user = await this.findOne({ 'sign.email': email }, '_id');
     return Boolean(user);
   };
 };
