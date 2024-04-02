@@ -9,6 +9,7 @@ const jwtStrategy = new Strategy(
     secretOrKey: SECRET_OR_KEY
   },
   (payload, done) => {
+    // TODO: includes permission validation
     User.findById(payload.userId)
       .then((res) => {
         if (res == null) {
