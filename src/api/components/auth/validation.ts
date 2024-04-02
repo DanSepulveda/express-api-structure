@@ -7,11 +7,14 @@ export const signup = {
   })
 };
 
-export const verifyAccount = {
-  body: joi.object({})
+export const login = {
+  body: joi.object({
+    email: joi.string().email().trim().required().min(6),
+    password: joi.string().trim().required().min(8)
+  })
 };
 
-export const login = {
+export const verifyAccount = {
   body: joi.object({})
 };
 
