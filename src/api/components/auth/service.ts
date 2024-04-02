@@ -10,7 +10,7 @@ export const signup = async (user: SignupReq): Promise<BaseResponse> => {
   const salt = generateSalt();
   const hashedPassword = hash(salt, password);
   const newUser = new User({
-    sign: { email, hashedPassword, salt }
+    account: { email, hashedPassword, salt }
   });
   await newUser.save();
 
