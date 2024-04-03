@@ -1,29 +1,33 @@
 import joi from 'joi';
 import type { Req, Res, Next } from '../types';
+import { getReqObject } from '../../utils/getReqObject';
 
 const joiSchema = joi.object();
 
-interface Schema {
-  body: typeof joiSchema;
+export interface JoiSchema {
+  body?: typeof joiSchema;
+  params?: typeof joiSchema;
+  query?: typeof joiSchema;
 }
 
 const validate =
-  (schema: Schema) =>
+  (schema: JoiSchema) =>
   (req: Req, res: Res, next: Next): void => {
-    // TODO: change config to validate more than just req.body
-    const validation = schema.body.validate(req.body, {
-      abortEarly: false
-    });
+    const val = getReqObject(req, Object.keys(schema));
+    const { error } = joi
+      .compile(schema)
+      .prefs({ abortEarly: false })
+      .validate(val);
 
-    if (validation.error == null) {
+    if (error == null) {
       next();
     } else {
       res.status(400).json({
         success: false,
-        errors: validation.error.details.map((error) => {
+        errors: error.details.map((error) => {
           return {
             field: error?.context?.key,
-            message: error.message.replace('"', '{').replace('"', '}')
+            message: error.message.replace('"', "'").replace('"', "'")
           };
         })
       });
