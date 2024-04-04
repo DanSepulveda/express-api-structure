@@ -4,3 +4,5 @@ export type {
   NextFunction as Next,
   RequestHandler as ReqHandler
 } from 'express';
+
+export type CommonObject = Record<string, unknown>;
