@@ -9,6 +9,7 @@ const authRouter = express.Router();
 authRouter
   .route('/login')
   .post(validate(validation.login), controller.login as ReqHandler);
+
 authRouter.route('/logout').get(controller.logout as ReqHandler);
 
 authRouter
@@ -18,7 +19,10 @@ authRouter
 
 authRouter
   .route('/password')
-  .post(controller.forgotPassword as ReqHandler)
+  .post(
+    validate(validation.forgotPassword),
+    controller.forgotPassword as ReqHandler
+  )
   .patch(controller.resetPassword as ReqHandler);
 
 export default authRouter;
