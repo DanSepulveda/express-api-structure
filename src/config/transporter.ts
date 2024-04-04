@@ -15,5 +15,13 @@ const transporter = nodemailer.createTransport({
   tls: { rejectUnauthorized: false }
 });
 
-console.log(transporter.verify());
+transporter
+  .verify()
+  .then(() => {
+    console.log('Connected to email service');
+  })
+  .catch(() => {
+    console.log('Email service connection failed.');
+  });
+
 export default transporter;
