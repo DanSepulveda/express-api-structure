@@ -15,13 +15,24 @@ const setMethods = (schema: typeof userSchema): void => {
       SECRET_OR_KEY
     );
   });
+  schema.method('hashPassword', function hashPassword(): void {
+    this.account.password = crypto
+      .pbkdf2Sync(
+        this.account.password,
+        this.account.salt,
+        10000,
+        512,
+        'sha512'
+      )
+      .toString('hex');
+  });
   schema.method(
     'comparePassword',
     function comparePassword(password: string): boolean {
       const hash = crypto
         .pbkdf2Sync(password, this.account.salt, 10000, 512, 'sha512')
         .toString('hex');
-      return this.account.hashedPassword === hash;
+      return this.account.password === hash;
     }
   );
 };

@@ -7,7 +7,7 @@ export const userSchema = new Schema<UserDoc>({
   account: {
     email: { type: String, required: true, index: true },
     salt: { type: String, required: true },
-    hashedPassword: { type: String, required: true },
+    password: { type: String, required: true },
     verified: { type: Boolean, required: true, default: false },
     active: { type: Boolean, required: true, default: true }
   },

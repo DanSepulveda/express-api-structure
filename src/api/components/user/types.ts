@@ -3,7 +3,7 @@ import type { Model, Document } from 'mongoose';
 interface UserAccount {
   email: string;
   salt: string;
-  hashedPassword: string;
+  password: string;
   verified: boolean;
   active: boolean;
 }
@@ -21,6 +21,7 @@ export interface User {
 
 export interface UserDoc extends Document, User {
   generateJWT: () => string;
+  hashPassword: () => void;
   comparePassword: (password: string) => boolean;
 }
 
