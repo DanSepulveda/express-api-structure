@@ -1,7 +1,7 @@
+import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import type { userSchema } from './model';
 import { SECRET_OR_KEY } from '../../../config/constants';
-import crypto from 'crypto';
 
 const setMethods = (schema: typeof userSchema): void => {
   schema.method('generateJWT', function generateJWT(): string {
@@ -15,7 +15,7 @@ const setMethods = (schema: typeof userSchema): void => {
       SECRET_OR_KEY
     );
   });
-  schema.method('hashPassword', function hashPassword(): void {
+  schema.method('hashPWD', function hashPWD(): void {
     this.account.password = crypto
       .pbkdf2Sync(
         this.account.password,
@@ -26,15 +26,17 @@ const setMethods = (schema: typeof userSchema): void => {
       )
       .toString('hex');
   });
-  schema.method(
-    'comparePassword',
-    function comparePassword(password: string): boolean {
-      const hash = crypto
-        .pbkdf2Sync(password, this.account.salt, 10000, 512, 'sha512')
-        .toString('hex');
-      return this.account.password === hash;
-    }
-  );
+  schema.method('comparePWD', function comparePWD(password: string): boolean {
+    const hash = crypto
+      .pbkdf2Sync(password, this.account.salt, 10000, 512, 'sha512')
+      .toString('hex');
+    return this.account.password === hash;
+  });
+  schema.method('generateActiveCode', function generateActiveCode(): string {
+    const code = crypto.randomUUID();
+    this.account.activeCode = code;
+    return code;
+  });
 };
 
 export default setMethods;
