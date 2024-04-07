@@ -2,6 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import 'dotenv/config';
+import '../config/transporter';
 import router from './routes';
 import connectDB from '../config/database';
 import { ACCEPTED_ORIGINS, ENDPOINT_BASE } from '../config/constants';
