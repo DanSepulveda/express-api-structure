@@ -5,5 +5,7 @@ export const USER_MSG = {
   unverifiedAccount: 'Verification needed',
   disabledAccount: 'Account disabled',
   wrongPassword: 'Wrong password',
-  loginSuccess: 'User logged in successfully'
+  loginSuccess: 'User logged in successfully',
+  invalidToken: 'Invalid token',
+  verifySuccess: 'Account verified successfully'
 };
