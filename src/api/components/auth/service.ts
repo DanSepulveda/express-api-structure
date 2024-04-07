@@ -31,7 +31,7 @@ export const login = async (loginData: SignupReq): Promise<LoginRes> => {
     throw createHttpError(400, USER_MSG.unverifiedAccount);
   if (!user.account.active)
     throw createHttpError(400, USER_MSG.disabledAccount);
-  const match = user.comparePWD(password);
+  const match: boolean = user.comparePWD(password);
   if (!match) throw createHttpError(400, USER_MSG.wrongPassword);
 
   return {
@@ -39,11 +39,6 @@ export const login = async (loginData: SignupReq): Promise<LoginRes> => {
     message: USER_MSG.loginSuccess,
     token: user.generateJWT()
   };
-};
-
-export const recoveryPassword = async (user: RecoveryReq): Promise<void> => {
-  const isRegistered = await Promise.resolve(User.isRegistered(user.email));
-  if (!isRegistered) throw createHttpError(400, USER_MSG.noRegisteredAccount);
 };
 
 export const verifyAccout = async (token: string): Promise<BaseResponse> => {
@@ -59,4 +54,9 @@ export const verifyAccout = async (token: string): Promise<BaseResponse> => {
     success: true,
     message: USER_MSG.verifySuccess
   };
+};
+
+export const recoveryPassword = async (user: RecoveryReq): Promise<void> => {
+  const isRegistered = await Promise.resolve(User.isRegistered(user.email));
+  if (!isRegistered) throw createHttpError(400, USER_MSG.noRegisteredAccount);
 };

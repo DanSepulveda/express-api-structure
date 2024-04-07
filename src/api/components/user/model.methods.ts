@@ -16,14 +16,9 @@ const setMethods = (schema: typeof userSchema): void => {
     );
   });
   schema.method('hashPWD', function hashPWD(): void {
+    const password: string = this.account.password;
     this.account.password = crypto
-      .pbkdf2Sync(
-        this.account.password,
-        this.account.salt,
-        10000,
-        512,
-        'sha512'
-      )
+      .pbkdf2Sync(password, this.account.salt, 10000, 512, 'sha512')
       .toString('hex');
   });
   schema.method('comparePWD', function comparePWD(password: string): boolean {

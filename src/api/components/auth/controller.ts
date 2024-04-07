@@ -30,8 +30,8 @@ export const verifyAccount = async (
 
 export const login = async (req: Req, res: Res, next: Next): Promise<void> => {
   try {
-    const { email, password } = req.body;
-    const response = await authService.login({ email, password });
+    const data: SignupReq = req.body;
+    const response = await authService.login(data);
     res.json({ ...response });
   } catch (err) {
     next(err);
