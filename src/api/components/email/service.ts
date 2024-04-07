@@ -2,6 +2,7 @@ import type { MailConfig } from './types';
 import type { SentMessageInfo } from 'nodemailer';
 import transporter from '../../../config/transporter';
 import { NODEMAILER_CREDENTIALS } from '../../../config/constants';
+import { signupEmail } from '../auth/templates/signup';
 
 export const sendMail = async (
   config: MailConfig
@@ -15,4 +16,12 @@ export const sendMail = async (
   });
 
   return info;
+};
+
+export const sendActivationLink = async (
+  email: string,
+  token: string
+): Promise<void> => {
+  const template = signupEmail(token);
+  await sendMail({ recipients: email, subject: '', template });
 };
