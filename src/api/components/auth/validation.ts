@@ -15,7 +15,9 @@ export const login = {
 };
 
 export const verifyAccount = {
-  body: joi.object({})
+  query: joi.object({
+    token: joi.string().required()
+  })
 };
 
 export const logout = {

@@ -32,10 +32,10 @@ const setMethods = (schema: typeof userSchema): void => {
       .toString('hex');
     return this.account.password === hash;
   });
-  schema.method('generateActiveCode', function generateActiveCode(): string {
-    const code = crypto.randomUUID();
-    this.account.activeCode = code;
-    return code;
+  schema.method('generateActiveToken', function generateActiveToken(): string {
+    const token = crypto.randomUUID();
+    this.account.activeToken = token;
+    return token;
   });
 };
 

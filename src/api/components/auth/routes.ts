@@ -15,7 +15,10 @@ authRouter.route('/logout').get(controller.logout as ReqHandler);
 authRouter
   .route('/signup')
   .post(validate(validation.signup), controller.signup as ReqHandler)
-  .get(controller.verifyAccount as ReqHandler);
+  .get(
+    validate(validation.verifyAccount),
+    controller.verifyAccount as ReqHandler
+  );
 
 authRouter
   .route('/password')

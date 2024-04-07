@@ -4,7 +4,7 @@ interface UserAccount {
   email: string;
   salt: string;
   password: string;
-  activeCode: string;
+  activeToken: string;
   verified: boolean;
   active: boolean;
 }
@@ -24,7 +24,7 @@ export interface UserDoc extends Document, User {
   generateJWT: () => string;
   hashPWD: () => void;
   comparePWD: (password: string) => boolean;
-  generateActiveCode: () => string;
+  generateActiveToken: () => string;
 }
 
 export interface UserModel extends Model<UserDoc> {
