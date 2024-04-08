@@ -1,8 +1,8 @@
 import express from 'express';
-import authRouter from './components/auth/routes';
-import permissionRouter from './components/permission/routes';
-import roleRouter from './components/role/routes';
-import userRouter from './components/user/routes';
+import authRouter from './auth.routes';
+import permissionRouter from './permission.routes';
+import roleRouter from './role.routes';
+import userRouter from './user.routes';
 
 const router = express.Router();
 
