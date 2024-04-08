@@ -13,6 +13,12 @@ authRouter.post(
 );
 
 authRouter.get(
+  '/verification-email',
+  validate(validation.verificationEmail),
+  controller.sendVerificationEmail as ReqHandler
+);
+
+authRouter.get(
   '/verify-account',
   validate(validation.verifyAccount),
   controller.verifyAccount as ReqHandler
@@ -24,17 +30,18 @@ authRouter.post(
   controller.login as ReqHandler
 );
 
-// !pending
 authRouter.post('/logout', controller.logout as ReqHandler);
 
-// !pending
 authRouter.post(
   '/forgot-password',
   validate(validation.forgotPassword),
   controller.forgotPassword as ReqHandler
 );
 
-// !pending
-authRouter.post('/reset-password', controller.resetPassword as ReqHandler);
+authRouter.post(
+  '/reset-password',
+  validate(validation.resetPassword),
+  controller.resetPassword as ReqHandler
+);
 
 export default authRouter;
