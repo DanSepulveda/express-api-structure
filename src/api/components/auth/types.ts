@@ -11,7 +11,3 @@ export interface SignupReq {
 export interface LoginRes extends BaseResponse {
   token: string;
 }
-
-export interface RecoveryReq {
-  email: string;
-}

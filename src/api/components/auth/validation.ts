@@ -1,16 +1,17 @@
 import joi from 'joi';
+import { email, password } from '../commonValidation';
 
 export const signup = {
   body: joi.object({
-    email: joi.string().email().trim().required().min(6),
-    password: joi.string().trim().required().min(8)
+    email,
+    password
   })
 };
 
 export const login = {
   body: joi.object({
-    email: joi.string().email().trim().required().min(6),
-    password: joi.string().trim().required().min(8)
+    email,
+    password
   })
 };
 
@@ -20,20 +21,20 @@ export const verifyAccount = {
   })
 };
 
-export const logout = {
-  body: joi.object({})
-};
-
 export const forgotPassword = {
   body: joi.object({
-    email: joi.string().email().trim().required().min(6)
+    email
   })
 };
 
 export const resetPassword = {
-  body: joi.object({})
+  body: joi.object({
+    email,
+    password,
+    'email-confirmation': password
+  })
 };
 
-export const sendVerificationEmail = {
+export const verificationEmail = {
   body: joi.object({})
 };

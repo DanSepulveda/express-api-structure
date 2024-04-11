@@ -52,8 +52,8 @@ export const forgotPassword = async (
   next: Next
 ): Promise<void> => {
   try {
-    const { email } = req.body;
-    const response = authService.recoveryPassword({ email });
+    const email: string = req.body.email;
+    const response = authService.recoveryPassword(email);
     console.log(response);
     res.json({ success: true });
   } catch (err) {
@@ -84,5 +84,3 @@ export const sendVerificationEmail = async (
     next(err);
   }
 };
-
-// Promise<Response<unknown, Record<string, unknown>>>

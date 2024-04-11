@@ -1,7 +1,7 @@
 import User from '../user/model';
 import createHttpError from 'http-errors';
 import { generateSalt } from '../../../utils/registerUser';
-import type { BaseResponse, LoginRes, RecoveryReq, SignupReq } from './types';
+import type { BaseResponse, LoginRes, SignupReq } from './types';
 import { USER_MSG } from '../responseMessages';
 
 export const signup = async (user: SignupReq): Promise<LoginRes> => {
@@ -56,7 +56,7 @@ export const verifyAccout = async (token: string): Promise<BaseResponse> => {
   };
 };
 
-export const recoveryPassword = async (user: RecoveryReq): Promise<void> => {
-  const isRegistered = await Promise.resolve(User.isRegistered(user.email));
-  if (!isRegistered) throw createHttpError(400, USER_MSG.noRegisteredAccount);
+export const recoveryPassword = async (email: string): Promise<void> => {
+  const user = await Promise.resolve(User.findOne({ 'account.email': email }));
+  if (user === null) throw createHttpError(400, USER_MSG.noRegisteredAccount);
 };

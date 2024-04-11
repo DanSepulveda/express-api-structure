@@ -32,6 +32,9 @@ const setMethods = (schema: typeof userSchema): void => {
     this.account.activeToken = token;
     return token;
   });
+  schema.method('generateRecoveryToken', function (): string {
+    return '';
+  });
 };
 
 export default setMethods;
