@@ -1,26 +1,27 @@
 import User from '../user/model';
 import createHttpError from 'http-errors';
-import { generateSalt } from '../../../utils/registerUser';
-import type { BaseResponse, LoginRes, SignupReq } from './types';
-import { USER_MSG } from '../responseMessages';
+import type { BaseResponse, LoginRes, SignupReq } from './interfaces';
+import { AUTH_ERROR, USER_MSG } from '../responseMessages';
 
-export const signup = async (user: SignupReq): Promise<LoginRes> => {
-  const { email, password } = user;
-  const isRegistered = await Promise.resolve(User.isRegistered(email));
-  if (isRegistered) throw createHttpError(400, USER_MSG.registeredAccount);
-  const salt = generateSalt();
-  const newUser = new User({
-    account: { email, password, salt }
-  });
-  newUser.hashPWD();
-  const token = newUser.generateActiveToken();
+export const signup = async (data: SignupReq): Promise<string> => {
+  const user = await Promise.resolve(User.findByEmail(data.email));
+  if (user !== null) throw createHttpError(400, AUTH_ERROR.registered);
+  const newUser = new User({ account: { ...data } });
   await newUser.save();
+  return newUser._id;
+};
 
-  return {
-    success: true,
-    message: USER_MSG.signupSuccess,
-    token
-  };
+export const getVerificationToken = async (email: string): Promise<string> => {
+  const user = await Promise.resolve(
+    User.findByEmail(email, 'account.verified')
+  );
+  if (user === null) throw createHttpError(404, USER_MSG.noRegisteredAccount);
+  if (user.account.verified) {
+    throw createHttpError(400, USER_MSG.alreadyVerified);
+  }
+  const token = 'user.generateActiveToken();';
+  await user.save();
+  return token;
 };
 
 export const login = async (loginData: SignupReq): Promise<LoginRes> => {

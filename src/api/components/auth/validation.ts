@@ -36,5 +36,7 @@ export const resetPassword = {
 };
 
 export const verificationEmail = {
-  body: joi.object({})
+  body: joi.object({
+    email
+  })
 };
