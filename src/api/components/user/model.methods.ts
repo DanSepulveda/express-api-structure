@@ -27,11 +27,6 @@ const setMethods = (schema: typeof userSchema): void => {
       .toString('hex');
     return this.account.password === hash;
   });
-  schema.method('generateActiveToken', function generateActiveToken(): string {
-    const token = crypto.randomUUID();
-    this.account.activeToken = token;
-    return token;
-  });
   schema.method('generateRecoveryToken', function (): string {
     return '';
   });
