@@ -8,8 +8,8 @@ import { AUTH_SUCCESS } from '../responseMessages';
 
 export const signup = controllerCatch(async (req: Req, res: Res) => {
   const data: SignupReq = req.body;
-  const userId = await authService.signup(data);
-  const token = await tokenService.generateActiveToken(userId);
+  await authService.signup(data);
+  const token = await tokenService.generateActiveToken(data.email);
   await emailService.sendActivationLink(data.email, token);
   res.status(201).json({ sucess: true, message: AUTH_SUCCESS.signup });
 });
@@ -17,9 +17,12 @@ export const signup = controllerCatch(async (req: Req, res: Res) => {
 export const sendVerificationEmail = controllerCatch(
   async (req: Req, res: Res) => {
     const email: string = req.body.email;
-    const token = await authService.getVerificationToken(email);
+    await authService.validateActiveToken(email);
+    const token = await tokenService.generateActiveToken(email);
     await emailService.sendActivationLink(email, token);
-    res.status(200).json({ success: true, token });
+    res
+      .status(200)
+      .json({ success: true, message: AUTH_SUCCESS.sendVerifyToken });
   }
 );
 

@@ -1,9 +1,9 @@
-import { Schema, model, Types } from 'mongoose';
+import { Schema, model } from 'mongoose';
 
 export const tokenSchema = new Schema(
   {
     token: { type: String, required: true, index: true },
-    userId: { type: Types.ObjectId, required: true, ref: 'user' },
+    email: { type: String, required: true },
     expires: { type: Date, required: true },
     type: {
       type: String,
