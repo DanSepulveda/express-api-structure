@@ -12,7 +12,7 @@ authRouter.post(
   controller.signup as ReqHandler
 );
 
-authRouter.get(
+authRouter.post(
   '/verification-email',
   validate(validation.verificationEmail),
   controller.sendVerificationEmail as ReqHandler
