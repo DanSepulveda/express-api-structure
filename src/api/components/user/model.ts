@@ -1,8 +1,8 @@
-import type { UserDoc, UserModel } from './types';
+import crypto from 'crypto';
 import { Schema, model } from 'mongoose';
+import type { UserDoc, UserModel } from './interfaces';
 import setMethods from './model.methods';
 import setStatics from './model.statics';
-import crypto from 'crypto';
 
 export const userSchema = new Schema<UserDoc>({
   account: {
@@ -35,4 +35,6 @@ userSchema.pre('validate', function () {
 setMethods(userSchema);
 setStatics(userSchema);
 
-export default model<UserDoc, UserModel>('user', userSchema);
+const User = model<UserDoc, UserModel>('user', userSchema);
+
+export default User;
