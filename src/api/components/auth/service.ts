@@ -1,6 +1,6 @@
 import User from '../user/model';
 import createHttpError from 'http-errors';
-import type { BaseResponse, LoginRes, SignupReq } from './interfaces';
+import type { LoginRes, SignupReq } from './interfaces';
 import { AUTH_ERROR, USER_MSG } from '../responseMessages';
 
 export const signup = async (data: SignupReq): Promise<void> => {
@@ -20,19 +20,14 @@ export const validateActiveToken = async (email: string): Promise<void> => {
   }
 };
 
-export const verifyAccout = async (token: string): Promise<BaseResponse> => {
+export const verifyAccout = async (email: string): Promise<void> => {
   const user = await User.updateOne(
-    { 'account.activeToken': token },
-    { 'account.verified': true, 'account.activeToken': '' }
+    { 'account.email': email },
+    { 'account.verified': true }
   );
 
   if (user.modifiedCount === 0)
-    throw createHttpError(400, USER_MSG.invalidToken);
-
-  return {
-    success: true,
-    message: USER_MSG.verifySuccess
-  };
+    throw createHttpError(400, AUTH_ERROR.invalidToken);
 };
 
 export const login = async (loginData: SignupReq): Promise<LoginRes> => {

@@ -28,8 +28,9 @@ export const sendVerificationEmail = controllerCatch(
 
 export const verifyAccount = controllerCatch(async (req: Req, res: Res) => {
   const token: string = req.query.token?.toString() ?? '';
-  const response = await authService.verifyAccout(token);
-  res.json({ ...response });
+  const email = await tokenService.deleteActiveToken(token);
+  await authService.verifyAccout(email);
+  res.status(200).json({ success: true, message: AUTH_SUCCESS.verification });
 });
 
 export const login = controllerCatch(async (req: Req, res: Res) => {

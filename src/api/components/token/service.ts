@@ -2,6 +2,8 @@ import crypto from 'crypto';
 import moment from 'moment';
 import Token from './model';
 import { JWT } from '../../../config/constants';
+import createHttpError from 'http-errors';
+import { AUTH_ERROR } from '../responseMessages';
 
 export const generateToken = async (): Promise<string> => {
   return '';
@@ -28,4 +30,10 @@ export const generateActiveToken = async (email: string): Promise<string> => {
     }
   );
   return newToken.token;
+};
+
+export const deleteActiveToken = async (token: string): Promise<string> => {
+  const deleted = await Token.findOneAndDelete({ token });
+  if (deleted === null) throw createHttpError(AUTH_ERROR.invalidToken);
+  return deleted.email;
 };
