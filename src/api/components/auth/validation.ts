@@ -8,12 +8,7 @@ export const signup = {
   })
 };
 
-export const login = {
-  body: joi.object({
-    email,
-    password
-  })
-};
+export const login = signup;
 
 export const verifyAccount = {
   query: joi.object({
@@ -31,12 +26,8 @@ export const resetPassword = {
   body: joi.object({
     email,
     password,
-    'email-confirmation': password
+    confirmPassword: password
   })
 };
 
-export const verificationEmail = {
-  body: joi.object({
-    email
-  })
-};
+export const verificationEmail = forgotPassword;

@@ -6,6 +6,7 @@ import createHttpError from 'http-errors';
 import { TOKEN_ERROR } from '../responseMessages';
 import type { AuthTokens } from './interfaces';
 import type { UserModel } from '../user/interfaces';
+import jwt from 'jsonwebtoken';
 
 export const generateToken = async (): Promise<string> => {
   return '';
@@ -13,7 +14,18 @@ export const generateToken = async (): Promise<string> => {
 
 export const verifyToken = async (): Promise<void> => {};
 
-export const addTokenToBL = async (): Promise<void> => {};
+export const addTokenToBL = async (token: string): Promise<void> => {
+  const payload = jwt.verify(token, JWT.secret) as jwt.TokenBody;
+  const date = moment.unix(payload.exp);
+  const newToken = new Token({
+    token,
+    expires: date,
+    email: payload.email,
+    type: 'access',
+    blacklisted: true
+  });
+  await newToken.save();
+};
 
 export const clearExpiredTokens = async (): Promise<void> => {};
 

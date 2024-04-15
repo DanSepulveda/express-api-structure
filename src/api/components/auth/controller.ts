@@ -46,13 +46,11 @@ export const login = controllerCatch(async (req: Req, res: Res) => {
   });
 });
 
-export const logout = async (_: Req, res: Res, next: Next): Promise<void> => {
-  try {
-    res.json({ success: true });
-  } catch (err) {
-    next(err);
-  }
-};
+export const logout = controllerCatch(async (req: Req, res: Res) => {
+  const token = req.headers.authorization?.split(' ')[1] ?? '';
+  await tokenService.addTokenToBL(token);
+  res.json({ success: true, message: AUTH_SUCCESS.logout });
+});
 
 export const forgotPassword = controllerCatch(async (req: Req, res: Res) => {
   const email: string = req.body.email;

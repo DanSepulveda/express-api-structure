@@ -1,6 +1,7 @@
 import { Schema, model } from 'mongoose';
+import type { TokenDoc, TokenModel } from './interfaces';
 
-export const tokenSchema = new Schema(
+export const tokenSchema = new Schema<TokenDoc>(
   {
     token: { type: String, required: true, index: true },
     email: { type: String, required: true },
@@ -9,11 +10,12 @@ export const tokenSchema = new Schema(
       type: String,
       required: true,
       enum: ['access', 'refresh', 'recovery', 'activation']
-    }
+    },
+    blacklisted: { type: Boolean, required: true, default: false }
   },
   { timestamps: true }
 );
 
-const Token = model('token', tokenSchema);
+const Token = model<TokenDoc, TokenModel>('token', tokenSchema);
 
 export default Token;
