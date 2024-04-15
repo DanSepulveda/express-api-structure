@@ -23,5 +23,9 @@ export const sendActivationLink = async (
   token: string
 ): Promise<void> => {
   const template = signupEmail(token);
-  await sendMail({ recipients: email, subject: '', template });
+  await sendMail({
+    recipients: email,
+    subject: 'Activación de cuenta',
+    template
+  });
 };
