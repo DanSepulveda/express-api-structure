@@ -1,20 +1,26 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import type { userSchema } from './model';
-import { SECRET_OR_KEY } from '../../../config/constants';
+import { JWT } from '../../../config/constants';
 
 const setMethods = (schema: typeof userSchema): void => {
-  schema.method('generateJWT', function generateJWT(): string {
-    return jwt.sign(
-      {
-        userId: this._id,
-        names: this.basicData.names,
-        surename: this.basicData.surename,
-        email: this.account.email
-      },
-      SECRET_OR_KEY
-    );
-  });
+  schema.method(
+    'generateJWT',
+    function generateJWT(type: 'auth' | 'refresh'): string {
+      return jwt.sign(
+        {
+          userId: this._id,
+          names: this.basicData.names,
+          surename: this.basicData.surename,
+          email: this.account.email
+        },
+        JWT.secret,
+        {
+          expiresIn: JWT.expiration[type]
+        }
+      );
+    }
+  );
   schema.method('hashPWD', function hashPWD(): void {
     const password: string = this.account.password;
     this.account.password = crypto

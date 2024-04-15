@@ -16,7 +16,7 @@ export interface User {
 }
 
 export interface UserDoc extends Document, User {
-  generateJWT: () => string;
+  generateJWT: (type: 'auth' | 'refresh') => string;
   hashPWD: () => void;
   comparePWD: (password: string) => boolean;
 }
