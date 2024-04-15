@@ -1,12 +1,12 @@
 import passport from 'passport';
 import User from '../components/user/model';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { SECRET_OR_KEY } from '../../config/constants';
+import { JWT } from '../../config/constants';
 
 const jwtStrategy = new Strategy(
   {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: SECRET_OR_KEY
+    secretOrKey: JWT.secret
   },
   (payload, done) => {
     // TODO: includes permission validation

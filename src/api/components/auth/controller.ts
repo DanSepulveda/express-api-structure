@@ -1,5 +1,5 @@
-import type { Req, Res, Next } from '../../types';
-import type { SignData } from './interfaces';
+import type { Req, Res } from '../../types';
+import type { RecoveryData, SignData } from './interfaces';
 import { AUTH_SUCCESS } from '../responseMessages';
 import { controllerCatch } from '../../../utils/controllerCatch';
 import * as authService from './service';
@@ -60,14 +60,8 @@ export const forgotPassword = controllerCatch(async (req: Req, res: Res) => {
   res.json({ success: true, message: AUTH_SUCCESS.sendRecoveryEmail });
 });
 
-export const resetPassword = async (
-  _: Req,
-  res: Res,
-  next: Next
-): Promise<void> => {
-  try {
-    res.json({ success: true });
-  } catch (err) {
-    next(err);
-  }
-};
+export const resetPassword = controllerCatch(async (req: Req, res: Res) => {
+  const data: RecoveryData = req.body;
+  await authService.resetPassword(data);
+  res.json({ success: true, message: AUTH_SUCCESS.resetPassword });
+});

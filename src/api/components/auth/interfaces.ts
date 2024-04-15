@@ -1,5 +1,5 @@
 import type User from '../user/model';
-export type { SignData } from '../user/interfaces';
+export type { SignData, RecoveryData } from '../user/interfaces';
 
 export interface BaseResponse {
   success: boolean;

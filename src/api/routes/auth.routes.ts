@@ -3,6 +3,7 @@ import type { ReqHandler } from '../types';
 import validate from '../middlewares/validate';
 import * as controller from '../components/auth/controller';
 import * as validation from '../components/auth/validation';
+import auth from '../middlewares/auth';
 
 const authRouter = Router();
 
@@ -30,7 +31,7 @@ authRouter.post(
   controller.login as ReqHandler
 );
 
-authRouter.post('/logout', controller.logout as ReqHandler);
+authRouter.post('/logout', auth as ReqHandler, controller.logout as ReqHandler);
 
 authRouter.post(
   '/forgot-password',

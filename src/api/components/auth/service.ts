@@ -1,6 +1,6 @@
 import User from '../user/model';
 import createHttpError from 'http-errors';
-import type { LoginRes, SignData } from './interfaces';
+import type { LoginRes, SignData, RecoveryData } from './interfaces';
 import { TOKEN_ERROR, USER_ERROR } from '../responseMessages';
 
 export const verifyAccout = async (email: string): Promise<void> => {
@@ -31,4 +31,13 @@ export const recoveryPassword = async (
   if (!user.account.verified) throw createHttpError(400, USER_ERROR.unverified);
   if (!user.account.active) throw createHttpError(400, USER_ERROR.disabled);
   return user;
+};
+
+export const resetPassword = async (data: RecoveryData): Promise<void> => {
+  const { email, password, confirmPassword } = data;
+  if (password !== confirmPassword)
+    throw createHttpError(400, 'Password incorrect');
+  const user = User.findByEmail(email);
+  user.account.password = password;
+  await user.save();
 };
