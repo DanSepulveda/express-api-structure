@@ -29,3 +29,20 @@ export const sendActivationLink = async (
     template
   });
 };
+
+export const sendRecoveryLink = async (
+  email: string,
+  token: string
+): Promise<void> => {
+  await sendMail({
+    recipients: email,
+    subject: 'Activación de cuenta',
+    template: `
+      <p>Para recuperar su clave, ingrese al siguiente link: </p>
+
+      <p>
+        http://localhost:4000/api/v1/auth/verify-account?token=${token}
+      </p>
+    `
+  });
+};

@@ -7,6 +7,7 @@ import { TOKEN_ERROR } from '../responseMessages';
 import type { AuthTokens } from './interfaces';
 import type { UserModel } from '../user/interfaces';
 import jwt from 'jsonwebtoken';
+import type User from '../user/model';
 
 export const generateToken = async (): Promise<string> => {
   return '';
@@ -41,6 +42,13 @@ export const genAuthTokens = async (
   const authToken = user.generateJWT('auth');
   const refreshToken = user.generateJWT('refresh');
   return { authToken, refreshToken };
+};
+
+export const genRecoveryToken = async (
+  user: InstanceType<typeof User>
+): Promise<string> => {
+  const token = user.generateJWT('recovery');
+  return token;
 };
 
 export const genActivationToken = async (email: string): Promise<string> => {

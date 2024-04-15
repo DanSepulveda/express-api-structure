@@ -54,9 +54,10 @@ export const logout = controllerCatch(async (req: Req, res: Res) => {
 
 export const forgotPassword = controllerCatch(async (req: Req, res: Res) => {
   const email: string = req.body.email;
-  const response = authService.recoveryPassword(email);
-  console.log(response);
-  res.json({ success: true });
+  const user = await authService.recoveryPassword(email);
+  const token = await tokenService.genRecoveryToken(user);
+  await emailService.sendRecoveryLink(user.account.email, token);
+  res.json({ success: true, message: AUTH_SUCCESS.sendRecoveryEmail });
 });
 
 export const resetPassword = async (

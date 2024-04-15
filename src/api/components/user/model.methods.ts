@@ -6,7 +6,7 @@ import { JWT } from '../../../config/constants';
 const setMethods = (schema: typeof userSchema): void => {
   schema.method(
     'generateJWT',
-    function generateJWT(type: 'auth' | 'refresh'): string {
+    function generateJWT(type: 'auth' | 'refresh' | 'recovery'): string {
       return jwt.sign(
         {
           userId: this._id,

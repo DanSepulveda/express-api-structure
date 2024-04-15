@@ -23,7 +23,12 @@ export const login = async (loginData: SignData): LoginRes => {
   return user;
 };
 
-export const recoveryPassword = async (email: string): Promise<void> => {
-  const user = await Promise.resolve(User.findOne({ 'account.email': email }));
+export const recoveryPassword = async (
+  email: string
+): Promise<InstanceType<typeof User>> => {
+  const user = await User.findOne({ 'account.email': email });
   if (user === null) throw createHttpError(400, USER_ERROR.unregistered);
+  if (!user.account.verified) throw createHttpError(400, USER_ERROR.unverified);
+  if (!user.account.active) throw createHttpError(400, USER_ERROR.disabled);
+  return user;
 };
