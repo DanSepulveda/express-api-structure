@@ -1,13 +1,17 @@
-export const signupEmail = (token: string): string => {
-  return `
-  <html>
-    <body>
-      <p>Bienvenido a ...... Para activar su cuenta y poder ingresar debe hacer click en el siguiente enlace:</p>
+import { CLIENT_URL } from '../../../../config/constants';
 
-      <p>
-        http://localhost:4000/api/v1/auth/verify-account?token=${token}
-      </p>
-    </body>
-  </html>  
-    `;
+const signupEmail = (token: string): string => {
+  return `
+    <html>
+      <body>
+        <p>Bienvenido a "Nombre de aplicación". Para activar su cuenta y poder ingresar debe hacer click en el siguiente enlace:</p>
+
+        <a href="${CLIENT_URL.verification}?token=${token}">
+          Activar cuenta
+        </a>
+      </body>
+    </html>  
+  `.toString();
 };
+
+export default signupEmail;

@@ -2,7 +2,8 @@ import type { MailConfig } from './types';
 import type { SentMessageInfo } from 'nodemailer';
 import transporter from '../../../config/transporter';
 import { NODEMAILER_CREDENTIALS } from '../../../config/constants';
-import { signupEmail } from '../auth/templates/signup';
+import signupEmail from '../auth/templates/signup';
+import recoveryEmail from '../auth/templates/recovery';
 
 export const sendMail = async (
   config: MailConfig
@@ -36,13 +37,7 @@ export const sendRecoveryLink = async (
 ): Promise<void> => {
   await sendMail({
     recipients: email,
-    subject: 'Activación de cuenta',
-    template: `
-      <p>Para recuperar su clave, ingrese al siguiente link: </p>
-
-      <p>
-        http://localhost:4000/api/v1/auth/verify-account?token=${token}
-      </p>
-    `
+    subject: 'Recuperar contraseña',
+    template: recoveryEmail(token)
   });
 };
