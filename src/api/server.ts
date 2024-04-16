@@ -5,8 +5,8 @@ import 'dotenv/config';
 import '../config/transporter';
 import router from './routes';
 import connectDB from '../config/database';
-import { ACCEPTED_ORIGINS, ENDPOINT_BASE } from '../config/constants';
-import { errorHandler } from './middlewares/errorHandler';
+import { ACCEPTED_ORIGINS, ENDPOINT_BASE } from '../config/app';
+import errorHandler from './middlewares/errorHandler';
 
 const app = express();
 
