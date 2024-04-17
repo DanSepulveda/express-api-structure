@@ -1,6 +1,6 @@
-import type { Next, Req, Res } from '../api/types';
+import type { Next, Req, Res } from '../api/common.interfaces';
 
-export const controllerCatch =
+const controllerCatch =
   (fn: (req: Req, res: Res, next: Next) => unknown) =>
   async (req: Req, res: Res, next: Next) => {
     try {
@@ -9,3 +9,5 @@ export const controllerCatch =
       next(err);
     }
   };
+
+export default controllerCatch;

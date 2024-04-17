@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import { NODEMAILER_CREDENTIALS } from './constants';
+import { NODEMAILER_CREDENTIALS } from './app';
 
 const { user, pass } = NODEMAILER_CREDENTIALS;
 
