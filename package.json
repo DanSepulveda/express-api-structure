@@ -55,11 +55,11 @@
     "typescript": "^5.4.2"
   },
   "_moduleAliases": {
-    "@api": "dist/src/api",
-    "@config": "dist/src/config",
-    "@utils": "dist/src/utils",
-    "@components": "dist/src/api/components",
-    "@middlewares": "dist/src/api/middlewares",
-    "@routes": "dist/src/api/routes"
+    "@api": "./src/api",
+    "@config": "./src/config",
+    "@utils": "./src/utils",
+    "@components": "./src/api/components",
+    "@middlewares": "./src/api/middlewares",
+    "@routes": "./src/api/routes"
   }
 }

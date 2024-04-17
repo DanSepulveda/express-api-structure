@@ -1,5 +1,5 @@
-import type { Req } from '../api/common.interfaces';
-import type { UserDoc } from '../api/components/user/interfaces';
+import type { Req } from '@api/commonInterfaces';
+import type { UserDoc } from '@components/user/interfaces';
 
 type RequestWithUser = Req & { user: UserDoc };
 

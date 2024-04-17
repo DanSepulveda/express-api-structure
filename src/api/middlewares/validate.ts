@@ -1,6 +1,6 @@
 import joi from 'joi';
-import type { Req, Res, Next } from '../common.interfaces';
-import { getReqObject } from '../../utils/getReqObject';
+import type { Req, Res, Next } from '@api/commonInterfaces';
+import { getReqObject } from '@utils/getReqObject';
 
 const joiSchema = joi.object();
 

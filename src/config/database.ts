@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import handleError from '../utils/handleError';
+import handleError from '@utils/handleError';
 import { MONGO_URI } from './app';
 
 const connectDB = (): void => {

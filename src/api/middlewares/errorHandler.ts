@@ -1,5 +1,5 @@
 import type { HttpError } from 'http-errors';
-import type { Req, Res, Next } from '../common.interfaces';
+import type { Req, Res, Next } from '@api/commonInterfaces';
 
 const errorHandler = (err: HttpError, _: Req, res: Res, next: Next): void => {
   const status: number = err.status ?? 500;

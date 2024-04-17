@@ -1,5 +1,5 @@
 import joi from 'joi';
-import { email, password } from '../commonValidation';
+import { email, password } from '@api/commonValidation';
 
 export const signup = {
   body: joi.object({
@@ -8,7 +8,12 @@ export const signup = {
   })
 };
 
-export const login = signup;
+export const login = {
+  body: joi.object({
+    email,
+    password
+  })
+};
 
 export const verifyAccount = {
   query: joi.object({
@@ -24,10 +29,13 @@ export const forgotPassword = {
 
 export const resetPassword = {
   body: joi.object({
-    email,
     password,
     confirmPassword: password
   })
 };
 
-export const verificationEmail = forgotPassword;
+export const verificationEmail = {
+  body: joi.object({
+    email
+  })
+};

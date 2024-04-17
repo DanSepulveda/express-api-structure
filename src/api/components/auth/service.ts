@@ -1,7 +1,7 @@
-import User from '../user/model';
+import User from '@components/user/model';
 import createHttpError from 'http-errors';
-import type { LoginRes, SignData, RecoveryData } from './interfaces';
-import { TOKEN_ERROR, USER_ERROR } from '../responseMessages';
+import type { SignData, RecoveryData, UserDoc } from './interfaces';
+import { TOKEN_ERROR, USER_ERROR } from '@api/responseMessages';
 
 export const verifyAccout = async (email: string): Promise<void> => {
   const user = await User.updateOne(
@@ -12,32 +12,37 @@ export const verifyAccout = async (email: string): Promise<void> => {
   if (user.modifiedCount === 0) throw createHttpError(400, TOKEN_ERROR.invalid);
 };
 
-export const login = async (loginData: SignData): LoginRes => {
+export const loginWithEmailAndPassword = async (
+  loginData: SignData
+): Promise<UserDoc> => {
   const { email, password } = loginData;
-  const user = await User.findOne({ 'account.email': email });
-  if (user === null) throw createHttpError(400, USER_ERROR.unregistered);
+  const user = await User.findByEmail(email);
+  console.log(user);
+  if (user === null) throw createHttpError(404, USER_ERROR.unregistered);
   if (!user.account.verified) throw createHttpError(400, USER_ERROR.unverified);
-  if (!user.account.active) throw createHttpError(400, USER_ERROR.disabled);
+  if (!user.account.active) throw createHttpError(403, USER_ERROR.disabled);
   const match: boolean = user.comparePWD(password);
   if (!match) throw createHttpError(400, USER_ERROR.wrongPassword);
   return user;
 };
 
-export const recoveryPassword = async (
-  email: string
-): Promise<InstanceType<typeof User>> => {
-  const user = await User.findOne({ 'account.email': email });
-  if (user === null) throw createHttpError(400, USER_ERROR.unregistered);
+export const recoveryPassword = async (email: string): Promise<UserDoc> => {
+  const user = await User.findByEmail(email);
+  if (user === null) throw createHttpError(404, USER_ERROR.unregistered);
   if (!user.account.verified) throw createHttpError(400, USER_ERROR.unverified);
-  if (!user.account.active) throw createHttpError(400, USER_ERROR.disabled);
+  if (!user.account.active) throw createHttpError(403, USER_ERROR.disabled);
   return user;
 };
 
-export const resetPassword = async (data: RecoveryData): Promise<void> => {
-  const { email, password, confirmPassword } = data;
+export const resetPassword = async (
+  data: RecoveryData,
+  email: string
+): Promise<void> => {
+  const { password, confirmPassword } = data;
   if (password !== confirmPassword)
-    throw createHttpError(400, 'Password incorrect');
-  const user = User.findByEmail(email);
+    throw createHttpError(400, USER_ERROR.noMatch);
+  const user = await User.findByEmail(email);
+  if (user === null) throw createHttpError(404, USER_ERROR.unregistered);
   user.account.password = password;
   await user.save();
 };

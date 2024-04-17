@@ -11,7 +11,7 @@ export const JWT = {
   expiration: {
     auth: '1h',
     refresh: '1d',
-    recovery: '1d',
+    reset: '1d',
     activation: 1
   }
 };

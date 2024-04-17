@@ -1,5 +1,5 @@
 import type { Model, Document } from 'mongoose';
-import type { TokenTypes } from '../../common.interfaces';
+import type { TokenTypes } from '@api/commonInterfaces';
 
 interface UserSchema {
   account: {

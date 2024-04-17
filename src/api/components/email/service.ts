@@ -1,9 +1,9 @@
-import type { MailConfig } from './types';
+import type { MailConfig } from './interfaces';
 import type { SentMessageInfo } from 'nodemailer';
-import transporter from '../../../config/transporter';
-import { NODEMAILER_CREDENTIALS } from '../../../config/constants';
-import signupEmail from '../auth/templates/signup';
-import recoveryEmail from '../auth/templates/recovery';
+import transporter from '@config/transporter';
+import { NODEMAILER_CREDENTIALS } from '@config/app';
+import signupEmail from '@components/auth/templates/signup';
+import recoveryEmail from '@components/auth/templates/recovery';
 
 export const sendMail = async (
   config: MailConfig

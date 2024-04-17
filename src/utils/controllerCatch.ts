@@ -1,4 +1,4 @@
-import type { Next, Req, Res } from '../api/common.interfaces';
+import type { Next, Req, Res } from '@api/commonInterfaces';
 
 const controllerCatch =
   (fn: (req: Req, res: Res, next: Next) => unknown) =>

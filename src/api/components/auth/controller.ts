@@ -1,11 +1,12 @@
-import type { Req, Res } from '../../types';
+import type { Req, Res } from '@api/commonInterfaces';
 import type { RecoveryData, SignData } from './interfaces';
-import { AUTH_SUCCESS } from '../responseMessages';
-import { controllerCatch } from '../../../utils/controllerCatch';
+import { AUTH_SUCCESS } from '@api/responseMessages';
+import controllerCatch from '@utils/controllerCatch';
+import assertHasUser from '@utils/assertHasUser';
 import * as authService from './service';
-import * as emailService from '../email/service';
-import * as tokenService from '../token/service';
-import * as userService from '../user/service';
+import * as emailService from '@components/email/service';
+import * as tokenService from '@components/token/service';
+import * as userService from '@components/user/service';
 
 export const signup = controllerCatch(async (req: Req, res: Res) => {
   const data: SignData = req.body;
@@ -36,19 +37,19 @@ export const verifyAccount = controllerCatch(async (req: Req, res: Res) => {
 
 export const login = controllerCatch(async (req: Req, res: Res) => {
   const data: SignData = req.body;
-  const user = await authService.login(data);
+  const user = await authService.loginWithEmailAndPassword(data);
   const tokens = await tokenService.genAuthTokens(user);
   res.status(200).json({
     success: true,
+    message: AUTH_SUCCESS.login,
     tokens,
-    user,
-    message: AUTH_SUCCESS.login
+    user
   });
 });
 
 export const logout = controllerCatch(async (req: Req, res: Res) => {
   const token = req.headers.authorization?.split(' ')[1] ?? '';
-  await tokenService.addTokenToBL(token);
+  await tokenService.addTokenToBL(token, 'access');
   res.json({ success: true, message: AUTH_SUCCESS.logout });
 });
 
@@ -61,7 +62,12 @@ export const forgotPassword = controllerCatch(async (req: Req, res: Res) => {
 });
 
 export const resetPassword = controllerCatch(async (req: Req, res: Res) => {
+  assertHasUser(req);
+  const { email } = req.user.account;
   const data: RecoveryData = req.body;
-  await authService.resetPassword(data);
+  const token = req.headers.authorization?.split(' ')[1] ?? '';
+  await tokenService.checkBlacklistedToken(token);
+  await tokenService.addTokenToBL(token, 'reset');
+  await authService.resetPassword(data, email);
   res.json({ success: true, message: AUTH_SUCCESS.resetPassword });
 });

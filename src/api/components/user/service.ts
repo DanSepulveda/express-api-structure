@@ -1,7 +1,7 @@
-import User from './model';
 import createHttpError from 'http-errors';
-import { USER_ERROR } from '../responseMessages';
+import User from './model';
 import type { SignData } from './interfaces';
+import { USER_ERROR } from '@api/responseMessages';
 
 export const signupWithEmailAndPassword = async (
   data: SignData

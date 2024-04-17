@@ -1,4 +1,4 @@
-import type { CommonObject, Req } from '../api/common.interfaces';
+import type { CommonObject, Req } from '@api/commonInterfaces';
 
 export const getReqObject = (req: Req, keys: string[]): CommonObject => {
   return keys.reduce((obj: CommonObject, key) => {

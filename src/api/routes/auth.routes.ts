@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import type { ReqHandler } from '../common.interfaces';
-import auth from '../middlewares/auth';
-import validate from '../middlewares/validate';
-import * as controller from '../components/auth/controller';
-import * as validation from '../components/auth/validation';
+import type { ReqHandler } from '@api/commonInterfaces';
+import auth from '@middlewares/auth';
+import validate from '@middlewares/validate';
+import * as controller from '@components/auth/controller';
+import * as validation from '@components/auth/validation';
 
 const authRouter = Router();
 

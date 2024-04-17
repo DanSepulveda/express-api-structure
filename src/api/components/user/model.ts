@@ -1,9 +1,9 @@
+import { Schema, model } from 'mongoose';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
-import { Schema, model } from 'mongoose';
-import { JWT } from '../../../config/app';
+import { JWT } from '@config/app';
 import type { UserDoc, UserDocument, UserModel } from './interfaces';
-import type { TokenTypes } from '../../common.interfaces';
+import type { TokenTypes } from '@api/commonInterfaces';
 
 const userSchema = new Schema<UserDocument>({
   account: {

@@ -14,7 +14,8 @@ export const USER_ERROR = {
   verified: 'Account already verified',
   unverified: 'Verification needed',
   disabled: 'Account disabled',
-  wrongPassword: 'Wrong password'
+  wrongPassword: 'Wrong password',
+  noMatch: "Passwords don't match"
 };
 
 export const TOKEN_ERROR = {
