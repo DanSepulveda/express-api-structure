@@ -1,7 +1,7 @@
 import type { Model, Document } from 'mongoose';
 import type { TokenTypes } from '../../common.interfaces';
 
-export interface User {
+interface UserSchema {
   account: {
     email: string;
     salt: string;
@@ -16,7 +16,7 @@ export interface User {
   };
 }
 
-export interface UserDocument extends Document, User {
+export interface UserDocument extends Document, UserSchema {
   generateJWT: (type: TokenTypes) => string;
   hashPWD: () => void;
   comparePWD: (password: string) => boolean;
