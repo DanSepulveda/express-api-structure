@@ -1,5 +1,5 @@
 import joi from 'joi';
-import type { Req, Res, Next } from '../types';
+import type { Req, Res, Next } from '../common.interfaces';
 import { getReqObject } from '../../utils/getReqObject';
 
 const joiSchema = joi.object();

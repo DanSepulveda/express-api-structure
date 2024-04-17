@@ -1,7 +1,7 @@
 import passport from 'passport';
 import User from '../components/user/model';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { JWT } from '../../config/constants';
+import { JWT } from '../../config/app';
 
 const jwtStrategy = new Strategy(
   {
