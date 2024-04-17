@@ -1,4 +1,5 @@
 import type { Model, Document } from 'mongoose';
+import type { TokenTypes } from '../../common.interfaces';
 
 export interface User {
   account: {
@@ -15,15 +16,20 @@ export interface User {
   };
 }
 
-export interface UserDoc extends Document, User {
-  generateJWT: (type: 'auth' | 'refresh' | 'recovery') => string;
+export interface UserDocument extends Document, User {
+  generateJWT: (type: TokenTypes) => string;
   hashPWD: () => void;
   comparePWD: (password: string) => boolean;
 }
 
-export interface UserModel extends Model<UserDoc> {
-  findByEmail: (email: string, fields?: string) => InstanceType<UserModel>;
+export interface UserModel extends Model<UserDocument> {
+  findByEmail: (
+    email: string,
+    fields?: string
+  ) => Promise<InstanceType<UserModel>>;
 }
+
+export type UserDoc = InstanceType<UserModel>;
 
 export interface SignData {
   email: string;
@@ -31,7 +37,6 @@ export interface SignData {
 }
 
 export interface RecoveryData {
-  email: string;
   password: string;
   confirmPassword: string;
 }

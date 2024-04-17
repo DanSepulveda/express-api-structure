@@ -1,10 +1,11 @@
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 import { Schema, model } from 'mongoose';
-import type { UserDoc, UserModel } from './interfaces';
-import setMethods from './model.methods';
-import setStatics from './model.statics';
+import { JWT } from '../../../config/app';
+import type { UserDoc, UserDocument, UserModel } from './interfaces';
+import type { TokenTypes } from '../../common.interfaces';
 
-export const userSchema = new Schema<UserDoc>({
+const userSchema = new Schema<UserDocument>({
   account: {
     email: { type: String, required: true, index: true, lowercase: true },
     salt: {
@@ -23,6 +24,7 @@ export const userSchema = new Schema<UserDoc>({
   }
 });
 
+// Pre
 userSchema.pre('validate', function () {
   if (this.isModified('account.password')) {
     const { password, salt } = this.account;
@@ -32,9 +34,49 @@ userSchema.pre('validate', function () {
   }
 });
 
-setMethods(userSchema);
-setStatics(userSchema);
+// STATICS
+userSchema.static(
+  'findByEmail',
+  async function findByEmail(
+    email: string,
+    fields: string = ''
+  ): Promise<UserDoc> {
+    const user = await this.findOne({ 'account.email': email }, fields);
+    return user ?? null;
+  }
+);
 
-const User = model<UserDoc, UserModel>('user', userSchema);
+// METHODS
+userSchema.method('generateJWT', function generateJWT(type: TokenTypes) {
+  return jwt.sign(
+    {
+      userId: this._id,
+      names: this.basicData.names,
+      surename: this.basicData.surename,
+      email: this.account.email,
+      type
+    },
+    JWT.secret,
+    {
+      expiresIn: JWT.expiration[type]
+    }
+  );
+});
+
+userSchema.method('hashPWD', function hashPWD() {
+  const password: string = this.account.password;
+  this.account.password = crypto
+    .pbkdf2Sync(password, this.account.salt, 10000, 512, 'sha512')
+    .toString('hex');
+});
+
+userSchema.method('comparePWD', function comparePWD(password: string) {
+  const hash = crypto
+    .pbkdf2Sync(password, this.account.salt, 10000, 512, 'sha512')
+    .toString('hex');
+  return this.account.password === hash;
+});
+
+const User = model<UserDocument, UserModel>('user', userSchema);
 
 export default User;
