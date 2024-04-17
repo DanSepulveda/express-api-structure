@@ -1,4 +1,4 @@
-import { CLIENT_URL } from '../../../../config/constants';
+import { CLIENT_URL } from '../../../../config/app';
 
 const recoveryEmail = (token: string): string => {
   return `
