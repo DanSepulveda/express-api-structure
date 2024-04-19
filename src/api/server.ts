@@ -8,9 +8,12 @@ import router from '@routes/index';
 import connectDB from '@config/database';
 import { ACCEPTED_ORIGINS, ENDPOINT_BASE } from '@config/app';
 import errorHandler from '@middlewares/errorHandler';
+import passport from 'passport';
+import jwtStrategy from '@config/passport';
 
 const app = express();
 
+passport.use(jwtStrategy);
 app.use(express.json());
 app.use(helmet());
 app.use(
@@ -25,9 +28,7 @@ app.use(
     }
   })
 );
-
 connectDB();
-
 app.use(ENDPOINT_BASE, router);
 app.use(errorHandler);
 
