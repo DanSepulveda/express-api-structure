@@ -1,6 +1,6 @@
 import User from '@components/user/model';
 import createHttpError from 'http-errors';
-import type { SignData, RecoveryData, UserDoc } from './interfaces';
+import type { SignData, UserDoc } from './interfaces';
 import { TOKEN_ERROR, USER_ERROR } from '@api/responseMessages';
 
 export const verifyAccout = async (email: string): Promise<void> => {
@@ -17,7 +17,6 @@ export const loginWithEmailAndPassword = async (
 ): Promise<UserDoc> => {
   const { email, password } = loginData;
   const user = await User.findByEmail(email);
-  console.log(user);
   if (user === null) throw createHttpError(404, USER_ERROR.unregistered);
   if (!user.account.verified) throw createHttpError(400, USER_ERROR.unverified);
   if (!user.account.active) throw createHttpError(403, USER_ERROR.disabled);
@@ -26,7 +25,7 @@ export const loginWithEmailAndPassword = async (
   return user;
 };
 
-export const recoveryPassword = async (email: string): Promise<UserDoc> => {
+export const checkAccountStatus = async (email: string): Promise<UserDoc> => {
   const user = await User.findByEmail(email);
   if (user === null) throw createHttpError(404, USER_ERROR.unregistered);
   if (!user.account.verified) throw createHttpError(400, USER_ERROR.unverified);
@@ -35,12 +34,9 @@ export const recoveryPassword = async (email: string): Promise<UserDoc> => {
 };
 
 export const resetPassword = async (
-  data: RecoveryData,
+  password: string,
   email: string
 ): Promise<void> => {
-  const { password, confirmPassword } = data;
-  if (password !== confirmPassword)
-    throw createHttpError(400, USER_ERROR.noMatch);
   const user = await User.findByEmail(email);
   if (user === null) throw createHttpError(404, USER_ERROR.unregistered);
   user.account.password = password;
