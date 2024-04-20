@@ -3,7 +3,7 @@ import type { SentMessageInfo } from 'nodemailer';
 import transporter from '@config/transporter';
 import { NODEMAILER_CREDENTIALS } from '@config/app';
 import signupEmail from '@components/auth/templates/signup';
-import recoveryEmail from '@components/auth/templates/recovery';
+import resetEmail from '@api/components/auth/templates/reset';
 
 export const sendMail = async (
   config: MailConfig
@@ -31,13 +31,13 @@ export const sendActivationLink = async (
   });
 };
 
-export const sendRecoveryLink = async (
+export const sendResetLink = async (
   email: string,
   token: string
 ): Promise<void> => {
   await sendMail({
     recipients: email,
     subject: 'Recuperar contraseña',
-    template: recoveryEmail(token)
+    template: resetEmail(token)
   });
 };

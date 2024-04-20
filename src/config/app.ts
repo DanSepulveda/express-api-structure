@@ -9,10 +9,10 @@ export const ACCEPTED_ORIGINS = ['same origin', 'http://localhost:5173'];
 export const JWT = {
   secret: process.env.JWT_SECRET ?? '',
   expiration: {
+    activation: '12h',
     auth: '1h',
     refresh: '1d',
-    reset: '1d',
-    activation: 1
+    reset: '1d'
   }
 };
 

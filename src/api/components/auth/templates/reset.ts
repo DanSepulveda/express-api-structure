@@ -1,6 +1,6 @@
 import { CLIENT_URL } from '../../../../config/app';
 
-const recoveryEmail = (token: string): string => {
+const resetEmail = (token: string): string => {
   return `
     <html>
       <body>
@@ -14,4 +14,4 @@ const recoveryEmail = (token: string): string => {
   `.toString();
 };
 
-export default recoveryEmail;
+export default resetEmail;

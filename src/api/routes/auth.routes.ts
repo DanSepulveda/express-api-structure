@@ -21,7 +21,7 @@ authRouter.post(
 
 authRouter.get(
   '/verify-account',
-  validate(validation.verifyAccount),
+  auth('activation') as ReqHandler,
   controller.verifyAccount as ReqHandler
 );
 
@@ -31,7 +31,11 @@ authRouter.post(
   controller.login as ReqHandler
 );
 
-authRouter.post('/logout', auth as ReqHandler, controller.logout as ReqHandler);
+authRouter.post(
+  '/logout',
+  auth('access') as ReqHandler,
+  controller.logout as ReqHandler
+);
 
 authRouter.post(
   '/forgot-password',
@@ -42,7 +46,7 @@ authRouter.post(
 authRouter.post(
   '/reset-password',
   validate(validation.resetPassword),
-  auth as ReqHandler,
+  auth('reset') as ReqHandler,
   controller.resetPassword as ReqHandler
 );
 

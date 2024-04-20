@@ -51,8 +51,6 @@ userSchema.method('generateJWT', function generateJWT(type: TokenTypes) {
   return jwt.sign(
     {
       userId: this._id,
-      names: this.basicData.names,
-      surename: this.basicData.surename,
       email: this.account.email,
       type
     },

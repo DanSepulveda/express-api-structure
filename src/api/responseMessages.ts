@@ -3,7 +3,7 @@ export const AUTH_SUCCESS = {
   verification: 'Account verified successfully',
   login: 'User logged in successfully',
   logout: 'User logged out successfully',
-  sendRecoveryEmail: 'Recovery email sent successfully',
+  sendResetEmail: 'Reset email sent successfully',
   sendVerificationEmail: 'Verification email sent successfully',
   resetPassword: 'Password modified successfully'
 };
