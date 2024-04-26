@@ -1,14 +1,23 @@
 import joi from 'joi';
-import type { Req, Res, Next } from '@api/commonInterfaces';
-import { getReqObject } from '@utils/getReqObject';
-
-const joiSchema = joi.object();
+import type { Req, Res, Next, CommonObject } from '@api/commonInterfaces';
 
 export interface JoiSchema {
-  body?: typeof joiSchema;
-  params?: typeof joiSchema;
-  query?: typeof joiSchema;
+  body?: joi.ObjectSchema;
+  params?: joi.ObjectSchema;
+  query?: joi.ObjectSchema;
 }
+
+const getReqObject = (req: Req, keys: string[]): CommonObject => {
+  return keys.reduce((obj: CommonObject, key) => {
+    if (
+      Object.keys(req).includes(key) &&
+      (key === 'body' || key === 'params' || key === 'query')
+    ) {
+      obj[key] = req[key];
+    }
+    return obj;
+  }, {});
+};
 
 const validate =
   (schema: JoiSchema) =>
@@ -24,6 +33,7 @@ const validate =
     } else {
       res.status(400).json({
         success: false,
+        // TODO: handle error with custom messages
         errors: error.details.map((error) => {
           return {
             field: error?.context?.key,
