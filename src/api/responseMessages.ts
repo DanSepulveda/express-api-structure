@@ -20,5 +20,6 @@ export const USER_ERROR = {
 
 export const TOKEN_ERROR = {
   invalid: 'Invalid token',
-  expired: 'Expired token'
+  expired: 'Expired token',
+  reuse: 'Invalidated token'
 };

@@ -87,6 +87,16 @@ export const deleteToken = async (
   if (deleted.deletedCount === 0) throw httpError(404, TOKEN_ERROR.invalid);
 };
 
+export const validateRT = async (token: string): Promise<string> => {
+  const payload = jwt.verify(token, JWT.secret) as jwt.TokenBody;
+  const deleted = await Token.deleteOne({ token, type: 'refresh' });
+  if (deleted.deletedCount === 0) {
+    await Token.deleteMany({ email: payload.email });
+    throw httpError(403, TOKEN_ERROR.reuse);
+  }
+  return payload.email;
+};
+
 // !NOT IMPLEMENTED YET
 export const checkBlacklistedToken = async (token: string): Promise<void> => {
   const searchedToken = await Token.findOne({ token });

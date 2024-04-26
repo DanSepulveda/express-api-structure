@@ -50,4 +50,6 @@ authRouter.post(
   controller.resetPassword as ReqHandler
 );
 
+authRouter.get('/refresh-token', controller.refreshToken as ReqHandler);
+
 export default authRouter;

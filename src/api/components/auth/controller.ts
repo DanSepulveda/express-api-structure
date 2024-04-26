@@ -91,3 +91,26 @@ export const resetPassword = controllerCatch(async (req: Req, res: Res) => {
   await authService.resetPassword(user, password);
   res.status(200).json({ success: true, message: AUTH_SUCCESS.resetPassword });
 });
+
+// TODO: filter user data in response
+export const refreshToken = controllerCatch(async (req: Req, res: Res) => {
+  const token: string = req.cookies.jwt;
+  const email = await tokenService.validateRT(token);
+  const user = await authService.checkAccountStatus(email);
+  const { accessToken, refreshToken, rtExpDate } =
+    await tokenService.genAuthTokens(user);
+
+  res.cookie('jwt', refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    expires: rtExpDate
+  });
+
+  res.status(200).json({
+    success: true,
+    message: AUTH_SUCCESS.login,
+    token: accessToken,
+    user
+  });
+});
