@@ -1,1 +1,1 @@
-export type { SignData, RecoveryData, UserDoc } from '../user/interfaces';
+export type { SignData, UserDoc } from '../user/interfaces';

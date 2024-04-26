@@ -19,13 +19,12 @@ interface TokenSchema {
   blacklisted: boolean;
 }
 
-export interface TokenDocument extends Document, TokenSchema {
-  isExpired: () => boolean;
-}
+export interface TokenDocument extends Document, TokenSchema {}
 
 export interface TokenModel extends Model<TokenDocument> {}
 
 export interface AuthTokens {
-  authToken: string;
+  accessToken: string;
   refreshToken: string;
+  rtExpDate: Date;
 }

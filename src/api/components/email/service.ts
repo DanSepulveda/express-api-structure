@@ -1,21 +1,22 @@
 import type { MailConfig } from './interfaces';
 import type { SentMessageInfo } from 'nodemailer';
 import transporter from '@config/transporter';
-import { NODEMAILER_CREDENTIALS } from '@config/app';
+import { NODEMAILER } from '@config/app';
 import signupEmail from '@components/auth/templates/signup';
-import resetEmail from '@api/components/auth/templates/reset';
+import resetEmail from '@components/auth/templates/reset';
 
 export const sendMail = async (
   config: MailConfig
 ): Promise<SentMessageInfo> => {
   const info = await transporter.sendMail({
-    from: NODEMAILER_CREDENTIALS.user,
+    from: `${NODEMAILER.displayedName} <${NODEMAILER.credentials.user}>`,
     to: config.recipients,
     subject: config.subject,
     html: config.template,
     text: config.text
   });
 
+  // TODO: handle error when sending mail fails
   return info;
 };
 

@@ -1,28 +1,33 @@
-import { Schema, model } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { JWT } from '@config/app';
 import type { UserDoc, UserDocument, UserModel } from './interfaces';
 import type { TokenTypes } from '@api/commonInterfaces';
 
-const userSchema = new Schema<UserDocument>({
-  account: {
-    email: { type: String, required: true, index: true, lowercase: true },
-    salt: {
-      type: String,
-      required: true,
-      default: crypto.randomBytes(16).toString('hex')
+const userSchema = new Schema<UserDocument>(
+  {
+    account: {
+      email: { type: String, required: true, index: true, lowercase: true },
+      salt: {
+        type: String,
+        required: true,
+        default: crypto.randomBytes(16).toString('hex')
+      },
+      password: { type: String, required: true },
+      verified: { type: Boolean, required: true, default: false },
+      active: { type: Boolean, required: true, default: true }
     },
-    password: { type: String, required: true },
-    verified: { type: Boolean, required: true, default: false },
-    active: { type: Boolean, required: true, default: true }
+    basicData: {
+      names: String,
+      surename: String,
+      lastname: String
+    }
   },
-  basicData: {
-    names: String,
-    surename: String,
-    lastname: String
+  {
+    timestamps: true
   }
-});
+);
 
 // Pre
 userSchema.pre('validate', function () {
@@ -48,7 +53,7 @@ userSchema.static(
 
 // METHODS
 userSchema.method('generateJWT', function generateJWT(type: TokenTypes) {
-  return jwt.sign(
+  const token = jwt.sign(
     {
       userId: this._id,
       email: this.account.email,
@@ -59,6 +64,8 @@ userSchema.method('generateJWT', function generateJWT(type: TokenTypes) {
       expiresIn: JWT.expiration[type]
     }
   );
+  const payload = jwt.verify(token, JWT.secret);
+  return { token, payload };
 });
 
 userSchema.method('hashPWD', function hashPWD() {

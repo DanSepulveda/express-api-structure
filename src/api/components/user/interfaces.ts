@@ -1,5 +1,6 @@
 import type { Model, Document } from 'mongoose';
 import type { TokenTypes } from '@api/commonInterfaces';
+import type { TokenBody } from 'jsonwebtoken';
 
 interface UserSchema {
   account: {
@@ -17,7 +18,7 @@ interface UserSchema {
 }
 
 export interface UserDocument extends Document, UserSchema {
-  generateJWT: (type: TokenTypes) => string;
+  generateJWT: (type: TokenTypes) => { token: string; payload: TokenBody };
   hashPWD: () => void;
   comparePWD: (password: string) => boolean;
 }
@@ -34,9 +35,4 @@ export type UserDoc = InstanceType<UserModel>;
 export interface SignData {
   email: string;
   password: string;
-}
-
-export interface RecoveryData {
-  password: string;
-  confirmPassword: string;
 }

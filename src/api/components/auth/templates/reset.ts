@@ -1,4 +1,4 @@
-import { CLIENT_URL } from '../../../../config/app';
+import { CLIENT_URL } from '@config/app';
 
 const resetEmail = (token: string): string => {
   return `

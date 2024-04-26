@@ -1,7 +1,6 @@
-import { Schema, model } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import type { TokenDocument, TokenModel } from './interfaces';
 import { tokenTypes } from '../../commonInterfaces';
-import moment from 'moment';
 
 export const tokenSchema = new Schema<TokenDocument>(
   {
@@ -17,12 +16,6 @@ export const tokenSchema = new Schema<TokenDocument>(
   },
   { timestamps: true }
 );
-
-tokenSchema.method('isExpired', function isExpired() {
-  const actualDate = moment();
-  const expirationDate = moment(this.expires);
-  return expirationDate.diff(actualDate) < 0;
-});
 
 const Token = model<TokenDocument, TokenModel>('token', tokenSchema);
 
