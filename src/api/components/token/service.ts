@@ -1,6 +1,6 @@
 import moment from 'moment';
 import jwt from 'jsonwebtoken';
-import createHttpError from 'http-errors';
+import httpError from 'http-errors';
 import Token from './model';
 import { JWT } from '../../../config/app';
 import { TOKEN_ERROR } from '../../responseMessages';
@@ -44,7 +44,7 @@ export const addTokenToBL = async (
   type: string
 ): Promise<void> => {
   const payload = jwt.verify(token, JWT.secret) as jwt.TokenBody;
-  if (payload.type !== type) throw createHttpError(400, TOKEN_ERROR.invalid);
+  if (payload.type !== type) throw httpError(400, TOKEN_ERROR.invalid);
   const date = moment.unix(payload.exp);
   const newToken = new Token({
     token,
@@ -84,12 +84,11 @@ export const deleteToken = async (
   type: string
 ): Promise<void> => {
   const deleted = await Token.deleteOne({ type, token });
-  if (deleted.deletedCount === 0)
-    throw createHttpError(404, TOKEN_ERROR.invalid);
+  if (deleted.deletedCount === 0) throw httpError(404, TOKEN_ERROR.invalid);
 };
 
 // !NOT IMPLEMENTED YET
 export const checkBlacklistedToken = async (token: string): Promise<void> => {
   const searchedToken = await Token.findOne({ token });
-  if (searchedToken !== null) throw createHttpError(400, TOKEN_ERROR.invalid);
+  if (searchedToken !== null) throw httpError(400, TOKEN_ERROR.invalid);
 };

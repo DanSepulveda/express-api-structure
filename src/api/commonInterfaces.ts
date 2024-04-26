@@ -5,7 +5,7 @@ export type {
   RequestHandler as ReqHandler
 } from 'express';
 
-export const tokenTypes = ['activation', 'auth', 'refresh', 'reset'] as const;
+export const tokenTypes = ['activation', 'access', 'refresh', 'reset'] as const;
 export type TokenTypes = (typeof tokenTypes)[number];
 
 export type CommonObject = Record<string, unknown>;

@@ -1,7 +1,7 @@
 import nodemailer from 'nodemailer';
-import { NODEMAILER_CREDENTIALS } from './app';
+import { ENVIRONMENT, NODEMAILER } from './app';
 
-const { user, pass } = NODEMAILER_CREDENTIALS;
+const { user, pass } = NODEMAILER.credentials;
 
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
@@ -15,13 +15,15 @@ const transporter = nodemailer.createTransport({
   tls: { rejectUnauthorized: false }
 });
 
-transporter
-  .verify()
-  .then(() => {
-    console.log('Connected to email service');
-  })
-  .catch(() => {
-    console.log('Email service connection failed.');
-  });
+if (ENVIRONMENT === 'dev') {
+  transporter
+    .verify()
+    .then(() => {
+      console.log('Connected to email service');
+    })
+    .catch(() => {
+      console.log('Email service connection failed.');
+    });
+}
 
 export default transporter;
