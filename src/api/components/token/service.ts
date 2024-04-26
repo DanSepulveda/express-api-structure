@@ -7,10 +7,10 @@ import { TOKEN_ERROR } from '../../responseMessages';
 import type { AuthTokens } from './interfaces';
 import type { UserDoc } from '@components/user/interfaces';
 
-// !verificar
-export const upsertToken = async (token: string): Promise<void> => {
-  const payload = jwt.verify(token, JWT.secret) as jwt.TokenBody;
-
+const upsertToken = async (
+  token: string,
+  payload: jwt.TokenBody
+): Promise<void> => {
   await Token.findOneAndUpdate(
     { email: payload.email, type: payload.type },
     {
@@ -23,7 +23,22 @@ export const upsertToken = async (token: string): Promise<void> => {
   );
 };
 
-// !verify
+const saveToken = async (
+  token: string,
+  payload: jwt.TokenBody
+): Promise<void> => {
+  const { email, type, exp } = payload;
+
+  const newToken = new Token({
+    token,
+    email,
+    expires: moment.unix(exp),
+    type
+  });
+
+  await newToken.save();
+};
+
 export const addTokenToBL = async (
   token: string,
   type: string
@@ -42,21 +57,25 @@ export const addTokenToBL = async (
 };
 
 export const genActivationToken = async (user: UserDoc): Promise<string> => {
-  const token = user.generateJWT('activation');
-  await upsertToken(token);
+  const { token, payload } = user.generateJWT('activation');
+  await upsertToken(token, payload);
   return token;
 };
 
 export const genAuthTokens = async (user: UserDoc): Promise<AuthTokens> => {
-  const authToken = user.generateJWT('auth');
+  const accessToken = user.generateJWT('access');
   const refreshToken = user.generateJWT('refresh');
-  await upsertToken(refreshToken);
-  return { authToken, refreshToken };
+  await saveToken(refreshToken.token, refreshToken.payload);
+  return {
+    accessToken: accessToken.token,
+    refreshToken: refreshToken.token,
+    rtExpDate: moment.unix(refreshToken.payload.exp).toDate()
+  };
 };
 
 export const genResetToken = async (user: UserDoc): Promise<string> => {
-  const token = user.generateJWT('reset');
-  await upsertToken(token);
+  const { token, payload } = user.generateJWT('reset');
+  await upsertToken(token, payload);
   return token;
 };
 
@@ -69,7 +88,7 @@ export const deleteToken = async (
     throw createHttpError(404, TOKEN_ERROR.invalid);
 };
 
-// !verificar
+// !NOT IMPLEMENTED YET
 export const checkBlacklistedToken = async (token: string): Promise<void> => {
   const searchedToken = await Token.findOne({ token });
   if (searchedToken !== null) throw createHttpError(400, TOKEN_ERROR.invalid);

@@ -30,31 +30,47 @@ export const sendVerificationEmail = controllerCatch(
 
 export const verifyAccount = controllerCatch(async (req: Req, res: Res) => {
   assertHasUser(req);
-  const { email } = req.user.account;
-  await userService.checkVerifiedStatus(email);
+  const user = req.user;
+  await userService.checkVerifiedStatus(user);
   const token = req.headers.authorization?.split(' ')[1] ?? '';
-  await tokenService.deleteToken(token, 'activation');
-  await authService.verifyAccout(email);
+  await Promise.all([
+    tokenService.deleteToken(token, 'activation'),
+    authService.verifyAccout(user.account.email)
+  ]);
   res.status(200).json({ success: true, message: AUTH_SUCCESS.verification });
 });
 
-// !verificar
+// TODO: filter user data in response
 export const login = controllerCatch(async (req: Req, res: Res) => {
-  const data: SignData = req.body;
-  const user = await authService.loginWithEmailAndPassword(data);
-  const tokens = await tokenService.genAuthTokens(user);
+  const { email, password }: SignData = req.body;
+  const user = await authService.checkAccountStatus(email);
+  await authService.loginWithEmailAndPassword(user, password);
+  const { accessToken, refreshToken, rtExpDate } =
+    await tokenService.genAuthTokens(user);
+
+  res.cookie('jwt', refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    expires: rtExpDate
+  });
+
   res.status(200).json({
     success: true,
     message: AUTH_SUCCESS.login,
-    tokens,
+    token: accessToken,
     user
   });
 });
 
-// !verify
 export const logout = controllerCatch(async (req: Req, res: Res) => {
-  const token = req.headers.authorization?.split(' ')[1] ?? '';
-  await tokenService.addTokenToBL(token, 'access');
+  const accessToken = req.headers.authorization?.split(' ')[1] ?? '';
+  const refreshToken: string = req.cookies.jwt;
+  await Promise.all([
+    tokenService.addTokenToBL(accessToken, 'access'),
+    tokenService.deleteToken(refreshToken, 'refresh')
+  ]);
+  res.clearCookie('jwt');
   res.json({ success: true, message: AUTH_SUCCESS.logout });
 });
 
@@ -70,8 +86,8 @@ export const resetPassword = controllerCatch(async (req: Req, res: Res) => {
   assertHasUser(req);
   const token = req.headers.authorization?.split(' ')[1] ?? '';
   await tokenService.deleteToken(token, 'reset');
-  const { email } = req.user.account;
+  const user = req.user;
   const password: string = req.body.password;
-  await authService.resetPassword(password, email);
+  await authService.resetPassword(user, password);
   res.status(200).json({ success: true, message: AUTH_SUCCESS.resetPassword });
 });
