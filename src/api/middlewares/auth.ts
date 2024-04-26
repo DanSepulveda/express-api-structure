@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/return-await */
+import passport from 'passport';
+import httpError from 'http-errors';
+import { TOKEN_ERROR } from '@api/responseMessages';
+import type { TokenBody } from 'jsonwebtoken';
 import type { Next, Req, Res } from '@api/commonInterfaces';
 import type { UserDoc } from '@api/components/user/interfaces';
-import createHttpError from 'http-errors';
-import type { TokenBody } from 'jsonwebtoken';
-import passport from 'passport';
 
 const checkPermission =
   (
@@ -14,23 +14,26 @@ const checkPermission =
   ) =>
   async (
     err: Error,
-    data: { user: UserDoc; token: TokenBody },
+    data: { user: UserDoc; token: TokenBody } | false,
     info: string
   ) => {
-    if (err !== null || data.user === null || Boolean(info)) {
-      reject(createHttpError.Unauthorized());
+    if (err !== null || data === false || Boolean(info)) {
+      reject(httpError.Unauthorized());
+      return;
     }
-    if (data.token.type !== permission) {
-      reject(createHttpError(400, 'token not valid'));
-    }
-    req.user = data.user;
 
+    // TODO: check user permission and validate with auth middleware permission
+    if (data.token.type !== permission) {
+      reject(httpError(400, TOKEN_ERROR.invalid));
+      return;
+    }
+
+    req.user = data.user;
     resolve();
   };
 
 export const auth =
-  (permission: string = '') =>
-  async (req: Req, res: Res, next: Next) =>
+  (permission: string) => async (req: Req, res: Res, next: Next) => {
     new Promise<void>((resolve, reject) => {
       passport.authenticate(
         'jwt',
@@ -39,12 +42,11 @@ export const auth =
       )(req, res, next);
     })
       .then(() => {
-        console.log('llego al then');
         next();
       })
       .catch((err) => {
-        console.log('llego al catch');
         next(err);
       });
+  };
 
 export default auth;
