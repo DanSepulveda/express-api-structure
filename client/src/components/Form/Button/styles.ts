@@ -1,4 +1,4 @@
-export const buttonStyles = {
+const buttonStyles = {
   base: 'shadow focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all',
   color: {
     primary: {
@@ -51,3 +51,5 @@ export const buttonStyles = {
     none: 'rounded-none',
   },
 }
+
+export default buttonStyles

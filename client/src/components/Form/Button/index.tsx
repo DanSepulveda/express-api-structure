@@ -1,20 +1,19 @@
 import type { ButtonHTMLAttributes } from 'react'
-import type { ColorVariants, Sizes } from '@components/interfaces'
+import type { ColorProp, SizeProp } from '@components/interfaces'
 import classNames from 'classnames'
-import { buttonStyles } from './styles'
+import buttonStyles from './styles'
 
-// TODO: add icon feature
-
+// TODO: icon button feature
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: string
-  color?: ColorVariants
+  color?: ColorProp
   variant?: 'contained' | 'outlined'
-  size?: Sizes
+  size?: SizeProp
   radius?: 'none' | 'normal' | 'full'
   fullWidth?: boolean
 }
 
-export const Button = ({
+const Button = ({
   children,
   color = 'primary',
   variant = 'contained',
@@ -22,6 +21,7 @@ export const Button = ({
   radius = 'normal',
   fullWidth = false,
   type = 'submit',
+  className,
   ...rest
 }: ButtonProps) => {
   return (
@@ -33,6 +33,7 @@ export const Button = ({
         buttonStyles.radius[radius],
         buttonStyles.color[color][variant],
         { 'w-full': fullWidth },
+        className,
       )}
       {...rest}
     >
@@ -40,3 +41,5 @@ export const Button = ({
     </button>
   )
 }
+
+export default Button
