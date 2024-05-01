@@ -3,14 +3,14 @@ import type { ColorProp, SizeProp } from '@components/interfaces'
 import classNames from 'classnames'
 import buttonStyles from './styles'
 
-// TODO: icon button feature
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  children: string
   color?: ColorProp
   variant?: 'contained' | 'outlined'
   size?: SizeProp
   radius?: 'none' | 'normal' | 'full'
   fullWidth?: boolean
+  leftIcon?: JSX.Element
+  rightIcon?: JSX.Element
 }
 
 const Button = ({
@@ -20,6 +20,8 @@ const Button = ({
   size = 'md',
   radius = 'normal',
   fullWidth = false,
+  leftIcon,
+  rightIcon,
   type = 'submit',
   className,
   ...rest
@@ -37,7 +39,11 @@ const Button = ({
       )}
       {...rest}
     >
-      {children}
+      <div className="flex items-center justify-center gap-2">
+        {leftIcon ? leftIcon : null}
+        {children}
+        {rightIcon ? rightIcon : null}
+      </div>
     </button>
   )
 }
