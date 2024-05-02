@@ -1,28 +1,34 @@
-import type { ButtonHTMLAttributes } from 'react'
-import type { ColorProp, SizeProp } from '@components/interfaces'
+import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type {
+  ButtonVariantProp,
+  ColorProp,
+  RadiusProp,
+  SizeProp,
+} from '@components/interfaces'
 import classNames from 'classnames'
 import buttonStyles from './styles'
+import { BUTTON_DEFAULTS } from '@components/defaults'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: ColorProp
-  variant?: 'contained' | 'outlined'
+  variant?: ButtonVariantProp
   size?: SizeProp
-  radius?: 'none' | 'normal' | 'full'
+  radius?: RadiusProp
   fullWidth?: boolean
-  leftIcon?: JSX.Element
-  rightIcon?: JSX.Element
+  leftIcon?: ReactNode
+  rightIcon?: ReactNode
 }
 
 const Button = ({
   children,
-  color = 'primary',
-  variant = 'contained',
-  size = 'md',
-  radius = 'normal',
-  fullWidth = false,
+  color = BUTTON_DEFAULTS.color,
+  variant = BUTTON_DEFAULTS.variant,
+  size = BUTTON_DEFAULTS.size,
+  radius = BUTTON_DEFAULTS.radius,
+  fullWidth = BUTTON_DEFAULTS.fullWidth,
   leftIcon,
   rightIcon,
-  type = 'submit',
+  type = BUTTON_DEFAULTS.type,
   className,
   ...props
 }: ButtonProps) => {
