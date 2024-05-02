@@ -24,7 +24,7 @@ const Button = ({
   rightIcon,
   type = 'submit',
   className,
-  ...rest
+  ...props
 }: ButtonProps) => {
   return (
     <button
@@ -37,7 +37,7 @@ const Button = ({
         { 'w-full': fullWidth },
         className,
       )}
-      {...rest}
+      {...props}
     >
       <div className="flex items-center justify-center gap-2">
         {leftIcon ? leftIcon : null}
