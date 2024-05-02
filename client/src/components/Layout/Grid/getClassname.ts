@@ -1,11 +1,6 @@
-const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl'] as const
-type Breakpoint = (typeof breakpoints)[number]
+import { Breakpoint, ColsProp } from '@components/interfaces'
 
-export type Cols = {
-  [Key in (typeof breakpoints)[number]]?: number
-}
-
-const colsToClassname = (columns: Cols) => {
+const colsToClassname = (columns: ColsProp) => {
   const breakpoints: Breakpoint[] = ['xs', 'sm', 'md', 'lg', 'xl']
 
   const className = breakpoints

@@ -1,38 +1,35 @@
-import type { HTMLContainerTags } from '@components/interfaces'
+import type { ColsProp, HTMLContainerTags } from '@components/interfaces'
 import {
   type HTMLAttributes,
   createContext,
   createElement,
   useContext,
 } from 'react'
-import colsToClassname, { type Cols } from './getClassname'
+import colsToClassname from './getClassname'
 import classNames from 'classnames'
+import { GRID_DEFAULTS } from '@components/defaults'
 
-export interface GridContainerProps extends HTMLAttributes<HTMLDivElement> {
-  children: JSX.Element | JSX.Element[]
+interface GridProps extends HTMLAttributes<HTMLDivElement> {
   as?: HTMLContainerTags
-  cols?: Cols
-}
-
-export interface GridItemProps extends HTMLAttributes<HTMLDivElement> {
-  children: string | JSX.Element | JSX.Element[]
-  as?: HTMLContainerTags
-  cols?: Cols
+  cols?: ColsProp
 }
 
 const ContainerContext = createContext({})
 
 export const GridContainer = ({
   children,
-  as = 'div',
-  cols = { xs: 12, sm: 6, md: 4, lg: 3, xl: 2 },
-}: GridContainerProps) => {
+  as = GRID_DEFAULTS.containerElement,
+  cols = GRID_DEFAULTS.cols,
+  className,
+  ...props
+}: GridProps) => {
   return (
     <ContainerContext.Provider value={{ ...cols }}>
       {createElement(
         as,
         {
-          className: 'grid grid-cols-12 gap-10',
+          className: classNames('grid grid-cols-12 max-w-full', className),
+          ...props,
         },
         children,
       )}
@@ -42,11 +39,11 @@ export const GridContainer = ({
 
 export const GridItem = ({
   children,
+  as = GRID_DEFAULTS.itemElement,
   cols,
-  as = 'div',
   className,
-  ...rest
-}: GridItemProps) => {
+  ...props
+}: GridProps) => {
   const contextCols = useContext(ContainerContext)
   const selectedCols = cols ?? contextCols
   const colsClasses = colsToClassname(selectedCols)
@@ -55,7 +52,7 @@ export const GridItem = ({
     as,
     {
       className: classNames(colsClasses, className),
-      ...rest,
+      ...props,
     },
     children,
   )
