@@ -3,7 +3,7 @@ import type { ColorProp, SizeProp } from '@components/interfaces'
 import classNames from 'classnames'
 import buttonStyles from './styles'
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: ColorProp
   variant?: 'contained' | 'outlined'
   size?: SizeProp
