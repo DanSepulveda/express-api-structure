@@ -1,19 +1,24 @@
-import type { ColorProp, HTMLHeadingTags } from '@components/interfaces'
+import type {
+  AlignProp,
+  ColorProp,
+  HTMLHeadingTags,
+} from '@components/interfaces'
 import { type HTMLAttributes, createElement } from 'react'
 import classNames from 'classnames'
 import headingStyles from './styles'
+import { HEADING_DEFAULTS } from '@components/defaults'
 
 interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
   as?: HTMLHeadingTags
-  align?: 'left' | 'center' | 'right'
+  align?: AlignProp
   color?: ColorProp
 }
 
 const Heading = ({
   children,
-  as = 'h1',
-  align = 'left',
-  color = 'primary',
+  as = HEADING_DEFAULTS.element,
+  align = HEADING_DEFAULTS.align,
+  color = HEADING_DEFAULTS.color,
   className,
   ...props
 }: HeadingProps) => {
