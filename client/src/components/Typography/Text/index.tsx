@@ -5,11 +5,11 @@ interface TextProps extends HTMLAttributes<HTMLParagraphElement> {
   as?: HTMLTextTags
 }
 
-const Text = ({ as = 'p', children, ...rest }: TextProps) => {
+const Text = ({ as = 'p', children, ...props }: TextProps) => {
   return createElement(
     as,
     {
-      ...rest,
+      ...props,
     },
     children,
   )

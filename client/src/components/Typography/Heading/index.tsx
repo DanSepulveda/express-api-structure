@@ -3,7 +3,7 @@ import { type HTMLAttributes, createElement } from 'react'
 import classNames from 'classnames'
 import headingStyles from './styles'
 
-export interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
+interface HeadingProps extends HTMLAttributes<HTMLHeadingElement> {
   as?: HTMLHeadingTags
   align?: 'left' | 'center' | 'right'
   color?: ColorProp
@@ -15,7 +15,7 @@ const Heading = ({
   align = 'left',
   color = 'primary',
   className,
-  ...rest
+  ...props
 }: HeadingProps) => {
   return createElement(
     as,
@@ -27,7 +27,7 @@ const Heading = ({
         headingStyles.color[color],
         className,
       ),
-      ...rest,
+      ...props,
     },
     children,
   )
