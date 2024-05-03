@@ -1,8 +1,7 @@
 import type { FormHTMLAttributes } from 'react'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm } from 'react-hook-form'
-import FormContext from './context'
+import { useForm, FormProvider } from 'react-hook-form'
 import classNames from 'classnames'
 import formStyles from './styles'
 
@@ -20,25 +19,22 @@ export const Form = ({
   className,
   ...props
 }: FormProps) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
+  const methods = useForm({
     defaultValues,
     resolver: yupResolver(schema),
   })
 
   return (
-    <form
-      className={classNames(formStyles.form, className)}
-      onSubmit={handleSubmit(onSubmit)}
-      {...props}
-    >
-      <FormContext.Provider value={{ errors, register }}>
+    <FormProvider {...methods}>
+      <form
+        className={classNames(formStyles.form, className)}
+        onSubmit={methods.handleSubmit(onSubmit)}
+        noValidate
+        {...props}
+      >
         {children}
-      </FormContext.Provider>
-    </form>
+      </form>
+    </FormProvider>
   )
 }
 
