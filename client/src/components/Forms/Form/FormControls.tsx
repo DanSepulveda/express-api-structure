@@ -1,20 +1,13 @@
-import type { HTMLAttributes } from 'react'
-import classNames from 'classnames'
-import formStyles from './styles'
+import Stack, { StackProps } from '@components/Layout/Stack'
 
-interface FormControlsProps extends HTMLAttributes<HTMLDivElement> {}
+const withWrapper = (Component: typeof Stack) => (props: StackProps) => (
+  <Component
+    {...props}
+    direction="row"
+    justify="end"
+    align="center"
+    className="gap-3"
+  />
+)
 
-export const FormControls = ({
-  children,
-  className,
-  ...props
-}: FormControlsProps) => {
-  return (
-    <div
-      className={classNames(formStyles.formControls, className)}
-      {...props}
-    >
-      {children}
-    </div>
-  )
-}
+export const FormControls = withWrapper(Stack)

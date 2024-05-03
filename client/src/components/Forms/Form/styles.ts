@@ -1,9 +1,9 @@
 const formStyles = {
-  form: 'w-full space-y-4',
-  formControls: 'flex-end flex gap-4',
+  form: 'w-full space-y-5',
   formElements: {
     fieldset: '',
-    legend: 'font-heading mb-1.5 text-gray-800',
+    legend:
+      'font-heading font-medium mb-1.5 text-gray-700 text-lg w-full border-b-2',
   },
 }
 
