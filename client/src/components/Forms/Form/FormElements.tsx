@@ -1,10 +1,13 @@
 import type { HTMLAttributes } from 'react'
+import type { ColsProp } from '@components/interfaces'
 import classNames from 'classnames'
 import formStyles from './styles'
+import { GridContainer } from '@components/Layout/Grid'
 
 interface FormElementsProps extends HTMLAttributes<HTMLFieldSetElement> {
   legend?: string
   legendClassname?: string
+  cols?: ColsProp
 }
 
 export const FormElements = ({
@@ -12,6 +15,7 @@ export const FormElements = ({
   className,
   legend,
   legendClassname,
+  cols,
   ...props
 }: FormElementsProps) => {
   return (
@@ -29,7 +33,12 @@ export const FormElements = ({
           {legend}
         </legend>
       ) : null}
-      {children}
+      <GridContainer
+        cols={cols}
+        className="gap-5"
+      >
+        {children}
+      </GridContainer>
     </fieldset>
   )
 }
