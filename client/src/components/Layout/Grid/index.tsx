@@ -7,24 +7,24 @@ import {
 } from 'react'
 import colsToClassname from './getClassname'
 import classNames from 'classnames'
-import { GRID_DEFAULTS } from '@components/defaults'
+import { DEFAULT_ELEMENT, DEFAULT_GRID_LAYOUT } from '@components/defaults'
 
 interface GridProps extends HTMLAttributes<HTMLDivElement> {
   as?: HTMLContainerTags
   cols?: ColsProp
 }
 
-const ContainerContext = createContext({})
+const GridContext = createContext({})
 
 export const GridContainer = ({
   children,
-  as = GRID_DEFAULTS.containerElement,
-  cols = GRID_DEFAULTS.cols,
+  as = DEFAULT_ELEMENT.gridContainer,
+  cols = DEFAULT_GRID_LAYOUT,
   className,
   ...props
 }: GridProps) => {
   return (
-    <ContainerContext.Provider value={{ ...cols }}>
+    <GridContext.Provider value={{ ...cols }}>
       {createElement(
         as,
         {
@@ -33,19 +33,19 @@ export const GridContainer = ({
         },
         children,
       )}
-    </ContainerContext.Provider>
+    </GridContext.Provider>
   )
 }
 
 export const GridItem = ({
   children,
-  as = GRID_DEFAULTS.itemElement,
+  as = DEFAULT_ELEMENT.gridItem,
   cols,
   className,
   ...props
 }: GridProps) => {
-  const contextCols = useContext(ContainerContext)
-  const selectedCols = cols ?? contextCols
+  const containerCols = useContext(GridContext)
+  const selectedCols = cols ?? containerCols
   const colsClasses = colsToClassname(selectedCols)
 
   return createElement(
