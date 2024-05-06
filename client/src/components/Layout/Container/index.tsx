@@ -1,27 +1,32 @@
+import { DEFAULT_ELEMENT } from '@components/defaults'
 import type { HTMLContainerTags } from '@components/interfaces'
+import { useThemeContext } from '@utils/useThemeContext'
 import { type HTMLAttributes, createElement } from 'react'
-import classNames from 'classnames'
-import { CONTAINER_DEFAULTS } from '@components/defaults'
+import { twMerge } from 'tailwind-merge'
 
-interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
+interface ContainerProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
   as?: HTMLContainerTags
-  responsive?: boolean
+  variant?: string
+  tw?: string
 }
 
 const Container = ({
   children,
-  as = CONTAINER_DEFAULTS.element,
-  responsive = CONTAINER_DEFAULTS.responsive,
-  className,
+  as = DEFAULT_ELEMENT.container,
+  variant = 'default',
+  tw,
   ...props
 }: ContainerProps) => {
+  const { sxContainer } = useThemeContext()
+
   return createElement(
     as,
     {
-      className: classNames(
-        { 'w-full': !responsive },
-        { 'container mx-auto': responsive },
-        className,
+      className: twMerge(
+        sxContainer.base,
+        sxContainer.variants[variant] ?? sxContainer.variants.default,
+        tw,
       ),
       ...props,
     },
