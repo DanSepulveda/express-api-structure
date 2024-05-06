@@ -6,13 +6,10 @@ import Text from '@components/Typography/Text'
 
 const Dashboard = () => {
   return (
-    <Container className="bg-secondary-200">
-      <Stack
-        direction="col"
-        className="min-h-svh gap-5"
-      >
+    <Container tw="bg-secondary-200">
+      <Stack tw="flex-col min-h-svh gap-5">
         <Heading color="secondary">Dashboard page</Heading>
-        <Text className="text-lg">This is a protected route</Text>
+        <Text tw="text-lg">This is a protected route</Text>
         <Button>Logout</Button>
       </Stack>
     </Container>
