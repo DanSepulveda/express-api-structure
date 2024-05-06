@@ -1,49 +1,41 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
-import type {
-  ButtonVariantProp,
-  ColorProp,
-  RadiusProp,
-  SizeProp,
-} from '@components/interfaces'
-import classNames from 'classnames'
-import buttonStyles from './styles'
-import { BUTTON_DEFAULTS } from '@components/defaults'
+import { useFormContext } from 'react-hook-form'
+import getDisabledStatus from './getDisabledStatus'
+import { useThemeContext } from '@utils/useThemeContext'
+import { twMerge } from 'tailwind-merge'
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: ColorProp
-  variant?: ButtonVariantProp
-  size?: SizeProp
-  radius?: RadiusProp
-  fullWidth?: boolean
+interface ButtonProps
+  extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
   leftIcon?: ReactNode
   rightIcon?: ReactNode
+  variant?: string
+  tw?: string
 }
 
 const Button = ({
   children,
-  color = BUTTON_DEFAULTS.color,
-  variant = BUTTON_DEFAULTS.variant,
-  size = BUTTON_DEFAULTS.size,
-  radius = BUTTON_DEFAULTS.radius,
-  fullWidth = BUTTON_DEFAULTS.fullWidth,
+  type = 'submit',
+  disabled = false,
+  tw,
   leftIcon,
   rightIcon,
-  type = BUTTON_DEFAULTS.type,
-  className,
+  variant = 'default',
   ...props
 }: ButtonProps) => {
+  const { sxButton } = useThemeContext()
+  const formContext = useFormContext()
+  const disabledStatus = getDisabledStatus(formContext, disabled)
+
   return (
     <button
-      type={type}
-      className={classNames(
-        buttonStyles.base,
-        buttonStyles.size[size],
-        buttonStyles.radius[radius],
-        buttonStyles.color[color][variant],
-        { 'w-full': fullWidth },
-        className,
-      )}
       {...props}
+      type={type}
+      disabled={disabledStatus}
+      className={twMerge(
+        sxButton.base,
+        sxButton.variants[variant] ?? sxButton.variants.default,
+        tw,
+      )}
     >
       <div className="flex items-center justify-center gap-2">
         {leftIcon ? leftIcon : null}
