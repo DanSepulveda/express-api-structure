@@ -39,7 +39,7 @@ const LoginForm = () => {
         />
       </FormElements>
       <FormControls>
-        <Button fullWidth>Log in</Button>
+        <Button tw="w-full">Log in</Button>
       </FormControls>
     </Form>
   )

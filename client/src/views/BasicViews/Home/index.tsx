@@ -6,13 +6,10 @@ import { Link } from 'react-router-dom'
 
 const Home = () => {
   return (
-    <Container className="bg-secondary-200">
-      <Stack
-        direction="col"
-        className="min-h-svh gap-5"
-      >
-        <Heading color="secondary">Welcome to My Website</Heading>
-        <Text className="text-lg">
+    <Container tw="bg-secondary-200">
+      <Stack tw="flex-col min-h-svh gap-5">
+        <Heading tw="text-primary-600">Welcome to My Website</Heading>
+        <Text tw="text-lg">
           This is a basic home page using React and Tailwind CSS.
         </Text>
         <Link

@@ -39,7 +39,7 @@ const SignupForm = () => {
         />
       </FormElements>
       <FormControls>
-        <Button fullWidth>Create account</Button>
+        <Button tw="w-full">Create account</Button>
       </FormControls>
     </Form>
   )

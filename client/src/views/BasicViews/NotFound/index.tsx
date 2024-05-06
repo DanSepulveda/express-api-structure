@@ -5,12 +5,9 @@ import { Link } from 'react-router-dom'
 
 const NotFound = () => {
   return (
-    <Container className="bg-secondary-200">
-      <Stack
-        direction="col"
-        className="min-h-svh gap-5"
-      >
-        <Heading>Page not found!</Heading>
+    <Container tw="bg-secondary-200">
+      <Stack tw="flex-col min-h-svh gap-5">
+        <Heading tw="text-primary-600">Page not found!</Heading>
         <Link
           to="/"
           className="hover:underline"
