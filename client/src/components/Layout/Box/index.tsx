@@ -1,28 +1,31 @@
 import type { HTMLContainerTags } from '@components/interfaces'
 import { type HTMLAttributes, createElement } from 'react'
-import classNames from 'classnames'
-import { BOX_DEFAULTS } from '@components/defaults'
+import { DEFAULT_ELEMENT } from '@components/defaults'
+import { twMerge } from 'tailwind-merge'
+import { useThemeContext } from '@utils/useThemeContext'
 
-interface BoxProps extends HTMLAttributes<HTMLDivElement> {
+interface BoxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
   as?: HTMLContainerTags
-  blank?: boolean
+  variant?: string
+  tw?: string
 }
 
 const Box = ({
-  as = BOX_DEFAULTS.element,
-  blank = BOX_DEFAULTS.blank,
-  className,
+  as = DEFAULT_ELEMENT.box,
+  variant = 'default',
+  tw,
   children,
   ...props
 }: BoxProps) => {
+  const { sxBox } = useThemeContext()
+
   return createElement(
     as,
     {
-      className: classNames(
-        {
-          'bg-white px-4 py-10 shadow-md rounded-lg sm:px-10 max-w-max': !blank,
-        },
-        className,
+      className: twMerge(
+        sxBox.base,
+        sxBox.variants[variant] ?? sxBox.variants.default,
+        tw,
       ),
       ...props,
     },

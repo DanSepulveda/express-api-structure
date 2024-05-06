@@ -1,50 +1,43 @@
-import type { ColorProp, InputTypeProp } from '@components/interfaces'
+import type { ColsProp, InputTypeProp } from '@components/interfaces'
 import { type InputHTMLAttributes } from 'react'
 import { FieldErrors, useFormContext } from 'react-hook-form'
 import { IoInformationCircleSharp } from 'react-icons/io5'
-import classNames from 'classnames'
-import inputStyles from './styles'
 import Text from '@components/Typography/Text'
 import { GridItem } from '@components/Layout/Grid'
-import { INPUT_DEFAULTS } from '@components/defaults'
+import { DEFAULT_INPUT_TYPE } from '@components/defaults'
+import { twMerge } from 'tailwind-merge'
+import { useThemeContext } from '@utils/useThemeContext'
 
 interface LabelProps {
   label: string
   decorator?: string
-  labelClass?: string
-  decoratorClass?: string
+  twLabel?: string
+  twDecorator?: string
 }
 
 interface InputProps
   extends LabelProps,
-    Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+    Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className'> {
   type: InputTypeProp
   name: string
-  color?: Exclude<ColorProp, 'error'>
-  errorClass?: string
+  variant?: string
+  twInputSuccess?: string
+  twInputError?: string
+  twError?: string
+  cols?: ColsProp
 }
 
-const InputLabel = ({
-  label,
-  decorator,
-  labelClass,
-  decoratorClass,
-}: LabelProps) => {
-  const decoratorStyle = decorator === '*' ? 'required' : 'info'
-
+const InputLabel = ({ label, decorator, twLabel, twDecorator }: LabelProps) => {
   return (
     <Text
       as="span"
-      className={classNames(inputStyles.label.base, labelClass)}
+      tw={twLabel}
     >
       {label}
       {decorator ? (
         <Text
           as="span"
-          className={classNames(
-            inputStyles.label.decorator[decoratorStyle],
-            decoratorClass,
-          )}
+          tw={twDecorator}
         >
           {' ' + decorator}
         </Text>
@@ -55,20 +48,17 @@ const InputLabel = ({
 
 const InputError = ({
   error,
-  errorClass,
+  twError,
 }: {
   error: string | FieldErrors[0]
-  errorClass: string | undefined
+  twError: string | undefined
 }) => {
   return (
     <div>
       {error ? (
         <Text
           as="strong"
-          className={classNames(
-            { [inputStyles.errorText]: !errorClass },
-            errorClass,
-          )}
+          tw={twError}
         >
           <IoInformationCircleSharp className="mb-0.5 me-1 inline" />
           {error ? error.toString() : null}
@@ -80,45 +70,53 @@ const InputError = ({
 
 const Input = ({
   name,
+  type = DEFAULT_INPUT_TYPE,
+  variant = 'default',
   label,
-  type = INPUT_DEFAULTS.type,
-  color = INPUT_DEFAULTS.color,
   decorator,
-  labelClass,
-  decoratorClass,
-  errorClass,
+  twInputSuccess,
+  twInputError,
+  twLabel,
+  twDecorator,
+  twError,
+  cols,
   ...props
 }: InputProps) => {
   const { register, formState } = useFormContext()
   const { errors } = formState
   const error = errors[name]?.message
+  const { sxInput } = useThemeContext()
+  const selectedStyles = sxInput.variants[variant] ?? sxInput.variants.default
 
   return (
-    <GridItem>
+    <GridItem cols={cols}>
       <label htmlFor={name}>
         <InputLabel
           label={label}
           decorator={decorator}
-          labelClass={labelClass}
-          decoratorClass={decoratorClass}
+          twLabel={twMerge(selectedStyles.label, twLabel)}
+          twDecorator={twMerge(
+            decorator === '*'
+              ? selectedStyles.decorator.required
+              : selectedStyles.decorator.info,
+            twDecorator,
+          )}
         />
         <input
           id={name}
           type={type}
           autoComplete={name}
-          className={classNames(
-            inputStyles.input.base,
-            { [inputStyles.input.color[color]]: !error },
-            {
-              [inputStyles.input.error]: !!error,
-            },
+          className={twMerge(
+            sxInput.base,
+            error ? selectedStyles.onInputError : selectedStyles.onInputSuccess,
+            error ? twInputError : twInputSuccess,
           )}
           {...props}
           {...register(name)}
         />
         <InputError
           error={error}
-          errorClass={errorClass}
+          twError={twMerge(selectedStyles.error, twError)}
         />
       </label>
     </GridItem>

@@ -1,13 +1,22 @@
-import Stack, { StackProps } from '@components/Layout/Stack'
+import Stack from '@components/Layout/Stack'
+import { useThemeContext } from '@utils/useThemeContext'
+import type { HTMLAttributes } from 'react'
+import { twMerge } from 'tailwind-merge'
 
-const withWrapper = (Component: typeof Stack) => (props: StackProps) => (
-  <Component
-    {...props}
-    direction="row"
-    justify="end"
-    align="center"
-    className="gap-3"
-  />
-)
+interface FormControlsProp
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
+  tw?: string
+}
 
-export const FormControls = withWrapper(Stack)
+export const FormControls = ({ children, tw, ...props }: FormControlsProp) => {
+  const { sxForm } = useThemeContext()
+
+  return (
+    <Stack
+      tw={twMerge(sxForm.controls, tw)}
+      {...props}
+    >
+      {children}
+    </Stack>
+  )
+}
