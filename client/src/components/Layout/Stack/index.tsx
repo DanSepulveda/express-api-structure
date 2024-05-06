@@ -1,38 +1,32 @@
-import type {
-  FlexAlignProp,
-  FlexDirectionProp,
-  FlexJustifyProp,
-  HTMLContainerTags,
-} from '@components/interfaces'
+import type { HTMLContainerTags } from '@components/interfaces'
 import { type HTMLAttributes, createElement } from 'react'
-import classNames from 'classnames'
-import { STACK_DEFAULTS } from '@components/defaults'
+import { DEFAULT_ELEMENT } from '@components/defaults'
+import { twMerge } from 'tailwind-merge'
+import { useThemeContext } from '@utils/useThemeContext'
 
-export interface StackProps extends HTMLAttributes<HTMLDivElement> {
+export interface StackProps
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
   as?: HTMLContainerTags
-  direction?: FlexDirectionProp
-  justify?: FlexJustifyProp
-  align?: FlexAlignProp
+  variant?: string
+  tw?: string
 }
 
 const Stack = ({
   children,
-  className,
-  as = STACK_DEFAULTS.element,
-  direction = STACK_DEFAULTS.direction,
-  justify = STACK_DEFAULTS.justify,
-  align = STACK_DEFAULTS.align,
+  as = DEFAULT_ELEMENT.stack,
+  variant = 'default',
+  tw,
   ...props
 }: StackProps) => {
+  const { sxStack } = useThemeContext()
+
   return createElement(
     as,
     {
-      className: classNames(
-        'w-full flex',
-        { [`flex-${direction}`]: true },
-        { [`justify-${justify}`]: true },
-        { [`items-${align}`]: true },
-        className,
+      className: twMerge(
+        sxStack.base,
+        sxStack.variants[variant] ?? sxStack.variants.default,
+        tw,
       ),
       ...props,
     },
