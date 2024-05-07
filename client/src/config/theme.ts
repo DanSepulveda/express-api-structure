@@ -83,6 +83,13 @@ const theme = createTheme({
     grid: 'gap-5',
     controls: 'justify-end gap-3',
   },
+  sxLink: {
+    variants: {
+      default: 'text-link hover:underline',
+      button:
+        'rounded-normal bg-primary-600 px-5 py-2 text-white transition-all hover:bg-primary-700',
+    },
+  },
 })
 
 export default theme

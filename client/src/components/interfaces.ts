@@ -26,6 +26,7 @@ export type HTMLTextTags = (typeof htmlTags.text)[number]
 
 // Components Props
 export type InputTypeProp = (typeof inputTypes)[number]
+export type LinkTypeProp = 'link' | 'navlink' | 'external'
 export type ColsProp = {
   [Key in (typeof breakpoints)[number]]?: number
 }
