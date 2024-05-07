@@ -3,6 +3,7 @@ import Button from '@components/Forms/Button'
 import { Form, FormControls, FormElements } from '@components/Forms/Form'
 import Input from '@components/Forms/Input'
 import yupErrors from '@config/yupErrors'
+import { useSignupMutation } from '@redux/user/userSlice'
 
 const schema = Yup.object({
   email: Yup.string().email(yupErrors.email).required(yupErrors.required),
@@ -16,8 +17,12 @@ const defaultValues = {
 }
 
 const SignupForm = () => {
+  const [signup, lala] = useSignupMutation()
+  console.log(lala)
+
   const onSubmit = async (fields: Fields) => {
-    console.log(fields)
+    const lalo = await signup(fields)
+    console.log(lalo)
   }
 
   return (
@@ -39,7 +44,12 @@ const SignupForm = () => {
         />
       </FormElements>
       <FormControls>
-        <Button tw="w-full">Create account</Button>
+        <Button
+          tw="w-full"
+          disabled={lala.isLoading}
+        >
+          Create account
+        </Button>
       </FormControls>
     </Form>
   )

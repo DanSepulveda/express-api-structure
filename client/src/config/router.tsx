@@ -5,6 +5,7 @@ import Login from '@views/BasicViews/Login'
 import Signup from '@views/BasicViews/Signup'
 import Dashboard from '@views/Dashboard/Dashboard'
 import NotFound from '@views/BasicViews/NotFound'
+import Layout from '@views/Layouts'
 
 const routes = [
   {
@@ -30,17 +31,23 @@ const routes = [
 ]
 
 const router = createBrowserRouter([
-  ...routes.map((route) => ({
-    path: route.path,
-    element: (
-      <ProtectedRoute permission={route.permission}>
-        {route.element}
-      </ProtectedRoute>
-    ),
-  })),
   {
-    path: '*',
-    element: <NotFound />,
+    path: '/',
+    element: <Layout />,
+    children: [
+      ...routes.map((route) => ({
+        path: route.path,
+        element: (
+          <ProtectedRoute permission={route.permission}>
+            {route.element}
+          </ProtectedRoute>
+        ),
+      })),
+      {
+        path: '*',
+        element: <NotFound />,
+      },
+    ],
   },
 ])
 
