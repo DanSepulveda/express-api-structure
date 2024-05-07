@@ -1,25 +1,24 @@
-import Container from '@components/Layout/Container'
 import Stack from '@components/Layout/Stack'
+import Link from '@components/Link'
 import Heading from '@components/Typography/Heading'
 import Text from '@components/Typography/Text'
-import { Link } from 'react-router-dom'
+import usePageTitle from '@hooks/usePageTitle'
 
 const Home = () => {
+  usePageTitle('Home')
   return (
-    <Container tw="bg-secondary-200">
-      <Stack tw="flex-col min-h-svh gap-5">
-        <Heading tw="text-primary-600">Welcome to My Website</Heading>
-        <Text tw="text-lg">
-          This is a basic home page using React and Tailwind CSS.
-        </Text>
-        <Link
-          to="/signup"
-          className="rounded bg-primary-600 px-4 py-2 text-white hover:bg-primary-700"
-        >
-          Get Started
-        </Link>
-      </Stack>
-    </Container>
+    <Stack tw="flex-col min-h-svh gap-10 sm:gap-5 bg-primary-100">
+      <Heading tw="text-primary-700 text-center">Welcome to My Website</Heading>
+      <Text tw="text-lg text-center">
+        This is a basic home page using React and Tailwind CSS.
+      </Text>
+      <Link
+        variant="button"
+        to="/signup"
+      >
+        Get Started
+      </Link>
+    </Stack>
   )
 }
 
