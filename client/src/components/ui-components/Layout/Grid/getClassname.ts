@@ -1,4 +1,4 @@
-import type { Breakpoint, ColsProp } from '@components/interfaces'
+import type { Breakpoint, ColsProp } from '@components/ui-components/interfaces'
 
 const colsToClassname = (columns: ColsProp) => {
   const breakpoints: Breakpoint[] = ['xs', 'sm', 'md', 'lg', 'xl']

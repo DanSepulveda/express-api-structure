@@ -1,4 +1,7 @@
-import type { ColsProp, HTMLContainerTags } from '@components/interfaces'
+import type {
+  ColsProp,
+  HTMLContainerTags,
+} from '@components/ui-components/interfaces'
 import {
   type HTMLAttributes,
   createContext,
@@ -6,7 +9,10 @@ import {
   useContext,
 } from 'react'
 import colsToClassname from './getClassname'
-import { DEFAULT_ELEMENT, DEFAULT_GRID_LAYOUT } from '@components/defaults'
+import {
+  DEFAULT_ELEMENT,
+  DEFAULT_GRID_LAYOUT,
+} from '@components/ui-components/defaults'
 import { twMerge } from 'tailwind-merge'
 import { useThemeContext } from '@utils/useThemeContext'
 
@@ -23,7 +29,7 @@ export const GridContainer = ({
   children,
   as = DEFAULT_ELEMENT.gridContainer,
   cols = DEFAULT_GRID_LAYOUT,
-  variant = 'default',
+  variant = 'twelve',
   tw,
   ...props
 }: GridProps) => {
@@ -34,13 +40,13 @@ export const GridContainer = ({
       {createElement(
         as,
         {
+          ...props,
           className: twMerge(
             sxGridContainer.base,
             sxGridContainer.variants[variant] ??
-              sxGridContainer.variants.default,
+              sxGridContainer.variants.twelve,
             tw,
           ),
-          ...props,
         },
         children,
       )}
@@ -64,13 +70,13 @@ export const GridItem = ({
   return createElement(
     as,
     {
+      ...props,
       className: twMerge(
         colsClasses,
         sxGridItem.base,
         sxGridItem.variants[variant] ?? sxGridItem.variants.default,
         tw,
       ),
-      ...props,
     },
     children,
   )

@@ -1,7 +1,7 @@
-import { DEFAULT_ELEMENT } from '@components/defaults'
-import type { HTMLContainerTags } from '@components/interfaces'
-import { useThemeContext } from '@utils/useThemeContext'
+import type { HTMLContainerTags } from '@components/ui-components/interfaces'
 import { type HTMLAttributes, createElement } from 'react'
+import { DEFAULT_ELEMENT } from '@components/ui-components/defaults'
+import { useThemeContext } from '@utils/useThemeContext'
 import { twMerge } from 'tailwind-merge'
 
 interface ContainerProps
@@ -14,7 +14,7 @@ interface ContainerProps
 const Container = ({
   children,
   as = DEFAULT_ELEMENT.container,
-  variant = 'default',
+  variant = 'full',
   tw,
   ...props
 }: ContainerProps) => {
@@ -23,12 +23,12 @@ const Container = ({
   return createElement(
     as,
     {
+      ...props,
       className: twMerge(
         sxContainer.base,
-        sxContainer.variants[variant] ?? sxContainer.variants.default,
+        sxContainer.variants[variant] ?? sxContainer.variants.full,
         tw,
       ),
-      ...props,
     },
     children,
   )

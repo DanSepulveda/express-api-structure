@@ -1,8 +1,8 @@
-import type { HTMLContainerTags } from '@components/interfaces'
+import type { HTMLContainerTags } from '@components/ui-components/interfaces'
 import { type HTMLAttributes, createElement } from 'react'
-import { DEFAULT_ELEMENT } from '@components/defaults'
-import { twMerge } from 'tailwind-merge'
+import { DEFAULT_ELEMENT } from '@components/ui-components/defaults'
 import { useThemeContext } from '@utils/useThemeContext'
+import { twMerge } from 'tailwind-merge'
 
 export interface StackProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
@@ -14,7 +14,7 @@ export interface StackProps
 const Stack = ({
   children,
   as = DEFAULT_ELEMENT.stack,
-  variant = 'default',
+  variant = 'row',
   tw,
   ...props
 }: StackProps) => {
@@ -23,12 +23,12 @@ const Stack = ({
   return createElement(
     as,
     {
+      ...props,
       className: twMerge(
         sxStack.base,
-        sxStack.variants[variant] ?? sxStack.variants.default,
+        sxStack.variants[variant] ?? sxStack.variants.row,
         tw,
       ),
-      ...props,
     },
     children,
   )

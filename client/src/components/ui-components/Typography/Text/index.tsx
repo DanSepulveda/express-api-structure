@@ -1,7 +1,7 @@
-import { DEFAULT_ELEMENT } from '@components/defaults'
-import type { HTMLTextTags } from '@components/interfaces'
-import { useThemeContext } from '@utils/useThemeContext'
+import type { HTMLTextTags } from '@components/ui-components/interfaces'
 import { type HTMLAttributes, createElement } from 'react'
+import { DEFAULT_ELEMENT } from '@components/ui-components/defaults'
+import { useThemeContext } from '@utils/useThemeContext'
 import { twMerge } from 'tailwind-merge'
 
 interface TextProps
@@ -14,20 +14,21 @@ interface TextProps
 const Text = ({
   children,
   as = DEFAULT_ELEMENT.text,
-  variant = 'default',
+  variant = 'normal',
   tw,
   ...props
 }: TextProps) => {
   const { sxText } = useThemeContext()
+
   return createElement(
     as,
     {
+      ...props,
       className: twMerge(
         sxText.base,
-        sxText.variants[variant] ?? sxText.variants.default,
+        sxText.variants[variant] ?? sxText.variants.normal,
         tw,
       ),
-      ...props,
     },
     children,
   )

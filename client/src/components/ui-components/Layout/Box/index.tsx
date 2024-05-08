@@ -1,8 +1,8 @@
-import type { HTMLContainerTags } from '@components/interfaces'
+import type { HTMLContainerTags } from '@components/ui-components/interfaces'
 import { type HTMLAttributes, createElement } from 'react'
-import { DEFAULT_ELEMENT } from '@components/defaults'
-import { twMerge } from 'tailwind-merge'
 import { useThemeContext } from '@utils/useThemeContext'
+import { DEFAULT_ELEMENT } from '@components/ui-components/defaults'
+import { twMerge } from 'tailwind-merge'
 
 interface BoxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
   as?: HTMLContainerTags
@@ -12,7 +12,7 @@ interface BoxProps extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
 
 const Box = ({
   as = DEFAULT_ELEMENT.box,
-  variant = 'default',
+  variant = 'white',
   tw,
   children,
   ...props
@@ -22,12 +22,12 @@ const Box = ({
   return createElement(
     as,
     {
+      ...props,
       className: twMerge(
         sxBox.base,
-        sxBox.variants[variant] ?? sxBox.variants.default,
+        sxBox.variants[variant] ?? sxBox.variants.white,
         tw,
       ),
-      ...props,
     },
     children,
   )

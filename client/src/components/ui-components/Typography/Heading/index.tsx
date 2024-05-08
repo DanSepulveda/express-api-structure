@@ -1,7 +1,7 @@
-import { DEFAULT_ELEMENT } from '@components/defaults'
-import type { HTMLHeadingTags } from '@components/interfaces'
-import { useThemeContext } from '@utils/useThemeContext'
+import type { HTMLHeadingTags } from '@components/ui-components/interfaces'
 import { type HTMLAttributes, createElement } from 'react'
+import { DEFAULT_ELEMENT } from '@components/ui-components/defaults'
+import { useThemeContext } from '@utils/useThemeContext'
 import { twMerge } from 'tailwind-merge'
 
 interface HeadingProps
@@ -14,20 +14,21 @@ interface HeadingProps
 const Heading = ({
   children,
   as = DEFAULT_ELEMENT.heading,
-  variant = 'default',
+  variant = 'title',
   tw,
   ...props
 }: HeadingProps) => {
   const { sxHeading } = useThemeContext()
+
   return createElement(
     as,
     {
+      ...props,
       className: twMerge(
         sxHeading.base,
-        sxHeading.variants[variant] ?? sxHeading.variants.default,
+        sxHeading.variants[variant] ?? sxHeading.variants.primary,
         tw,
       ),
-      ...props,
     },
     children,
   )
