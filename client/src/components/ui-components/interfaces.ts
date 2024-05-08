@@ -1,6 +1,17 @@
+import { UseFormReset } from 'react-hook-form'
+
 const htmlTags = {
   heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
-  container: ['div', 'header', 'footer', 'main', 'section', 'article', 'aside'],
+  container: [
+    'div',
+    'header',
+    'footer',
+    'main',
+    'section',
+    'article',
+    'aside',
+    'nav',
+  ],
   text: ['p', 'span', 'b', 'sup', 'sub', 'strong'],
 } as const
 
@@ -30,3 +41,9 @@ export type LinkTypeProp = 'link' | 'navlink' | 'external'
 export type ColsProp = {
   [Key in (typeof breakpoints)[number]]?: number
 }
+
+//
+export type ResetForm = UseFormReset<{
+  [x: string]: unknown
+  [x: number]: unknown
+}>

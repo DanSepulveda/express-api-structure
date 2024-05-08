@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form'
 import getDisabledStatus from './getDisabledStatus'
 import { useThemeContext } from '@utils/useThemeContext'
 import { twMerge } from 'tailwind-merge'
+import Stack from '@components/ui-components/Layout/Stack'
 
 interface ButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
@@ -19,7 +20,7 @@ const Button = ({
   tw,
   leftIcon,
   rightIcon,
-  variant = 'default',
+  variant = 'primary',
   ...props
 }: ButtonProps) => {
   const { sxButton } = useThemeContext()
@@ -33,15 +34,15 @@ const Button = ({
       disabled={disabledStatus}
       className={twMerge(
         sxButton.base,
-        sxButton.variants[variant] ?? sxButton.variants.default,
+        sxButton.variants[variant] ?? sxButton.variants.primary,
         tw,
       )}
     >
-      <div className="flex items-center justify-center gap-2">
+      <Stack tw="gap-2">
         {leftIcon ? leftIcon : null}
         {children}
         {rightIcon ? rightIcon : null}
-      </div>
+      </Stack>
     </button>
   )
 }
