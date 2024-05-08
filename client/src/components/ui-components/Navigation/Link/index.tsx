@@ -1,6 +1,6 @@
-import { LinkTypeProp } from '@components/interfaces'
+import type { LinkTypeProp } from '@components/ui-components/interfaces'
+import { type LinkProps, Link as RouterLink, NavLink } from 'react-router-dom'
 import { useThemeContext } from '@utils/useThemeContext'
-import { NavLink, LinkProps, Link as RouterLink } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
 
 interface CustomLinkProps extends Omit<LinkProps, 'className'> {
@@ -13,13 +13,13 @@ const Link = ({
   children,
   to,
   as = 'link',
-  variant = 'default',
+  variant = 'text',
   tw,
   ...props
 }: CustomLinkProps) => {
   const { sxLink } = useThemeContext()
   const className = twMerge(
-    sxLink.variants[variant] ?? sxLink.variants.default,
+    sxLink.variants[variant] ?? sxLink.variants.text,
     tw,
   )
 
@@ -27,9 +27,9 @@ const Link = ({
     case 'navlink':
       return (
         <NavLink
-          {...props}
           to={to}
           className={className}
+          {...props}
         >
           {children}
         </NavLink>
@@ -37,9 +37,10 @@ const Link = ({
     case 'external':
       return (
         <a
-          {...props}
           href={to.toString()}
           className={className}
+          target="_blank"
+          {...props}
         >
           {children}
         </a>
@@ -47,9 +48,9 @@ const Link = ({
     default:
       return (
         <RouterLink
-          {...props}
           to={to}
           className={className}
+          {...props}
         >
           {children}
         </RouterLink>
