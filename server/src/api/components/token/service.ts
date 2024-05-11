@@ -69,7 +69,8 @@ export const genAuthTokens = async (user: UserDoc): Promise<AuthTokens> => {
   return {
     accessToken: accessToken.token,
     refreshToken: refreshToken.token,
-    rtExpDate: moment.unix(refreshToken.payload.exp).toDate()
+    rtExpDate: moment.unix(refreshToken.payload.exp).toDate(),
+    atExpDate: moment.unix(accessToken.payload.exp).toDate()
   };
 };
 

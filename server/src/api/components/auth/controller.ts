@@ -45,10 +45,17 @@ export const login = controllerCatch(async (req: Req, res: Res) => {
   const { email, password }: SignData = req.body;
   const user = await authService.checkAccountStatus(email);
   await authService.loginWithEmailAndPassword(user, password);
-  const { accessToken, refreshToken, rtExpDate } =
+  const { accessToken, refreshToken, atExpDate, rtExpDate } =
     await tokenService.genAuthTokens(user);
 
-  res.cookie('jwt', refreshToken, {
+  res.cookie('access', accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    expires: atExpDate
+  });
+
+  res.cookie('refresh', refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',
@@ -58,19 +65,18 @@ export const login = controllerCatch(async (req: Req, res: Res) => {
   res.status(200).json({
     success: true,
     message: AUTH_SUCCESS.login,
-    token: accessToken,
     user
   });
 });
 
 export const logout = controllerCatch(async (req: Req, res: Res) => {
   const accessToken = req.headers.authorization?.split(' ')[1] ?? '';
-  const refreshToken: string = req.cookies.jwt;
+  const refreshToken: string = req.cookies.refresh;
   await Promise.all([
     tokenService.addTokenToBL(accessToken, 'access'),
     tokenService.deleteToken(refreshToken, 'refresh')
   ]);
-  res.clearCookie('jwt');
+  res.clearCookie('refresh');
   res.json({ success: true, message: AUTH_SUCCESS.logout });
 });
 
@@ -94,13 +100,20 @@ export const resetPassword = controllerCatch(async (req: Req, res: Res) => {
 
 // TODO: filter user data in response
 export const refreshToken = controllerCatch(async (req: Req, res: Res) => {
-  const token: string = req.cookies.jwt;
+  const token: string = req.cookies.refresh;
   const email = await tokenService.validateRT(token);
   const user = await authService.checkAccountStatus(email);
-  const { accessToken, refreshToken, rtExpDate } =
+  const { accessToken, refreshToken, atExpDate, rtExpDate } =
     await tokenService.genAuthTokens(user);
 
-  res.cookie('jwt', refreshToken, {
+  res.cookie('access', accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: 'none',
+    expires: atExpDate
+  });
+
+  res.cookie('refresh', refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',
@@ -110,7 +123,6 @@ export const refreshToken = controllerCatch(async (req: Req, res: Res) => {
   res.status(200).json({
     success: true,
     message: AUTH_SUCCESS.login,
-    token: accessToken,
     user
   });
 });

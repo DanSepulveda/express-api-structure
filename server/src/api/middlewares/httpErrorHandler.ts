@@ -7,7 +7,8 @@ const errorHandler = (err: HttpError, _: Req, res: Res, next: Next): void => {
   const message: string = err.message ?? 'Something went wrong';
 
   if (err.message === TOKEN_ERROR.reuse) {
-    res.clearCookie('jwt');
+    res.clearCookie('access');
+    res.clearCookie('refresh');
   }
   res.status(status).json({ success: false, message });
   next();
