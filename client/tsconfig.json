@@ -25,7 +25,9 @@
       "@components/*": ["src/components/*"],
       "@config/*": ["src/config/*"],
       "@hooks/*": ["src/hooks/*"],
+      "@layouts/*": ["src/layouts/*"],
       "@redux/*": ["src/redux/*"],
+      "@styles/*": ["src/styles/*"],
       "@utils/*": ["src/utils/*"],
       "@views/*": ["src/views/*"]
     }
