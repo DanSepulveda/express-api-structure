@@ -2,14 +2,14 @@ import type { FormHTMLAttributes } from 'react'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, FormProvider } from 'react-hook-form'
-import { twMerge } from 'tailwind-merge'
-import { useThemeContext } from '@utils/useThemeContext'
+import { ResetForm } from '@components/ui-components/interfaces'
 
 interface FormProps
-  extends Omit<FormHTMLAttributes<HTMLFormElement>, 'className'> {
+  extends Omit<FormHTMLAttributes<HTMLFormElement>, 'className' | 'onSubmit'> {
   schema: Yup.ObjectSchema<Yup.AnyObject>
-  onSubmit: (fields: any) => Promise<void> | void
-  defaultValues: Record<string, any>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onSubmit: (fields: any, reset: ResetForm) => Promise<void> | void
+  defaultValues: Record<string, unknown>
   tw?: string
 }
 
@@ -21,7 +21,6 @@ export const Form = ({
   tw,
   ...props
 }: FormProps) => {
-  const { sxForm } = useThemeContext()
   const methods = useForm({
     defaultValues,
     resolver: yupResolver(schema),
@@ -30,9 +29,11 @@ export const Form = ({
   return (
     <FormProvider {...methods}>
       <form
-        onSubmit={methods.handleSubmit(onSubmit)}
+        onSubmit={methods.handleSubmit(() =>
+          onSubmit(methods.getValues(), methods.reset),
+        )}
         noValidate
-        className={twMerge(sxForm.base, tw)}
+        className={tw}
         {...props}
       >
         {children}

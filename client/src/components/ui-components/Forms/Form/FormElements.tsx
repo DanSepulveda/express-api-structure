@@ -1,13 +1,19 @@
 import type { HTMLAttributes } from 'react'
-import type { ColsProp } from '@components/interfaces'
-import { GridContainer } from '@components/Layout/Grid'
+import type { ColsProp } from '@components/ui-components/interfaces'
+import { GridContainer } from '@components/ui-components/Layout/Grid'
 import { twMerge } from 'tailwind-merge'
-import { useThemeContext } from '@utils/useThemeContext'
+
+interface TW {
+  twFieldset: string
+  twLegend: string
+  twGrid: string
+}
 
 interface FormElementsProps
   extends Omit<HTMLAttributes<HTMLFieldSetElement>, 'className'> {
   legend?: string
   cols?: ColsProp
+  tw?: TW
   twFieldset?: string
   twLegend?: string
   twGrid?: string
@@ -17,24 +23,23 @@ export const FormElements = ({
   children,
   legend,
   cols,
+  tw,
   twFieldset,
   twLegend,
   twGrid,
   ...props
 }: FormElementsProps) => {
-  const { sxForm } = useThemeContext()
-
   return (
     <fieldset
-      className={twMerge(sxForm.fieldset, twFieldset)}
+      className={twMerge(tw?.twFieldset, twFieldset)}
       {...props}
     >
       {legend ? (
-        <legend className={twMerge(sxForm.legend, twLegend)}>{legend}</legend>
+        <legend className={twMerge(tw?.twLegend, twLegend)}>{legend}</legend>
       ) : null}
       <GridContainer
         cols={cols}
-        tw={twMerge(sxForm.grid, twGrid)}
+        tw={twMerge(tw?.twGrid, twGrid)}
       >
         {children}
       </GridContainer>

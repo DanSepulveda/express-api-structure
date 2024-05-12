@@ -1,7 +1,5 @@
-import Stack from '@components/Layout/Stack'
-import { useThemeContext } from '@utils/useThemeContext'
+import Stack from '@components/ui-components/Layout/Stack'
 import type { HTMLAttributes } from 'react'
-import { twMerge } from 'tailwind-merge'
 
 interface FormControlsProp
   extends Omit<HTMLAttributes<HTMLDivElement>, 'className'> {
@@ -9,11 +7,9 @@ interface FormControlsProp
 }
 
 export const FormControls = ({ children, tw, ...props }: FormControlsProp) => {
-  const { sxForm } = useThemeContext()
-
   return (
     <Stack
-      tw={twMerge(sxForm.controls, tw)}
+      tw={tw}
       {...props}
     >
       {children}

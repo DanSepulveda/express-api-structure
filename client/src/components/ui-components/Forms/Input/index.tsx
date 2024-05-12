@@ -1,12 +1,26 @@
-import type { ColsProp, InputTypeProp } from '@components/interfaces'
+import type {
+  ColsProp,
+  InputTypeProp,
+} from '@components/ui-components/interfaces'
 import { type InputHTMLAttributes } from 'react'
 import { FieldErrors, useFormContext } from 'react-hook-form'
 import { IoInformationCircleSharp } from 'react-icons/io5'
-import Text from '@components/Typography/Text'
-import { GridItem } from '@components/Layout/Grid'
-import { DEFAULT_INPUT_TYPE } from '@components/defaults'
+import Text from '@components/ui-components/Typography/Text'
+import { GridItem } from '@components/ui-components/Layout/Grid'
+import { DEFAULT_INPUT_TYPE } from '@components/ui-components/defaults'
 import { twMerge } from 'tailwind-merge'
-import { useThemeContext } from '@utils/useThemeContext'
+
+interface TW {
+  twBase: string
+  twLabel: string
+  twDecorator: {
+    required: string
+    info: string
+  }
+  twInputSuccess: string
+  twInputError: string
+  twError: string
+}
 
 interface LabelProps {
   label: string
@@ -21,6 +35,8 @@ interface InputProps
   type: InputTypeProp
   name: string
   variant?: string
+  tw?: TW
+  twBase?: string
   twInputSuccess?: string
   twInputError?: string
   twError?: string
@@ -71,9 +87,10 @@ const InputError = ({
 const Input = ({
   name,
   type = DEFAULT_INPUT_TYPE,
-  variant = 'default',
   label,
   decorator,
+  tw,
+  twBase,
   twInputSuccess,
   twInputError,
   twLabel,
@@ -85,8 +102,6 @@ const Input = ({
   const { register, formState } = useFormContext()
   const { errors } = formState
   const error = errors[name]?.message
-  const { sxInput } = useThemeContext()
-  const selectedStyles = sxInput.variants[variant] ?? sxInput.variants.default
 
   return (
     <GridItem cols={cols}>
@@ -94,11 +109,9 @@ const Input = ({
         <InputLabel
           label={label}
           decorator={decorator}
-          twLabel={twMerge(selectedStyles.label, twLabel)}
+          twLabel={twMerge(tw?.twLabel, twLabel)}
           twDecorator={twMerge(
-            decorator === '*'
-              ? selectedStyles.decorator.required
-              : selectedStyles.decorator.info,
+            decorator === '*' ? tw?.twDecorator.required : tw?.twDecorator.info,
             twDecorator,
           )}
         />
@@ -107,8 +120,9 @@ const Input = ({
           type={type}
           autoComplete={name}
           className={twMerge(
-            sxInput.base,
-            error ? selectedStyles.onInputError : selectedStyles.onInputSuccess,
+            tw?.twBase,
+            twBase,
+            error ? tw?.twInputError : tw?.twInputSuccess,
             error ? twInputError : twInputSuccess,
           )}
           {...props}
@@ -116,7 +130,7 @@ const Input = ({
         />
         <InputError
           error={error}
-          twError={twMerge(selectedStyles.error, twError)}
+          twError={twMerge(tw?.twError, twError)}
         />
       </label>
     </GridItem>
