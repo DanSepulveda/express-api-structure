@@ -19,8 +19,8 @@ interface Defaults {
 export const DEFAULT_ELEMENT: Defaults = {
   box: 'div',
   container: 'div',
-  gridContainer: 'div',
-  gridItem: 'div',
+  gridContainer: 'section',
+  gridItem: 'article',
   heading: 'h1',
   stack: 'div',
   text: 'p',
