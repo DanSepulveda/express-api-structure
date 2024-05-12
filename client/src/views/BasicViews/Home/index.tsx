@@ -1,19 +1,24 @@
-import Stack from '@components/Layout/Stack'
-import Link from '@components/Link'
-import Heading from '@components/Typography/Heading'
-import Text from '@components/Typography/Text'
+import Stack from '@components/ui-components/Layout/Stack'
+import Link from '@components/ui-components/Navigation/Link'
+import Heading from '@components/ui-components/Typography/Heading'
+import Text from '@components/ui-components/Typography/Text'
 import usePageTitle from '@hooks/usePageTitle'
+import styles from '@styles/global'
 
 const Home = () => {
   usePageTitle('Home')
+  const { sxStack, sxHeading, sxText, sxLink } = styles
+
   return (
-    <Stack tw="flex-col min-h-svh gap-10 sm:gap-5 bg-primary-100">
-      <Heading tw="text-primary-700 text-center">Welcome to My Website</Heading>
-      <Text tw="text-lg text-center">
+    <Stack tw={sxStack.col + ' min-h-svh gap-10 sm:gap-5 bg-primary-100 px-5'}>
+      <Heading tw={sxHeading.title + ' text-center'}>
+        Welcome to My Website
+      </Heading>
+      <Text tw={sxText.medium + ' text-center'}>
         This is a basic home page using React and Tailwind CSS.
       </Text>
       <Link
-        variant="button"
+        tw={sxLink.button}
         to="/signup"
       >
         Get Started

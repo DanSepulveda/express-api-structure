@@ -10,33 +10,22 @@ import { GridItem } from '@components/ui-components/Layout/Grid'
 import { DEFAULT_INPUT_TYPE } from '@components/ui-components/defaults'
 import { twMerge } from 'tailwind-merge'
 
-interface TW {
-  twBase: string
-  twLabel: string
-  twDecorator: {
-    required: string
-    info: string
-  }
-  twInputSuccess: string
-  twInputError: string
-  twError: string
-}
-
 interface LabelProps {
   label: string
   decorator?: string
   twLabel?: string
-  twDecorator?: string
+  twDecorator?: {
+    required: string
+    info: string
+  }
 }
 
 interface InputProps
   extends LabelProps,
     Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className'> {
-  type: InputTypeProp
+  type?: InputTypeProp
   name: string
-  variant?: string
-  tw?: TW
-  twBase?: string
+  twInputBase?: string
   twInputSuccess?: string
   twInputError?: string
   twError?: string
@@ -53,7 +42,7 @@ const InputLabel = ({ label, decorator, twLabel, twDecorator }: LabelProps) => {
       {decorator ? (
         <Text
           as="span"
-          tw={twDecorator}
+          tw={decorator === '*' ? twDecorator?.required : twDecorator?.info}
         >
           {' ' + decorator}
         </Text>
@@ -86,11 +75,10 @@ const InputError = ({
 
 const Input = ({
   name,
-  type = DEFAULT_INPUT_TYPE,
   label,
+  type = DEFAULT_INPUT_TYPE,
   decorator,
-  tw,
-  twBase,
+  twInputBase,
   twInputSuccess,
   twInputError,
   twLabel,
@@ -109,20 +97,15 @@ const Input = ({
         <InputLabel
           label={label}
           decorator={decorator}
-          twLabel={twMerge(tw?.twLabel, twLabel)}
-          twDecorator={twMerge(
-            decorator === '*' ? tw?.twDecorator.required : tw?.twDecorator.info,
-            twDecorator,
-          )}
+          twLabel={twLabel}
+          twDecorator={twDecorator}
         />
         <input
           id={name}
           type={type}
           autoComplete={name}
           className={twMerge(
-            tw?.twBase,
-            twBase,
-            error ? tw?.twInputError : tw?.twInputSuccess,
+            twInputBase,
             error ? twInputError : twInputSuccess,
           )}
           {...props}
@@ -130,7 +113,7 @@ const Input = ({
         />
         <InputError
           error={error}
-          twError={twMerge(tw?.twError, twError)}
+          twError={twError}
         />
       </label>
     </GridItem>
