@@ -1,10 +1,21 @@
-import { Strategy, ExtractJwt } from 'passport-jwt';
+import { Strategy } from 'passport-jwt';
 import { JWT } from './app';
 import User from '@api/components/user/model';
+import type { Req } from '@api/commonInterfaces';
+
+function cookieExtractor(req: Req): string {
+  let jwt = null;
+
+  if (req?.cookies !== null) {
+    jwt = req.cookies.access;
+  }
+
+  return jwt;
+}
 
 const jwtStrategy = new Strategy(
   {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: cookieExtractor,
     secretOrKey: JWT.secret
   },
   (payload, done) => {
