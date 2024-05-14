@@ -19,11 +19,7 @@ authRouter.post(
   controller.sendVerificationEmail as ReqHandler
 );
 
-authRouter.get(
-  '/verify-account',
-  auth('activation') as ReqHandler,
-  controller.verifyAccount as ReqHandler
-);
+authRouter.get('/verify-account', controller.verifyAccount as ReqHandler);
 
 authRouter.post(
   '/login',

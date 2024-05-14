@@ -39,6 +39,11 @@ const saveToken = async (
   await newToken.save();
 };
 
+export const verifyToken = (token: string): string => {
+  const payload = jwt.verify(token, JWT.secret) as jwt.TokenBody;
+  return payload.email;
+};
+
 export const addTokenToBL = async (
   token: string,
   type: string

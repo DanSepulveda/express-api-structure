@@ -29,13 +29,12 @@ export const sendVerificationEmail = controllerCatch(
 );
 
 export const verifyAccount = controllerCatch(async (req: Req, res: Res) => {
-  assertHasUser(req);
-  const user = req.user;
-  await userService.checkVerifiedStatus(user);
   const token = req.headers.authorization?.split(' ')[1] ?? '';
+  const email = tokenService.verifyToken(token);
+  await userService.checkVerifiedStatus(email);
   await Promise.all([
     tokenService.deleteToken(token, 'activation'),
-    authService.verifyAccout(user.account.email)
+    authService.verifyAccout(email)
   ]);
   res.status(200).json({ success: true, message: AUTH_SUCCESS.verification });
 });
@@ -70,12 +69,13 @@ export const login = controllerCatch(async (req: Req, res: Res) => {
 });
 
 export const logout = controllerCatch(async (req: Req, res: Res) => {
-  const accessToken = req.headers.authorization?.split(' ')[1] ?? '';
+  const accessToken: string = req.cookies.access;
   const refreshToken: string = req.cookies.refresh;
   await Promise.all([
     tokenService.addTokenToBL(accessToken, 'access'),
     tokenService.deleteToken(refreshToken, 'refresh')
   ]);
+  res.clearCookie('access');
   res.clearCookie('refresh');
   res.json({ success: true, message: AUTH_SUCCESS.logout });
 });
