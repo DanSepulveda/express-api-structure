@@ -1,9 +1,9 @@
-import type { HTMLAttributes } from 'react'
+import type { FieldsetHTMLAttributes } from 'react'
 import type { ColsProp } from '@components/ui-components/interfaces'
 import { GridContainer } from '@components/ui-components/Layout/Grid'
 
 interface FormElementsProps
-  extends Omit<HTMLAttributes<HTMLFieldSetElement>, 'className'> {
+  extends Omit<FieldsetHTMLAttributes<HTMLFieldSetElement>, 'className'> {
   legend?: string
   cols?: ColsProp
   twFieldset?: string
