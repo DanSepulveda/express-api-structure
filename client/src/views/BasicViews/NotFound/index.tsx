@@ -3,11 +3,16 @@ import Stack from '@components/ui-components/Layout/Stack'
 import Link from '@components/ui-components/Navigation/Link'
 import Heading from '@components/ui-components/Typography/Heading'
 import Text from '@components/ui-components/Typography/Text'
-import { HOME_URL } from '@config/app'
+import { AFTER_LOGIN_URL, HOME_URL } from '@config/app'
+import { appState } from '@redux/app/appSlice'
 import styles from '@styles/global'
+import { useSelector } from 'react-redux'
 
 const NotFound = () => {
   const { sxStack, sxBox, sxHeading, sxLink, sxText } = styles
+  const { logged } = useSelector(appState)
+
+  console.log(logged)
 
   return (
     <Stack
@@ -27,9 +32,9 @@ const NotFound = () => {
           </Text>
           <Link
             tw={sxLink.text}
-            to={HOME_URL}
+            to={logged ? AFTER_LOGIN_URL : HOME_URL}
           >
-            Go back to Home Page
+            {logged ? 'Go back to Dashboard' : 'Go back to Home Page'}
           </Link>
         </Stack>
       </Box>
