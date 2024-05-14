@@ -3,6 +3,7 @@ import Text from '@components/ui-components/Typography/Text'
 import SignupForm from './SignupForm'
 import Link from '@components/ui-components/Navigation/Link'
 import styles from '@styles/global'
+import { LOGIN_URL } from '@config/app'
 
 const Signup = () => {
   const { sxHeading, sxLink, sxText } = styles
@@ -15,7 +16,7 @@ const Signup = () => {
         Already have one?{' '}
         <Link
           tw={sxLink.text}
-          to="/login"
+          to={LOGIN_URL}
         >
           Please login
         </Link>

@@ -3,6 +3,7 @@ import Stack from '@components/ui-components/Layout/Stack'
 import Link from '@components/ui-components/Navigation/Link'
 import Heading from '@components/ui-components/Typography/Heading'
 import Text from '@components/ui-components/Typography/Text'
+import { HOME_URL } from '@config/app'
 import styles from '@styles/global'
 
 const NotFound = () => {
@@ -26,7 +27,7 @@ const NotFound = () => {
           </Text>
           <Link
             tw={sxLink.text}
-            to="/"
+            to={HOME_URL}
           >
             Go back to Home Page
           </Link>
