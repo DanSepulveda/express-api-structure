@@ -1,8 +1,14 @@
 import * as Yup from 'yup'
-import Button from '@components/Forms/Button'
-import { Form, FormControls, FormElements } from '@components/Forms/Form'
-import Input from '@components/Forms/Input'
+import Button from '@components/ui-components/Forms/Button'
+import {
+  Form,
+  FormControls,
+  FormElements,
+} from '@components/ui-components/Forms/Form'
+import Input from '@components/ui-components/Forms/Input'
 import yupErrors from '@config/yupErrors'
+import { useLoginMutation } from '@redux/user/userSlice'
+import styles from '@styles/global'
 
 const schema = Yup.object({
   email: Yup.string().email(yupErrors.email).required(yupErrors.required),
@@ -16,8 +22,11 @@ const defaultValues = {
 }
 
 const LoginForm = () => {
+  const { sxInput, sxForm, sxButton } = styles
+  const [login, { isLoading }] = useLoginMutation()
+
   const onSubmit = async (fields: Fields) => {
-    console.log(fields)
+    await login(fields)
   }
 
   return (
@@ -25,21 +34,33 @@ const LoginForm = () => {
       schema={schema}
       onSubmit={onSubmit}
       defaultValues={defaultValues}
+      tw={sxForm.standart.twForm}
     >
-      <FormElements cols={{ xs: 12 }}>
+      <FormElements
+        cols={{ xs: 12 }}
+        disabled={isLoading}
+        {...sxForm.standart.twElements}
+      >
         <Input
           name="email"
           type="email"
           label="Email address"
+          {...sxInput.primary}
         />
         <Input
           name="password"
           type="password"
           label="Password"
+          {...sxInput.primary}
         />
       </FormElements>
-      <FormControls>
-        <Button tw="w-full">Log in</Button>
+      <FormControls tw={sxForm.standart.twControls}>
+        <Button
+          tw={sxButton.primary + ' w-full'}
+          disabled={isLoading}
+        >
+          Log in
+        </Button>
       </FormControls>
     </Form>
   )

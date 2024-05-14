@@ -2,15 +2,18 @@ import Stack from '@components/ui-components/Layout/Stack'
 import Link from '@components/ui-components/Navigation/Link'
 import Heading from '@components/ui-components/Typography/Heading'
 import Text from '@components/ui-components/Typography/Text'
-import usePageTitle from '@hooks/usePageTitle'
 import styles from '@styles/global'
 
 const Home = () => {
-  usePageTitle('Home')
   const { sxStack, sxHeading, sxText, sxLink } = styles
 
   return (
-    <Stack tw={sxStack.col + ' min-h-svh gap-10 sm:gap-5 bg-primary-100 px-5'}>
+    <Stack
+      tw={
+        sxStack.col +
+        ' min-h-svh gap-10 px-5 bg-gradient-to-b from-pink-100 to-pink-50'
+      }
+    >
       <Heading tw={sxHeading.title + ' text-center'}>
         Welcome to My Website
       </Heading>
@@ -19,7 +22,7 @@ const Home = () => {
       </Text>
       <Link
         tw={sxLink.button}
-        to="/signup"
+        to="/login"
       >
         Get Started
       </Link>

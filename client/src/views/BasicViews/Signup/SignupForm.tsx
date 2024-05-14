@@ -1,9 +1,17 @@
 import * as Yup from 'yup'
-import Button from '@components/Forms/Button'
-import { Form, FormControls, FormElements } from '@components/Forms/Form'
-import Input from '@components/Forms/Input'
+import Button from '@components/ui-components/Forms/Button'
+import {
+  Form,
+  FormControls,
+  FormElements,
+} from '@components/ui-components/Forms/Form'
+import Input from '@components/ui-components/Forms/Input'
 import yupErrors from '@config/yupErrors'
 import { useSignupMutation } from '@redux/user/userSlice'
+import { ResetForm } from '@components/ui-components/interfaces'
+import styles from '@styles/global'
+import toast from '@utils/alert'
+import { ErrorResponse } from '@redux/api/apiSlice'
 
 const schema = Yup.object({
   email: Yup.string().email(yupErrors.email).required(yupErrors.required),
@@ -17,12 +25,19 @@ const defaultValues = {
 }
 
 const SignupForm = () => {
-  const [signup, lala] = useSignupMutation()
-  console.log(lala)
+  const { sxInput, sxForm, sxButton } = styles
+  const [signup, { isLoading }] = useSignupMutation()
 
-  const onSubmit = async (fields: Fields) => {
-    const lalo = await signup(fields)
-    console.log(lalo)
+  const onSubmit = async (fields: Fields, reset: ResetForm) => {
+    const response = await signup(fields)
+
+    if ('data' in response) {
+      reset()
+      toast.signup(fields.email)
+    } else {
+      const error = response.error as ErrorResponse
+      toast.error(error.data.message)
+    }
   }
 
   return (
@@ -30,23 +45,30 @@ const SignupForm = () => {
       schema={schema}
       onSubmit={onSubmit}
       defaultValues={defaultValues}
+      tw={sxForm.standart.twForm}
     >
-      <FormElements cols={{ xs: 12 }}>
+      <FormElements
+        {...sxForm.standart.twElements}
+        disabled={isLoading}
+        cols={{ xs: 12 }}
+      >
         <Input
           name="email"
           type="email"
           label="Email address"
+          {...sxInput.primary}
         />
         <Input
           name="password"
           type="password"
           label="Password"
+          {...sxInput.primary}
         />
       </FormElements>
-      <FormControls>
+      <FormControls tw={sxForm.standart.twControls}>
         <Button
-          tw="w-full"
-          disabled={lala.isLoading}
+          tw={sxButton.primary + ' w-full'}
+          disabled={isLoading}
         >
           Create account
         </Button>
