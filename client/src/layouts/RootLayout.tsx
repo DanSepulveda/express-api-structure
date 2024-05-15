@@ -1,9 +1,12 @@
-import Container from '@components/ui-components/Layout/Container'
+// !Third-party libraries
+import { Helmet } from 'react-helmet'
 import { Toaster } from 'react-hot-toast'
 import { Outlet } from 'react-router-dom'
-import { Helmet } from 'react-helmet'
-import { useRefreshTokenQuery } from '@redux/user/userSlice'
+// !Custom components and hooks
+import Container from '@lib/components/Layout/Container'
 import useDocumentTitle from '@hooks/useDocumentTitle'
+import { useRefreshTokenQuery } from '@redux/user/userSlice'
+// !Config
 import { MOBILE_NAVBAR_COLOR } from '@config/app'
 
 const RootLayout = () => {
