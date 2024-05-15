@@ -15,8 +15,13 @@ const LogLayout = () => {
   }
 
   return (
-    <Stack tw={sxStack.log()}>
-      <Box tw={sxBox.log()}>
+    <Stack
+      tw={
+        sxStack.col +
+        ' min-h-svh bg-gradient-to-b from-primary-100 to-primary-50'
+      }
+    >
+      <Box tw={sxBox.white + ' w-11/12 sm:w-96'}>
         <Outlet />
       </Box>
     </Stack>
