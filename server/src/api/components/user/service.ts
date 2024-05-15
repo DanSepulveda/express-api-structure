@@ -24,3 +24,8 @@ export const checkVerifiedStatus = async (
   }
   return selectedUser;
 };
+
+export const findUserByEmail = async (email: string): Promise<UserDoc> => {
+  const user = await User.findByEmail(email);
+  return user;
+};

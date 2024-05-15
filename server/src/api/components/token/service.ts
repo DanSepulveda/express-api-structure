@@ -108,3 +108,11 @@ export const checkBlacklistedToken = async (token: string): Promise<void> => {
   const searchedToken = await Token.findOne({ token });
   if (searchedToken !== null) throw httpError(400, TOKEN_ERROR.invalid);
 };
+
+export const verifyTokenAndFind = async (token: string): Promise<void> => {
+  const payload = jwt.verify(token, JWT.secret) as jwt.TokenBody;
+  const searchedToken = await Token.findOne({ token, type: payload.type });
+  if (searchedToken === null) {
+    throw httpError(400, TOKEN_ERROR.invalid);
+  }
+};

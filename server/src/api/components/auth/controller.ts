@@ -2,7 +2,6 @@ import type { Req, Res } from '@api/commonInterfaces';
 import type { SignData } from './interfaces';
 import { AUTH_SUCCESS } from '@api/responseMessages';
 import controllerCatch from '@utils/controllerCatch';
-import assertHasUser from '@utils/assertHasUser';
 import * as authService from './service';
 import * as emailService from '@components/email/service';
 import * as tokenService from '@components/token/service';
@@ -89,11 +88,11 @@ export const forgotPassword = controllerCatch(async (req: Req, res: Res) => {
 });
 
 export const resetPassword = controllerCatch(async (req: Req, res: Res) => {
-  assertHasUser(req);
   const token = req.headers.authorization?.split(' ')[1] ?? '';
+  const email = tokenService.verifyToken(token);
   await tokenService.deleteToken(token, 'reset');
-  const user = req.user;
   const password: string = req.body.password;
+  const user = await userService.findUserByEmail(email);
   await authService.resetPassword(user, password);
   res.status(200).json({ success: true, message: AUTH_SUCCESS.resetPassword });
 });
@@ -125,4 +124,10 @@ export const refreshToken = controllerCatch(async (req: Req, res: Res) => {
     message: AUTH_SUCCESS.login,
     user
   });
+});
+
+export const preValidateToken = controllerCatch(async (req: Req, res: Res) => {
+  const token = req.headers.authorization?.split(' ')[1] ?? '';
+  tokenService.verifyTokenAndFind(token);
+  res.status(200).json({ success: true, message: AUTH_SUCCESS.preValidate });
 });

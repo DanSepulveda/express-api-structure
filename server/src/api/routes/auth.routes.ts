@@ -42,10 +42,11 @@ authRouter.post(
 authRouter.post(
   '/reset-password',
   validate(validation.resetPassword),
-  auth('reset') as ReqHandler,
   controller.resetPassword as ReqHandler
 );
 
 authRouter.get('/refresh-token', controller.refreshToken as ReqHandler);
+
+authRouter.get('/pre-validate', controller.preValidateToken as ReqHandler);
 
 export default authRouter;

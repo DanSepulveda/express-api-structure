@@ -8,8 +8,8 @@ export const ENDPOINT_BASE = '/api/v1';
 
 const CLIENT_BASE_URL = 'http://localhost:5173';
 export const CLIENT_URL = {
-  verification: '/verificar',
-  recovery: '/recuperar-contrasena'
+  verification: '/verify-account',
+  recovery: '/recovery-password'
 };
 
 Object.keys(CLIENT_URL).forEach((key) => {

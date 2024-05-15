@@ -5,7 +5,8 @@ export const AUTH_SUCCESS = {
   logout: 'User logged out successfully',
   sendResetEmail: 'Reset email sent successfully',
   sendVerificationEmail: 'Verification email sent successfully',
-  resetPassword: 'Password modified successfully'
+  resetPassword: 'Password modified successfully',
+  preValidate: 'Valid token'
 };
 
 export const USER_ERROR = {
