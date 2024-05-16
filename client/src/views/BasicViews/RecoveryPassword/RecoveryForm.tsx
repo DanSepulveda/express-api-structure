@@ -1,16 +1,16 @@
-import Button from '@components/ui-components/Forms/Button'
-import {
-  Form,
-  FormControls,
-  FormElements,
-} from '@components/ui-components/Forms/Form'
-import Input from '@components/ui-components/Forms/Input'
+// * Third-party libraries
+import * as Yup from 'yup'
+import { useNavigate } from 'react-router-dom'
+// * Custom components and hooks
+import Button from '@lib/components/Forms/Button'
+import { Form, FormControls, FormElements } from '@lib/components/Forms/Form'
+import Input from '@lib/components/Forms/Input'
+import { useResetPasswordMutation } from '@redux/user/userSlice'
+// * Styles
+import styles from '@styles/global'
+// * Config
 import { LOGIN_URL } from '@config/app'
 import yupErrors from '@config/yupErrors'
-import { useResetPasswordMutation } from '@redux/user/userSlice'
-import styles from '@styles/global'
-import { useNavigate } from 'react-router-dom'
-import * as Yup from 'yup'
 
 const schema = Yup.object({
   password: Yup.string().required(yupErrors.required).min(8, yupErrors.min8),
@@ -27,7 +27,7 @@ const defaultValues = {
 }
 
 const RecoveryForm = ({ token }: { token: string }) => {
-  const { sxInput, sxForm, sxButton } = styles
+  const { sxInput, sxForm } = styles
   const navigate = useNavigate()
   const [resetPassword, { isLoading }] = useResetPasswordMutation()
 
@@ -66,7 +66,7 @@ const RecoveryForm = ({ token }: { token: string }) => {
       </FormElements>
       <FormControls tw={sxForm.standart.twControls}>
         <Button
-          tw={sxButton.primary}
+          tw="btn btn-contained w-full"
           disabled={isLoading}
         >
           Change password

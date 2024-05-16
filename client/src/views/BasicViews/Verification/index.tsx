@@ -1,14 +1,16 @@
-import Link from '@components/ui-components/Navigation/Link'
-import Heading from '@components/ui-components/Typography/Heading'
-import Text from '@components/ui-components/Typography/Text'
-import { LOGIN_URL, NOT_FOUND_URL } from '@config/app'
-import { useVerifyAccountQuery } from '@redux/user/userSlice'
-import styles from '@styles/global'
+// * Third-party libraries
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { twMerge } from 'tailwind-merge'
+// * Custom components and hooks
+import Container from '@lib/components/Layout/Container'
+import Link from '@lib/components/Navigation/Link'
+import Heading from '@lib/components/Typography/Heading'
+import Text from '@lib/components/Typography/Text'
+import { useVerifyAccountQuery } from '@redux/user/userSlice'
+// * Config
+import { LOGIN_URL, NOT_FOUND_URL } from '@config/app'
+import { IoCheckmarkCircle } from 'react-icons/io5'
 
 const Verification = () => {
-  const { sxHeading, sxText, sxLink } = styles
   const navigate = useNavigate()
   const [params] = useSearchParams()
   const token = params.get('token') ?? ''
@@ -24,13 +26,16 @@ const Verification = () => {
 
   return (
     <>
-      <Heading tw={twMerge(sxHeading.title, 'text-2xl text-center')}>
+      <Container tw="row-center-center">
+        <IoCheckmarkCircle className="text-green-600 text-5xl mb-2" />
+      </Container>
+      <Heading tw="heading-subtitle text-center mb-5">
         Verification complete
       </Heading>
-      <Text tw={sxText.normal + ' text-center mt-3'}>
+      <Text tw="text-normal text-center">
         You can{' '}
         <Link
-          tw={sxLink.text}
+          tw="link"
           to={LOGIN_URL}
         >
           Login now

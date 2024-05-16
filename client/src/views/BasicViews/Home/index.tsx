@@ -1,33 +1,30 @@
-import Stack from '@components/ui-components/Layout/Stack'
-import Link from '@components/ui-components/Navigation/Link'
-import Heading from '@components/ui-components/Typography/Heading'
-import Text from '@components/ui-components/Typography/Text'
+// * Custom components
+import Container from '@lib/components/Layout/Container'
+import Link from '@lib/components/Navigation/Link'
+import Heading from '@lib/components/Typography/Heading'
+import Text from '@lib/components/Typography/Text'
+// * Config
 import { APP_NAME, LOGIN_URL } from '@config/app'
-import styles from '@styles/global'
 
 const Home = () => {
-  const { sxStack, sxHeading, sxText, sxLink } = styles
-
   return (
-    <Stack
-      tw={
-        sxStack.col +
-        ' min-h-svh gap-10 px-5 bg-gradient-to-b from-pink-100 to-pink-50'
-      }
+    <Container
+      as="main"
+      tw="col-center-center min-h-svh gap-10 px-5 bg-primary-50"
     >
-      <Heading tw={sxHeading.title + ' text-center'}>
+      <Heading tw="heading-title text-center mb-6">
         Welcome to {APP_NAME}
       </Heading>
-      <Text tw={sxText.medium + ' text-center'}>
+      <Text tw="text-large text-center">
         This is a basic home page using React and Tailwind CSS.
       </Text>
       <Link
-        tw={sxLink.button}
+        tw="btn btn-contained"
         to={LOGIN_URL}
       >
         Get Started
       </Link>
-    </Stack>
+    </Container>
   )
 }
 

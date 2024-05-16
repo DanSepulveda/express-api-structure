@@ -1,30 +1,29 @@
-import Heading from '@components/ui-components/Typography/Heading'
-import Text from '@components/ui-components/Typography/Text'
+// * Custom components
+import Link from '@lib/components/Navigation/Link'
+import Heading from '@lib/components/Typography/Heading'
+import Text from '@lib/components/Typography/Text'
 import LoginForm from './LoginForm'
-import Link from '@components/ui-components/Navigation/Link'
-import styles from '@styles/global'
+// * Config
 import { FORGOT_PWD_URL, SIGNUP_URL } from '@config/app'
 
 const Login = () => {
-  const { sxHeading, sxLink, sxText } = styles
-
   return (
     <>
-      <Heading tw={sxHeading.title + ' text-center mb-6'}>Login</Heading>
+      <Heading tw="heading-title text-center mb-6">Login</Heading>
       <LoginForm />
-      <Text tw="mt-4 text-center text-sm">
+      <Text tw="text-small mt-4 text-center">
         <Link
           to={FORGOT_PWD_URL}
-          tw={sxLink.text}
+          tw="link"
         >
           Forgot password?
         </Link>
       </Text>
-      <Text tw={sxText.small + ' text-center mt-4 font-medium'}>
+      <Text tw="text-small text-center mt-4 font-medium">
         New to our platform?{' '}
         <Link
           to={SIGNUP_URL}
-          tw={sxLink.text}
+          tw="link"
         >
           Create an account
         </Link>

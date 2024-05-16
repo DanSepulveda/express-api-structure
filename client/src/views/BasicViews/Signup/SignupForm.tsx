@@ -1,17 +1,18 @@
+// * Types
+import type { ResetForm } from '@lib/components/interfaces'
+import type { ErrorResponse } from '@redux/api/apiSlice'
+// * Third-party libraries
 import * as Yup from 'yup'
-import Button from '@components/ui-components/Forms/Button'
-import {
-  Form,
-  FormControls,
-  FormElements,
-} from '@components/ui-components/Forms/Form'
-import Input from '@components/ui-components/Forms/Input'
-import yupErrors from '@config/yupErrors'
+// * Custom components and hooks
+import Button from '@lib/components/Forms/Button'
+import { Form, FormControls, FormElements } from '@lib/components/Forms/Form'
+import Input from '@lib/components/Forms/Input'
 import { useSignupMutation } from '@redux/user/userSlice'
-import { ResetForm } from '@components/ui-components/interfaces'
-import styles from '@styles/global'
 import toast from '@utils/alert'
-import { ErrorResponse } from '@redux/api/apiSlice'
+// * Styles
+import styles from '@styles/global'
+// * Config
+import yupErrors from '@config/yupErrors'
 
 const schema = Yup.object({
   email: Yup.string().email(yupErrors.email).required(yupErrors.required),
@@ -25,7 +26,7 @@ const defaultValues = {
 }
 
 const SignupForm = () => {
-  const { sxInput, sxForm, sxButton } = styles
+  const { sxInput, sxForm } = styles
   const [signup, { isLoading }] = useSignupMutation()
 
   const onSubmit = async (fields: Fields, reset: ResetForm) => {
@@ -67,7 +68,7 @@ const SignupForm = () => {
       </FormElements>
       <FormControls tw={sxForm.standart.twControls}>
         <Button
-          tw={sxButton.primary + ' w-full'}
+          tw="btn btn-contained w-full"
           disabled={isLoading}
         >
           Create account

@@ -1,15 +1,18 @@
-import Button from '@components/ui-components/Forms/Button'
-import {
-  Form,
-  FormControls,
-  FormElements,
-} from '@components/ui-components/Forms/Form'
-import Input from '@components/ui-components/Forms/Input'
-import { ResetForm } from '@components/ui-components/interfaces'
-import yupErrors from '@config/yupErrors'
-import { useForgotPasswordMutation } from '@redux/user/userSlice'
-import styles from '@styles/global'
+// * Types
+import type { ResetForm } from '@lib/components/interfaces'
+// * Third-party libraries
 import * as Yup from 'yup'
+// * Custom components
+import Button from '@lib/components/Forms/Button'
+import { Form, FormControls, FormElements } from '@lib/components/Forms/Form'
+import Input from '@lib/components/Forms/Input'
+import Link from '@lib/components/Navigation/Link'
+import { useForgotPasswordMutation } from '@redux/user/userSlice'
+// * Styles
+import styles from '@styles/global'
+// * Config
+import { LOGIN_URL } from '@config/app'
+import yupErrors from '@config/yupErrors'
 
 const schema = Yup.object({
   email: Yup.string().email(yupErrors.email).required(yupErrors.required),
@@ -21,7 +24,7 @@ const defaultValues = {
 }
 
 const ForgotForm = () => {
-  const { sxInput, sxForm, sxButton } = styles
+  const { sxInput, sxForm } = styles
   const [getPassword, { isLoading }] = useForgotPasswordMutation()
 
   const onSubmit = async (fields: Fields, reset: ResetForm) => {
@@ -47,17 +50,24 @@ const ForgotForm = () => {
         <Input
           name="email"
           type="email"
-          label="Email"
+          label=""
+          placeholder="Email address"
           {...sxInput.primary}
         />
       </FormElements>
       <FormControls tw={sxForm.standart.twControls}>
         <Button
-          tw={sxButton.primary}
+          tw="peer btn btn-contained order-2"
           disabled={isLoading}
         >
           Recovery
         </Button>
+        <Link
+          tw="btn btn-contained-secondary order-1 peer-disabled:pointer-events-none"
+          to={LOGIN_URL}
+        >
+          Cancel
+        </Link>
       </FormControls>
     </Form>
   )

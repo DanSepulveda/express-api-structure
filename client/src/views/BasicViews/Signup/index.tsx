@@ -1,21 +1,20 @@
-import Heading from '@components/ui-components/Typography/Heading'
-import Text from '@components/ui-components/Typography/Text'
+// * Custom components
+import Link from '@lib/components/Navigation/Link'
+import Heading from '@lib/components/Typography/Heading'
+import Text from '@lib/components/Typography/Text'
 import SignupForm from './SignupForm'
-import Link from '@components/ui-components/Navigation/Link'
-import styles from '@styles/global'
+// * Config
 import { LOGIN_URL } from '@config/app'
 
 const Signup = () => {
-  const { sxHeading, sxLink, sxText } = styles
-
   return (
     <>
-      <Heading tw={sxHeading.title + ' text-center mb-6'}>Signup</Heading>
+      <Heading tw="heading-title text-center mb-6">Signup</Heading>
       <SignupForm />
-      <Text tw={sxText.small + ' text-center mt-4 font-medium'}>
+      <Text tw="text-small text-center mt-4 font-medium">
         Already have one?{' '}
         <Link
-          tw={sxLink.text}
+          tw="link"
           to={LOGIN_URL}
         >
           Please login
