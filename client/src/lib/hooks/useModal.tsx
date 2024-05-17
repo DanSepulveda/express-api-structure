@@ -1,11 +1,11 @@
-import { ReactNode, createContext, useContext, useState } from 'react'
+import { type ReactNode, createContext, useContext, useState } from 'react'
 
 interface Context {
-  handleClose: () => void
+  closeModal: () => void
 }
 
 const ModalContext = createContext<Context>({
-  handleClose: () => null,
+  closeModal: () => null,
 })
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -26,13 +26,13 @@ export const ModalProvider = ({
 export const useModal = () => {
   const [open, setOpen] = useState(false)
 
-  const handleOpen = () => {
+  const openModal = () => {
     setOpen(true)
   }
 
-  const handleClose = () => {
+  const closeModal = () => {
     setOpen(false)
   }
 
-  return { open, handleOpen, handleClose }
+  return { open, openModal, closeModal }
 }

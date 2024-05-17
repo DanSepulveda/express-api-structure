@@ -1,8 +1,8 @@
+import type { DialogHTMLAttributes } from 'react'
 import { ModalProvider } from '@lib/hooks/useModal'
-import { DialogHTMLAttributes } from 'react'
 
 interface ModalProps extends DialogHTMLAttributes<HTMLDialogElement> {
-  handleClose: () => void
+  closeModal: () => void
   tw?: string
 }
 
@@ -10,7 +10,7 @@ const Modal = ({
   children,
   tw,
   open = false,
-  handleClose,
+  closeModal,
   ...props
 }: ModalProps) => {
   if (!open) {
@@ -23,7 +23,7 @@ const Modal = ({
       className={tw}
       {...props}
     >
-      <ModalProvider context={{ handleClose }}>{children}</ModalProvider>
+      <ModalProvider context={{ closeModal }}>{children}</ModalProvider>
     </dialog>
   )
 }
