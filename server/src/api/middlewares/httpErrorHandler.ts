@@ -1,12 +1,22 @@
-import type { HttpError } from 'http-errors';
+import { HttpError } from 'http-errors';
 import type { Req, Res, Next } from '@api/commonInterfaces';
+import { JsonWebTokenError } from 'jsonwebtoken';
 import { TOKEN_ERROR } from '@api/responseMessages';
 
-const errorHandler = (err: HttpError, _: Req, res: Res, next: Next): void => {
-  const status: number = err.status ?? 500;
-  const message: string = err.message ?? 'Something went wrong';
+const errorHandler = (
+  err: HttpError | JsonWebTokenError,
+  _: Req,
+  res: Res,
+  next: Next
+): void => {
+  let status: number = 500;
+  let message: string = 'Something went wrong';
+  if (err instanceof HttpError) {
+    status = err.status;
+    message = err.message;
+  }
 
-  if (err.message === TOKEN_ERROR.reuse) {
+  if (err.message === TOKEN_ERROR.reuse || err instanceof JsonWebTokenError) {
     res.clearCookie('access');
     res.clearCookie('refresh');
   }
