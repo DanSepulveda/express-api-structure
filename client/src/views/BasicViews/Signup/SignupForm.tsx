@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 import Button from '@lib/components/Forms/Button'
 import { Form, FormControls, FormElements } from '@lib/components/Forms/Form'
 import Input from '@lib/components/Forms/Input'
+import Container from '@lib/components/Layout/Container'
 import { useSignupMutation } from '@redux/user/userSlice'
 import toast from '@utils/alert'
 // * Styles
@@ -20,13 +21,7 @@ const schema = Yup.object({
 })
 type Fields = Yup.InferType<typeof schema>
 
-const defaultValues = {
-  email: '',
-  password: '',
-}
-
 const SignupForm = () => {
-  const { sxInput, sxForm } = styles
   const [signup, { isLoading }] = useSignupMutation()
 
   const onSubmit = async (fields: Fields, reset: ResetForm) => {
@@ -34,7 +29,11 @@ const SignupForm = () => {
 
     if ('data' in response) {
       reset()
-      toast.signup(fields.email)
+      toast.alert({
+        title: 'Account created',
+        description: 'You will receive an email to activate your account',
+        icon: 'success',
+      })
     } else {
       const error = response.error as ErrorResponse
       toast.error(error.data.message)
@@ -45,11 +44,10 @@ const SignupForm = () => {
     <Form
       schema={schema}
       onSubmit={onSubmit}
-      defaultValues={defaultValues}
-      tw={sxForm.standart.twForm}
+      tw={styles.form.standart.twForm}
     >
       <FormElements
-        {...sxForm.standart.twElements}
+        {...styles.form.standart.twElements}
         disabled={isLoading}
         cols={{ xs: 12 }}
       >
@@ -57,19 +55,21 @@ const SignupForm = () => {
           name="email"
           type="email"
           label="Email address"
-          {...sxInput.primary}
+          {...styles.input.primary}
         />
+
         <Input
           name="password"
           type="password"
           label="Password"
-          {...sxInput.primary}
+          {...styles.input.primary}
         />
       </FormElements>
-      <FormControls tw={sxForm.standart.twControls}>
+      <FormControls tw={styles.form.standart.twControls}>
         <Button
           tw="btn btn-contained w-full"
           disabled={isLoading}
+          leftIcon={isLoading ? <Container tw="spinner"></Container> : null}
         >
           Create account
         </Button>
