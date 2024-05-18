@@ -3,17 +3,15 @@ import { Helmet } from 'react-helmet'
 import { Toaster } from 'react-hot-toast'
 import { Outlet, useLocation } from 'react-router-dom'
 // * Custom components and hooks
-import useDocumentTitle from '@hooks/useDocumentTitle'
-import { useRefreshTokenQuery } from '@redux/user/userSlice'
+import useRefreshLogin from '@hooks/useRefreshLogin'
+import Loader from '@components/Loader'
 import toast, { type ToastAlert } from '@utils/alert'
 // * Config
 import { MOBILE_NAVBAR_COLOR } from '@config/app'
-import Loader from '@components/Loader'
 
 const RootLayout = () => {
-  const { isLoading } = useRefreshTokenQuery()
   const location = useLocation()
-  useDocumentTitle()
+  const { isLoading } = useRefreshLogin()
 
   if (isLoading) {
     return <Loader />
