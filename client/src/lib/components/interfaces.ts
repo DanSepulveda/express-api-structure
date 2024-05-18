@@ -41,6 +41,7 @@ export type LinkTypeProp = 'link' | 'navlink' | 'external'
 export type ColsProp = {
   [Key in (typeof breakpoints)[number]]?: number
 }
+export type AlertIconProp = 'success' | 'warning' | 'error' | 'question'
 
 //
 export type ResetForm = UseFormReset<{

@@ -1,4 +1,5 @@
 import type {
+  AlertIconProp,
   ColsProp,
   HTMLContainerTags,
   HTMLHeadingTags,
@@ -31,3 +32,4 @@ export const DEFAULT_GRID_LAYOUT: ColsProp = {
 }
 
 export const DEFAULT_INPUT_TYPE: InputTypeProp = 'text'
+export const DEFAULT_ALERT_ICON: AlertIconProp = 'success'

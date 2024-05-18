@@ -1,37 +1,64 @@
+// * Third-party libraries
+import {
+  IoCheckmarkCircle,
+  IoClose,
+  IoCloseCircle,
+  IoHelpCircle,
+  IoWarning,
+} from 'react-icons/io5'
+// * Custom components and hooks
 import Container from '@lib/components/Layout/Container'
+import Text from '@lib/components/Typography/Text'
+import IconButton from '@lib/components/Forms/IconButton'
+import { AlertIconProp } from '@lib/components/interfaces'
+// * Config
+import { DEFAULT_ALERT_ICON } from '@lib/components/defaults'
 
-import styles from '@styles/global'
-import { IoCheckmarkCircleOutline } from 'react-icons/io5'
+interface AlertProps {
+  title: string
+  description?: string
+  icon?: AlertIconProp
+  handleClose: () => void
+  twContainer?: string
+  twTitle?: string
+  twDescription?: string
+  twIconButton?: string
+}
 
-const Alert = () => {
-  const { sxContainer } = styles
+const icons = {
+  success: <IoCheckmarkCircle className="text-green-600" />,
+  error: <IoCloseCircle className="text-red-600" />,
+  warning: <IoWarning className="text-orange-400" />,
+  question: <IoHelpCircle className="text-blue-500" />,
+}
+
+const Alert = ({
+  title,
+  description,
+  icon = DEFAULT_ALERT_ICON,
+  twContainer,
+  twTitle,
+  twDescription,
+  twIconButton,
+  handleClose,
+  ...props
+}: AlertProps) => {
   return (
-    <Container tw={sxContainer.full + ' fixed'}>
-      <Container tw={sxContainer.row}>
-        <Container tw={sxContainer.alert + ' max-w-md w-full flex'}>
-          <div className="flex-1 w-0 p-4">
-            <div className="flex items-start">
-              <div className="flex-shrink-0 pt-0.5">
-                <IoCheckmarkCircleOutline className="text-4xl" />
-              </div>
-              <div className="ml-3 flex-1">
-                <p className="text-sm font-medium text-gray-900">{'email'}</p>
-                <p className="mt-1 text-sm text-gray-500">
-                  Sure! 8:30pm works great!
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex border-l border-gray-200">
-            <button
-              //   onClick={() => toast.dismiss(t.id)}
-              className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              Close
-            </button>
-          </div>
-        </Container>
+    <Container
+      tw={twContainer}
+      {...props}
+    >
+      <Text tw="text-4xl">{icons[icon]}</Text>
+      <Container tw="flex-1">
+        <Text tw={twTitle}>{title}</Text>
+        <Text tw={twDescription}>{description}</Text>
       </Container>
+      <IconButton
+        tw={twIconButton}
+        onClick={handleClose}
+      >
+        <IoClose />
+      </IconButton>
     </Container>
   )
 }
