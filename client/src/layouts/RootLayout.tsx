@@ -1,24 +1,38 @@
-// !Third-party libraries
+// * Third-party libraries
 import { Helmet } from 'react-helmet'
 import { Toaster } from 'react-hot-toast'
-import { Outlet } from 'react-router-dom'
-// !Custom components and hooks
-import Container from '@lib/components/Layout/Container'
+import { Outlet, useLocation } from 'react-router-dom'
+// * Custom components and hooks
 import useDocumentTitle from '@hooks/useDocumentTitle'
 import { useRefreshTokenQuery } from '@redux/user/userSlice'
-// !Config
+import toast, { type ToastAlert } from '@utils/alert'
+// * Config
 import { MOBILE_NAVBAR_COLOR } from '@config/app'
+import Loader from '@components/Loader'
 
 const RootLayout = () => {
   const { isLoading } = useRefreshTokenQuery()
+  const location = useLocation()
   useDocumentTitle()
 
   if (isLoading) {
-    return null
+    return <Loader />
+  }
+
+  if (location.state && location.state.alert) {
+    const data: ToastAlert = location.state.alert
+
+    toast.alert({
+      title: data.title,
+      description: data.description,
+      icon: data.icon,
+    })
+
+    window.history.replaceState(null, '')
   }
 
   return (
-    <Container>
+    <>
       <Helmet>
         <meta
           name="theme-color"
@@ -27,7 +41,7 @@ const RootLayout = () => {
       </Helmet>
       <Toaster />
       <Outlet />
-    </Container>
+    </>
   )
 }
 
