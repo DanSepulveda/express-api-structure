@@ -19,12 +19,7 @@ const schema = Yup.object({
 })
 type Fields = Yup.InferType<typeof schema>
 
-const defaultValues = {
-  email: '',
-}
-
 const ForgotForm = () => {
-  const { sxInput, sxForm } = styles
   const [getPassword, { isLoading }] = useForgotPasswordMutation()
 
   const onSubmit = async (fields: Fields, reset: ResetForm) => {
@@ -39,23 +34,22 @@ const ForgotForm = () => {
     <Form
       schema={schema}
       onSubmit={onSubmit}
-      defaultValues={defaultValues}
-      tw={sxForm.standart.twForm}
+      tw={styles.form.standart.twForm}
     >
       <FormElements
         cols={{ xs: 12 }}
         disabled={isLoading}
-        {...sxForm.standart.twElements}
+        {...styles.form.standart.twElements}
       >
         <Input
           name="email"
           type="email"
           label=""
           placeholder="Email address"
-          {...sxInput.primary}
+          {...styles.input.primary}
         />
       </FormElements>
-      <FormControls tw={sxForm.standart.twControls}>
+      <FormControls tw={styles.form.standart.twControls}>
         <Button
           tw="peer btn btn-contained order-2"
           disabled={isLoading}
