@@ -25,7 +25,7 @@ const validate =
     const val = getReqObject(req, Object.keys(schema));
     const { error } = joi
       .compile(schema)
-      .prefs({ abortEarly: false })
+      .prefs({ abortEarly: true })
       .validate(val);
 
     if (error == null) {
@@ -33,13 +33,7 @@ const validate =
     } else {
       res.status(400).json({
         success: false,
-        // TODO: handle error with custom messages
-        errors: error.details.map((error) => {
-          return {
-            field: error?.context?.key,
-            message: error.message.replace('"', "'").replace('"', "'")
-          };
-        })
+        message: error.details[0].message
       });
     }
   };
