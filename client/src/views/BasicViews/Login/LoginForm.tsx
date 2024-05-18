@@ -1,10 +1,14 @@
+// * Types
+import type { ErrorResponse } from '@redux/api/apiSlice'
 // * Third-party libraries
 import * as Yup from 'yup'
 // * Custom components and hooks
 import Button from '@lib/components/Forms/Button'
 import { Form, FormControls, FormElements } from '@lib/components/Forms/Form'
 import Input from '@lib/components/Forms/Input'
+import Container from '@lib/components/Layout/Container'
 import { useLoginMutation } from '@redux/user/userSlice'
+import toast from '@utils/alert'
 // * Styles
 import styles from '@styles/global'
 // * Config
@@ -16,48 +20,47 @@ const schema = Yup.object({
 })
 type Fields = Yup.InferType<typeof schema>
 
-const defaultValues = {
-  email: '',
-  password: '',
-}
-
 const LoginForm = () => {
-  const { sxInput, sxForm } = styles
   const [login, { isLoading }] = useLoginMutation()
 
   const onSubmit = async (fields: Fields) => {
-    await login(fields)
+    const response = await login(fields)
+
+    if ('error' in response) {
+      const error = response.error as ErrorResponse
+      toast.error(error.data.message)
+    }
   }
 
   return (
     <Form
       schema={schema}
       onSubmit={onSubmit}
-      defaultValues={defaultValues}
-      tw={sxForm.standart.twForm}
+      tw={styles.form.standart.twForm}
     >
       <FormElements
         cols={{ xs: 12 }}
         disabled={isLoading}
-        {...sxForm.standart.twElements}
+        {...styles.form.standart.twElements}
       >
         <Input
           name="email"
           type="email"
           label="Email address"
-          {...sxInput.primary}
+          {...styles.input.primary}
         />
         <Input
           name="password"
           type="password"
           label="Password"
-          {...sxInput.primary}
+          {...styles.input.primary}
         />
       </FormElements>
-      <FormControls tw={sxForm.standart.twControls}>
+      <FormControls tw={styles.form.standart.twControls}>
         <Button
           tw="btn btn-contained w-full"
           disabled={isLoading}
+          leftIcon={isLoading ? <Container tw="spinner"></Container> : null}
         >
           Log in
         </Button>
