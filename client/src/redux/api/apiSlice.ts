@@ -1,12 +1,17 @@
 import { API_BASE_URL } from '@config/app'
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { AxiosError, AxiosRequestConfig } from 'axios'
-import { BaseQueryFn } from '@reduxjs/toolkit/query'
-import axiosInstance from '@config/interceptors'
-import toast from 'react-hot-toast'
+import type { AxiosError, AxiosRequestConfig } from 'axios'
+import type { BaseQueryFn } from '@reduxjs/toolkit/query'
+import axiosInstance from '@config/axiosInstance'
+import toast from '@utils/alert'
 
-export interface Payload {
-  status: number
+interface SuccessResponse {
+  success: boolean
+  message: string
+}
+
+export type ErrorResponse = {
+  status: number | undefined
   data: {
     success: boolean
     message: string
@@ -23,12 +28,18 @@ const axiosBaseQuery =
       data?: AxiosRequestConfig['data']
       params?: AxiosRequestConfig['params']
       headers?: AxiosRequestConfig['headers']
+      alert?: boolean
     },
     unknown,
-    unknown
+    ErrorResponse
   > =>
-  async ({ url, method, data, params, headers }) => {
-    console.log('ApiSlice axios base query')
+  async ({ url, method, data, params, headers, alert = true }) => {
+    let toastId: string | null = null
+
+    if (alert) {
+      toastId = toast.loading()
+    }
+
     try {
       const response = await axiosInstance({
         url: baseUrl + url,
@@ -37,16 +48,19 @@ const axiosBaseQuery =
         params,
         headers,
       })
+
+      const axiosResponse: SuccessResponse = response.data
+      if (toastId !== null) toast.success(axiosResponse.message, toastId)
       return { data: response.data }
     } catch (axiosError) {
-      const err = axiosError as AxiosError
-      const data = err.response as unknown as Payload
-      console.log(data)
-      toast.error(data.data.message)
+      const error = axiosError as AxiosError
+      const response = error.response as unknown as ErrorResponse
+      if (toastId !== null) toast.error(response.data.message, toastId)
+
       return {
         error: {
-          status: err.response?.status,
-          data: err.response?.data || err.message,
+          status: response.status,
+          data: response.data,
         },
       }
     }
