@@ -1,7 +1,8 @@
 // * Third-party libraries
 import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-// * Custom hooks
+// * Custom components and hooks
+import Loader from '@components/Loader'
 import { useVerifyAccountQuery } from '@redux/user/userSlice'
 // * Config
 import { NOT_FOUND_URL } from '@config/app'
@@ -27,7 +28,7 @@ const Verification = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoading, isError])
 
-  return null
+  return <Loader />
 }
 
 export default Verification

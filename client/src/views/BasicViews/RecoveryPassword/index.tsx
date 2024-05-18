@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 // * Custom components and hooks
 import Heading from '@lib/components/Typography/Heading'
 import RecoveryForm from './RecoveryForm'
+import Loader from '@components/Loader'
 import { usePreValidateQuery } from '@redux/user/userSlice'
 // * Config
 import { NOT_FOUND_URL } from '@config/app'
@@ -14,7 +15,7 @@ const RecoveryPassword = () => {
   const { isLoading, isError } = usePreValidateQuery(token)
 
   if (isLoading) {
-    return
+    return <Loader />
   }
 
   if (isError) {

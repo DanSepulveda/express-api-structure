@@ -21,13 +21,7 @@ const schema = Yup.object({
 })
 type Fields = Yup.InferType<typeof schema>
 
-const defaultValues = {
-  password: '',
-  confirmPassword: '',
-}
-
 const RecoveryForm = ({ token }: { token: string }) => {
-  const { sxInput, sxForm } = styles
   const navigate = useNavigate()
   const [resetPassword, { isLoading }] = useResetPasswordMutation()
 
@@ -43,28 +37,27 @@ const RecoveryForm = ({ token }: { token: string }) => {
     <Form
       schema={schema}
       onSubmit={onSubmit}
-      defaultValues={defaultValues}
-      tw={sxForm.standart.twForm}
+      tw={styles.form.standart.twForm}
     >
       <FormElements
         cols={{ xs: 12 }}
         disabled={isLoading}
-        {...sxForm.standart.twElements}
+        {...styles.form.standart.twElements}
       >
         <Input
           name="password"
           type="password"
-          label="Password"
-          {...sxInput.primary}
+          label="New password"
+          {...styles.input.primary}
         />
         <Input
           name="confirmPassword"
           type="password"
-          label="Confirm password"
-          {...sxInput.primary}
+          label="Confirm new password"
+          {...styles.input.primary}
         />
       </FormElements>
-      <FormControls tw={sxForm.standart.twControls}>
+      <FormControls tw={styles.form.standart.twControls}>
         <Button
           tw="btn btn-contained w-full"
           disabled={isLoading}
