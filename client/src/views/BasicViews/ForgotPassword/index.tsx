@@ -8,7 +8,7 @@ const ForgotPassword = () => {
     <>
       <Heading tw="heading-title text-center mb-6">Forgot password?</Heading>
       <Text tw="text-normal mb-5">
-        Please enter your email to to recovery your password.
+        Please enter your email to recovery your password.
       </Text>
       <ForgotForm />
     </>
