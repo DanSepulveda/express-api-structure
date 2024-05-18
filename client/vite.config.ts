@@ -12,6 +12,7 @@ export default defineConfig({
       '@config': path.resolve(__dirname, './src/config'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@layouts': path.resolve(__dirname, './src/layouts'),
+      '@lib': path.resolve(__dirname, './src/lib'),
       '@redux': path.resolve(__dirname, './src/redux'),
       '@styles': path.resolve(__dirname, './src/styles'),
       '@utils': path.resolve(__dirname, './src/utils'),
