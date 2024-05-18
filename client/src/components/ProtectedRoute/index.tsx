@@ -24,8 +24,8 @@ const ProtectedRoute = ({ permission, children }: ProtectedRouteProps) => {
   return (
     <Container tw="h-full col-center-center">
       <AiOutlineWarning className="text-yellow-500 text-6xl mb-4" />
-      <Heading tw="heading-subtitle mb-4">401 - Unauthorized</Heading>
-      <Text tw="text-large mb-8">
+      <Heading tw="heading-subtitle text-center mb-4">401 Unauthorized</Heading>
+      <Text tw="text-large text-center mb-8">
         You do not have the necessary permissions to access this page.
       </Text>
       <Link
