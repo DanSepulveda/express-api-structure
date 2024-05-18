@@ -1,19 +1,21 @@
-import Header from '@components/Header'
-import Container from '@components/ui-components/Layout/Container'
-import BottomNavigation from '@components/ui-components/Navigation/BottomNavigation'
+// * Third-party libraries
 import { Outlet, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { appState } from '@redux/app/appSlice'
-import { LOGIN_URL } from '@config/app'
-import Stack from '@components/ui-components/Layout/Stack'
-import Drawer from '@components/ui-components/Navigation/Drawer'
-import navigation from '@config/navigation'
-import IconLink from '@components/ui-components/Navigation/IconLink'
-import reactImg from '@assets/react.svg'
+// * Custom components and hooks
+import Container from '@lib/components/Layout/Container'
+import BottomNavigation from '@lib/components/Navigation/BottomNavigation'
+import Drawer from '@lib/components/Navigation/Drawer'
+import IconLink from '@lib/components/Navigation/IconLink'
+import Header from '@components/Header'
+// * Styles
 import styles from '@styles/global'
+// * Config
+import { LOGIN_URL } from '@config/app'
+import navigation from '@config/navigation'
+import { appState } from '@redux/app/appSlice'
+import reactImg from '@assets/react.svg'
 
 const AdminLayout = () => {
-  const { sxStack, sxIconLink, sxDrawer, sxBottomNavigation } = styles
   const { logged } = useSelector(appState)
 
   if (!logged) {
@@ -21,8 +23,8 @@ const AdminLayout = () => {
   }
 
   return (
-    <Stack tw={sxStack.row + ' h-svh w-full'}>
-      <Drawer tw={sxDrawer.gradient}>
+    <Container tw="flex flex-row h-svh w-full">
+      <Drawer tw="bg-gradient-to-b from-primary-500 to-primary-400 w-52 py-5 pl-3">
         <img
           src={reactImg}
           className="mx-auto mb-7"
@@ -34,13 +36,13 @@ const AdminLayout = () => {
             to={el.to}
             text={el.text}
             position="drawer"
-            {...sxIconLink.drawer}
+            {...styles.iconLink.drawer}
           />
         ))}
       </Drawer>
-      <Stack
+      <Container
         as="section"
-        tw={sxStack.col + ' grow h-full overflow-hidden'}
+        tw="flex flex-col grow overflow-hidden"
       >
         <Header />
         <Container
@@ -49,7 +51,7 @@ const AdminLayout = () => {
         >
           <Outlet />
         </Container>
-        <BottomNavigation tw={sxBottomNavigation.solid}>
+        <BottomNavigation tw="bg-white border-t-2 border-primary-600/50">
           {navigation
             .filter((nav) => nav.bottom)
             .map((el) => (
@@ -59,12 +61,12 @@ const AdminLayout = () => {
                 to={el.to}
                 text={el.text}
                 position="bottom"
-                {...sxIconLink.bottom}
+                {...styles.iconLink.bottom}
               />
             ))}
         </BottomNavigation>
-      </Stack>
-    </Stack>
+      </Container>
+    </Container>
   )
 }
 
