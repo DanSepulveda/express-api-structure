@@ -1,12 +1,14 @@
 // * Third-party libraries
 import { Outlet, Navigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { twJoin } from 'tailwind-merge'
 // * Custom components and hooks
 import Container from '@lib/components/Layout/Container'
 import BottomNavigation from '@lib/components/Navigation/BottomNavigation'
 import Drawer from '@lib/components/Navigation/Drawer'
 import IconLink from '@lib/components/Navigation/IconLink'
 import Header from '@components/Header'
+import selectTheme from '@utils/selectTheme'
 // * Styles
 import styles from '@styles/global'
 // * Config
@@ -16,14 +18,14 @@ import { appState } from '@redux/app/appSlice'
 import reactImg from '@assets/react.svg'
 
 const AdminLayout = () => {
-  const { logged } = useSelector(appState)
+  const { logged, theme } = useSelector(appState)
 
   if (!logged) {
     return <Navigate to={LOGIN_URL} />
   }
 
   return (
-    <Container tw="flex flex-row h-svh w-full">
+    <Container tw={twJoin('flex flex-row h-svh w-full', selectTheme(theme))}>
       <Drawer tw="bg-gradient-to-b from-primary-500 to-primary-400 w-52 py-5 pl-3">
         <img
           src={reactImg}
