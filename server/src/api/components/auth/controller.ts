@@ -128,6 +128,6 @@ export const refreshToken = controllerCatch(async (req: Req, res: Res) => {
 
 export const preValidateToken = controllerCatch(async (req: Req, res: Res) => {
   const token = req.headers.authorization?.split(' ')[1] ?? '';
-  tokenService.verifyTokenAndFind(token);
+  await tokenService.verifyTokenAndFind(token);
   res.status(200).json({ success: true, message: AUTH_SUCCESS.preValidate });
 });
