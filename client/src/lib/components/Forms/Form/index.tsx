@@ -9,7 +9,7 @@ interface FormProps
   schema: Yup.ObjectSchema<Yup.AnyObject>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSubmit: (fields: any, reset: ResetForm) => Promise<void> | void
-  defaultValues: Record<string, unknown>
+  defaultValues?: Record<string, unknown>
   tw?: string
 }
 
