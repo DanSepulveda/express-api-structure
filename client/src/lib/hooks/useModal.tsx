@@ -23,6 +23,7 @@ export const ModalProvider = ({
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useModal = () => {
   const [open, setOpen] = useState(false)
 
