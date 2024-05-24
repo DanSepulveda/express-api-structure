@@ -20,6 +20,7 @@ export const Heading = ({
   align,
   as = DEFAULT_ELEMENT.heading,
   children,
+  color,
   tw,
   variant,
   ...props
@@ -27,7 +28,7 @@ export const Heading = ({
   return createElement(
     as,
     {
-      className: cn(headingVariants({ variant, align }), tw),
+      className: cn(headingVariants({ color, variant, align }), tw),
       ...props,
     },
     children,
