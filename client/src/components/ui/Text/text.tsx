@@ -14,6 +14,7 @@ interface TextProps extends TextAttributes, VariantProps<typeof textVariants> {
 export const Text = ({
   align,
   as = DEFAULT_ELEMENT.text,
+  color,
   children,
   variant,
   tw,
@@ -22,7 +23,7 @@ export const Text = ({
   return createElement(
     as,
     {
-      className: cn(textVariants({ variant, align }), tw),
+      className: cn(textVariants({ color, variant, align }), tw),
       ...props,
     },
     children,
