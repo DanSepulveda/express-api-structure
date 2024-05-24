@@ -1,27 +1,30 @@
 import { cva } from 'class-variance-authority'
 
+import { COLOR_VARIANTS } from '../defaults'
+
 export const buttonVariants = cva(
-  'rounded transition-all border border-transparent flex flex-row items-center justify-center gap-2',
+  'rounded transition-all border border-transparent flex flex-row items-center justify-center gap-2 font-medium select-none disabled:pointer-events-none',
   {
     variants: {
       variant: {
-        primary:
-          'shadow bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 text-white active:bg-primary-700/90',
-        secondary:
-          'shadow bg-gray-300 hover:bg-gray-400/60 disabled:bg-primary-400 text-gray-700 active:bg-gray-400/90',
-        text: 'shadow-none hover:bg-red-50 text-red-600',
+        solid:
+          'shadow bg-primary-700 text-white hover:bg-primary-800 active:bg-primary-900 disabled:bg-primary-700/40 ',
+        outline:
+          'shadow border-primary-700 text-primary-700 hover:bg-primary-100 active:bg-primary-200 disabled:opacity-40',
+        text: 'shadow-none text-primary-700 hover:bg-primary-100 active:bg-primary-200 disabled:opacity-40',
       },
       size: {
         sm: 'px-2 py-0.5 text-sm',
-        md: 'px-2.5 py-1 text-base font-medium',
-        lg: 'px-4 py-1.5 text-lg font-medium',
+        md: 'px-2.5 py-1 text-base',
+        lg: 'px-4 py-1.5 text-lg',
       },
       fullWidth: {
         true: 'w-full',
       },
+      color: COLOR_VARIANTS,
     },
     defaultVariants: {
-      variant: 'primary',
+      variant: 'solid',
       size: 'md',
     },
   },

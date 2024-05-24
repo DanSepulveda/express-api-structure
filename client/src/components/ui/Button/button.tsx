@@ -17,6 +17,7 @@ interface ButtonProps
 
 export const Button = ({
   children,
+  color,
   disabled = false,
   fullWidth,
   leftIcon,
@@ -33,7 +34,7 @@ export const Button = ({
     <button
       type={type}
       disabled={isDisabled(context, disabled)}
-      className={cn(buttonVariants({ variant, size, fullWidth }), tw)}
+      className={cn(buttonVariants({ color, variant, size, fullWidth }), tw)}
       {...props}
     >
       {leftIcon ? leftIcon : null}
