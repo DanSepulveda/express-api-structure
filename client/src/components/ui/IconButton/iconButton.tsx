@@ -14,6 +14,7 @@ interface IconButtonProps
 }
 
 export const IconButton = ({
+  color,
   icon,
   shape,
   size,
@@ -24,7 +25,7 @@ export const IconButton = ({
   return (
     <button
       type="button"
-      className={cn(iconButtonVariants({ variant, shape, size }), tw)}
+      className={cn(iconButtonVariants({ color, variant, shape, size }), tw)}
       {...props}
     >
       {icon}
