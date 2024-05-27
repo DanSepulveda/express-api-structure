@@ -12,11 +12,11 @@ export const textVariants = cva('font-text', {
       right: 'text-right',
     },
     color: {
-      primary: 'theme-neutral text-primary-800',
-      secondary: 'text-primary-800',
-      success: 'theme-green text-primary-700',
-      warning: 'theme-amber text-primary-600',
-      error: 'theme-red text-primary-600',
+      primary: 'theme-neutral text-primary-800 dark:text-primary-100',
+      secondary: 'text-primary-800 dark:text-primary-300',
+      success: 'theme-green text-primary-700 dark:text-primary-300',
+      warning: 'theme-amber text-primary-600 dark:text-primary-300',
+      error: 'theme-red text-primary-600 dark:text-primary-400',
     },
   },
   defaultVariants: {
