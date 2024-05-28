@@ -17,16 +17,19 @@ interface FlexProps
 }
 
 export const Flex = ({
+  align,
   as = DEFAULT_ELEMENT.container,
   children,
-  variant,
+  direction,
+  justify,
+  spacing,
   tw,
   ...props
 }: FlexProps) => {
   return createElement(
     as,
     {
-      className: cn(flexVariants({ variant }), tw),
+      className: cn(flexVariants({ direction, justify, align, spacing }), tw),
       ...props,
     },
     children,
