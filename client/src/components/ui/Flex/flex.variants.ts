@@ -9,6 +9,7 @@ export const flexVariants = cva('flex', {
     justify: {
       center: 'justify-center',
       between: 'justify-between',
+      end: 'justify-end',
     },
     align: {
       center: 'items-center',
