@@ -1,1 +1,1 @@
-export { GridContainer, GridItem } from './grid'
+export { GridContainer, GridItem, type GridContainerAttributes } from './grid'
