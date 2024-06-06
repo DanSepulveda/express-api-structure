@@ -14,10 +14,9 @@ import { gridVariants } from './grid.variants'
 interface GridProps extends ContainerAttributes {
   as?: HTMLContainerTags
   cols?: ColsProp
-  tw?: string
 }
 
-interface GridContainerAttributes
+export interface GridContainerAttributes
   extends GridProps,
     VariantProps<typeof gridVariants> {}
 
@@ -26,9 +25,9 @@ const GridContext = createContext({})
 export const GridContainer = ({
   as = DEFAULT_ELEMENT.gridContainer,
   children,
+  className,
   cols = DEFAULT_GRID_LAYOUT,
   spacing,
-  tw,
   ...props
 }: GridContainerAttributes) => {
   return (
@@ -36,7 +35,7 @@ export const GridContainer = ({
       {createElement(
         as,
         {
-          className: cn(gridVariants({ spacing }), tw),
+          className: cn(gridVariants({ spacing }), className),
           ...props,
         },
         children,
@@ -46,10 +45,10 @@ export const GridContainer = ({
 }
 
 export const GridItem = ({
-  children,
   as = DEFAULT_ELEMENT.gridItem,
+  children,
+  className,
   cols,
-  tw,
   ...props
 }: GridProps) => {
   const containerCols = useContext(GridContext)
@@ -60,7 +59,7 @@ export const GridItem = ({
     as,
     {
       ...props,
-      className: cn(colsClasses, tw),
+      className: cn(colsClasses, className),
     },
     children,
   )

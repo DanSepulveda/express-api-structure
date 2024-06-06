@@ -13,23 +13,25 @@ interface FlexProps
   extends ContainerAttributes,
     VariantProps<typeof flexVariants> {
   as?: HTMLContainerTags
-  tw?: string
 }
 
 export const Flex = ({
   align,
   as = DEFAULT_ELEMENT.container,
   children,
+  className,
   direction,
   justify,
   spacing,
-  tw,
   ...props
 }: FlexProps) => {
   return createElement(
     as,
     {
-      className: cn(flexVariants({ direction, justify, align, spacing }), tw),
+      className: cn(
+        flexVariants({ direction, justify, align, spacing }),
+        className,
+      ),
       ...props,
     },
     children,

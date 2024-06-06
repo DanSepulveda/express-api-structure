@@ -13,22 +13,21 @@ interface HeadingProps
   extends HeadingAttributes,
     VariantProps<typeof headingVariants> {
   as?: HTMLHeadingTags
-  tw?: string
 }
 
 export const Heading = ({
   align,
   as = DEFAULT_ELEMENT.heading,
   children,
+  className,
   color,
-  tw,
   variant,
   ...props
 }: HeadingProps) => {
   return createElement(
     as,
     {
-      className: cn(headingVariants({ color, variant, align }), tw),
+      className: cn(headingVariants({ color, variant, align }), className),
       ...props,
     },
     children,

@@ -12,11 +12,11 @@ interface ButtonProps
     VariantProps<typeof buttonVariants> {
   leftIcon?: ReactNode
   rightIcon?: ReactNode
-  tw?: string
 }
 
 export const Button = ({
   children,
+  className,
   color,
   disabled = false,
   fullWidth,
@@ -24,7 +24,6 @@ export const Button = ({
   rightIcon,
   size,
   type = 'submit',
-  tw,
   variant,
   ...props
 }: ButtonProps) => {
@@ -34,7 +33,10 @@ export const Button = ({
     <button
       type={type}
       disabled={isDisabled(context, disabled)}
-      className={cn(buttonVariants({ color, variant, size, fullWidth }), tw)}
+      className={cn(
+        buttonVariants({ color, variant, size, fullWidth }),
+        className,
+      )}
       {...props}
     >
       {leftIcon ? leftIcon : null}

@@ -8,22 +8,21 @@ import { textVariants } from './text.variants'
 
 interface TextProps extends TextAttributes, VariantProps<typeof textVariants> {
   as?: HTMLTextTags
-  tw?: string
 }
 
 export const Text = ({
   align,
   as = DEFAULT_ELEMENT.text,
-  color,
   children,
+  className,
+  color,
   variant,
-  tw,
   ...props
 }: TextProps) => {
   return createElement(
     as,
     {
-      className: cn(textVariants({ color, variant, align }), tw),
+      className: cn(textVariants({ color, variant, align }), className),
       ...props,
     },
     children,
