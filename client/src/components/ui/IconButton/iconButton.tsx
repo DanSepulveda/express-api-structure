@@ -8,24 +8,26 @@ import { iconButtonVariants } from './iconButton.variants'
 interface IconButtonProps
   extends IconButtonAttributes,
     VariantProps<typeof iconButtonVariants> {
-  tw?: string
   icon: ReactNode
   'aria-label': string
 }
 
 export const IconButton = ({
+  className,
   color,
   icon,
   shape,
   size,
-  tw,
   variant,
   ...props
 }: IconButtonProps) => {
   return (
     <button
       type="button"
-      className={cn(iconButtonVariants({ color, variant, shape, size }), tw)}
+      className={cn(
+        iconButtonVariants({ color, variant, shape, size }),
+        className,
+      )}
       {...props}
     >
       {icon}

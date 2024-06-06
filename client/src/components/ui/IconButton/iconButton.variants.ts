@@ -29,8 +29,8 @@ export const iconButtonVariants = cva('transition-all', {
     },
   },
   defaultVariants: {
-    variant: 'clean',
-    shape: 'circle',
+    variant: 'outline',
+    shape: 'rounded',
     size: 'md',
     color: 'primary',
   },
