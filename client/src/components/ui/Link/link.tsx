@@ -9,19 +9,18 @@ interface CustomLinkProps
   extends LinkAttributes,
     VariantProps<typeof linkVariants> {
   as?: LinkTypeProp
-  tw?: string
 }
 
 export const Link = ({
   activeVariant,
   as = 'link',
   children,
+  className,
   to,
-  tw,
   variant,
   ...props
 }: CustomLinkProps) => {
-  const classNames = cn(linkVariants({ variant }), tw)
+  const classNames = cn(linkVariants({ variant }), className)
 
   switch (as) {
     case 'navlink':
@@ -35,7 +34,7 @@ export const Link = ({
                 variant: undefined,
                 activeVariant: isActive ? activeVariant : undefined,
               }),
-              tw,
+              className,
             )
           }
           {...props}
